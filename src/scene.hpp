@@ -1,12 +1,17 @@
 #pragma once
 
+#include "object.hpp"
+
+#include <glm/glm.hpp>
 #include <vector>
 
 class Scene {
 public:
+	std::vector<Object*> objects;
+
 	float rnd(float min, float max);
 
 	void init();
-	void load(int id);
-	void update(float time);
+	void update();
+	void draw();
 };
