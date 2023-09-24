@@ -26,8 +26,9 @@ void Object::draw() {
 	glUseProgram(shader);
 	glBindVertexArray(vao);
 
-	glm::mat4 mvp = app.camera.projection * app.camera.view * model;
-	glUniformMatrix4fv(0, 1, GL_FALSE, glm::value_ptr(mvp));
+	glUniformMatrix4fv(0, 1, GL_FALSE, glm::value_ptr(model));
+	glUniformMatrix4fv(1, 1, GL_FALSE, glm::value_ptr(app.camera.view));
+	glUniformMatrix4fv(2, 1, GL_FALSE, glm::value_ptr(app.camera.projection));
 
 	glDrawArrays(GL_TRIANGLES, 0, vertices.size() / stride);
 
@@ -40,10 +41,14 @@ void Object::generateBuffers() {
 	glGenBuffers(1, &vbo);
 	glBindVertexArray(vao);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, stride * sizeof(float), (void*)0); // position (x, y, z)
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, stride * sizeof(float), (void*)0); // position xyz
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, stride * sizeof(float), (void*)(3 * sizeof(float))); // color (r, g, b)
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, stride * sizeof(float), (void*)(3 * sizeof(float))); // normal xyz
 	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, stride * sizeof(float), (void*)(6 * sizeof(float))); // color rgb
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, stride * sizeof(float), (void*)(9 * sizeof(float))); // texcoord uv
+	glEnableVertexAttribArray(3);
 	glBindVertexArray(0);
 }
 
@@ -108,56 +113,63 @@ unsigned int Object::compileShader(std::string name) {
 
 std::vector<float> Object::getVertices() {
 	std::vector<float> vertices = {
-		-1.0f, -1.0f, 0.0f, 1.0f, 0.0f, 0.0f,
-		 1.0f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-		 0.0f,  0.8f, 0.0f, 0.0f, 0.0f, 1.0f,
+		-1.0f, -1.0f, 0.0f, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+		 1.0f, -1.0f, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
+		 0.0f,  0.8f, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
 	};
 	return vertices;
 }
 
 std::vector<float> Cube::getVertices() {
 	std::vector<float> vertices = {
-		0.0f, 0.0f, 0.0f, color.r, color.g, color.b,
-		1.0f, 0.0f, 0.0f, color.r, color.g, color.b,
-		1.0f, 1.0f, 0.0f, color.r, color.g, color.b,
-		1.0f, 1.0f, 0.0f, color.r, color.g, color.b,
-		0.0f, 1.0f, 0.0f, color.r, color.g, color.b,
-		0.0f, 0.0f, 0.0f, color.r, color.g, color.b,
+		0.0f, 0.0f, 0.0f, 0.0f, 0.0f, -1.0f, color.r, color.g, color.b, 0.0f, 0.0f,
+		1.0f, 0.0f, 0.0f, 0.0f, 0.0f, -1.0f, color.r, color.g, color.b, 1.0f, 0.0f,
+		1.0f, 1.0f, 0.0f, 0.0f, 0.0f, -1.0f, color.r, color.g, color.b, 1.0f, 1.0f,
+		1.0f, 1.0f, 0.0f, 0.0f, 0.0f, -1.0f, color.r, color.g, color.b, 1.0f, 1.0f,
+		0.0f, 1.0f, 0.0f, 0.0f, 0.0f, -1.0f, color.r, color.g, color.b, 0.0f, 1.0f,
+		0.0f, 0.0f, 0.0f, 0.0f, 0.0f, -1.0f, color.r, color.g, color.b, 0.0f, 0.0f,
+		0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, color.r, color.g, color.b, 0.0f, 0.0f,
+		1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, color.r, color.g, color.b, 1.0f, 0.0f,
+		1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, color.r, color.g, color.b, 1.0f, 1.0f,
+		1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, color.r, color.g, color.b, 1.0f, 1.0f,
+		0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, color.r, color.g, color.b, 0.0f, 1.0f,
+		0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, color.r, color.g, color.b, 0.0f, 0.0f,
+		0.0f, 1.0f, 1.0f, -1.0f, 0.0f, 0.0f, color.r, color.g, color.b, 1.0f, 0.0f,
+		0.0f, 1.0f, 0.0f, -1.0f, 0.0f, 0.0f, color.r, color.g, color.b, 1.0f, 1.0f,
+		0.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, color.r, color.g, color.b, 0.0f, 1.0f,
+		0.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, color.r, color.g, color.b, 0.0f, 1.0f,
+		0.0f, 0.0f, 1.0f, -1.0f, 0.0f, 0.0f, color.r, color.g, color.b, 0.0f, 0.0f,
+		0.0f, 1.0f, 1.0f, -1.0f, 0.0f, 0.0f, color.r, color.g, color.b, 1.0f, 0.0f,
+		1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, color.r, color.g, color.b, 1.0f, 0.0f,
+		1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, color.r, color.g, color.b, 1.0f, 1.0f,
+		1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, color.r, color.g, color.b, 0.0f, 1.0f,
+		1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, color.r, color.g, color.b, 0.0f, 1.0f,
+		1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, color.r, color.g, color.b, 0.0f, 0.0f,
+		1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, color.r, color.g, color.b, 1.0f, 0.0f,
+		0.0f, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f, color.r, color.g, color.b, 0.0f, 1.0f,
+		1.0f, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f, color.r, color.g, color.b, 1.0f, 1.0f,
+		1.0f, 0.0f, 1.0f, 0.0f, -1.0f, 0.0f, color.r, color.g, color.b, 1.0f, 0.0f,
+		1.0f, 0.0f, 1.0f, 0.0f, -1.0f, 0.0f, color.r, color.g, color.b, 1.0f, 0.0f,
+		0.0f, 0.0f, 1.0f, 0.0f, -1.0f, 0.0f, color.r, color.g, color.b, 0.0f, 0.0f,
+		0.0f, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f, color.r, color.g, color.b, 0.0f, 1.0f,
+		0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, color.r, color.g, color.b, 0.0f, 1.0f,
+		1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, color.r, color.g, color.b, 1.0f, 1.0f,
+		1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, color.r, color.g, color.b, 1.0f, 0.0f,
+		1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, color.r, color.g, color.b, 1.0f, 0.0f,
+		0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, color.r, color.g, color.b, 0.0f, 0.0f,
+		0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, color.r, color.g, color.b, 0.0f, 1.0f
+	};
+	return vertices;
+}
 
-		0.0f, 0.0f, 1.0f, color.r, color.g, color.b,
-		1.0f, 0.0f, 1.0f, color.r, color.g, color.b,
-		1.0f, 1.0f, 1.0f, color.r, color.g, color.b,
-		1.0f, 1.0f, 1.0f, color.r, color.g, color.b,
-		0.0f, 1.0f, 1.0f, color.r, color.g, color.b,
-		0.0f, 0.0f, 1.0f, color.r, color.g, color.b,
-
-		0.0f, 1.0f, 1.0f, color.r, color.g, color.b,
-		0.0f, 1.0f, 0.0f, color.r, color.g, color.b,
-		0.0f, 0.0f, 0.0f, color.r, color.g, color.b,
-		0.0f, 0.0f, 0.0f, color.r, color.g, color.b,
-		0.0f, 0.0f, 1.0f, color.r, color.g, color.b,
-		0.0f, 1.0f, 1.0f, color.r, color.g, color.b,
-
-		1.0f, 1.0f, 1.0f, color.r, color.g, color.b,
-		1.0f, 1.0f, 0.0f, color.r, color.g, color.b,
-		1.0f, 0.0f, 0.0f, color.r, color.g, color.b,
-		1.0f, 0.0f, 0.0f, color.r, color.g, color.b,
-		1.0f, 0.0f, 1.0f, color.r, color.g, color.b,
-		1.0f, 1.0f, 1.0f, color.r, color.g, color.b,
-
-		0.0f, 0.0f, 0.0f, color.r, color.g, color.b,
-		1.0f, 0.0f, 0.0f, color.r, color.g, color.b,
-		1.0f, 0.0f, 1.0f, color.r, color.g, color.b,
-		1.0f, 0.0f, 1.0f, color.r, color.g, color.b,
-		0.0f, 0.0f, 1.0f, color.r, color.g, color.b,
-		0.0f, 0.0f, 0.0f, color.r, color.g, color.b,
-
-		0.0f, 1.0f, 0.0f, color.r, color.g, color.b,
-		1.0f, 1.0f, 0.0f, color.r, color.g, color.b,
-		1.0f, 1.0f, 1.0f, color.r, color.g, color.b,
-		1.0f, 1.0f, 1.0f, color.r, color.g, color.b,
-		0.0f, 1.0f, 1.0f, color.r, color.g, color.b,
-		0.0f, 1.0f, 0.0f, color.r, color.g, color.b
+std::vector<float> Quad::getVertices() {
+	std::vector<float> vertices = {
+		0.0f, 0.0f, 0.0f, 0.0f, 0.0f, -1.0f, color.r, color.g, color.b, 0.0f, 0.0f,
+		1.0f, 0.0f, 0.0f, 0.0f, 0.0f, -1.0f, color.r, color.g, color.b, 1.0f, 0.0f,
+		1.0f, 1.0f, 0.0f, 0.0f, 0.0f, -1.0f, color.r, color.g, color.b, 1.0f, 1.0f,
+		1.0f, 1.0f, 0.0f, 0.0f, 0.0f, -1.0f, color.r, color.g, color.b, 1.0f, 1.0f,
+		0.0f, 1.0f, 0.0f, 0.0f, 0.0f, -1.0f, color.r, color.g, color.b, 0.0f, 1.0f,
+		0.0f, 0.0f, 0.0f, 0.0f, 0.0f, -1.0f, color.r, color.g, color.b, 0.0f, 0.0f
 	};
 	return vertices;
 }

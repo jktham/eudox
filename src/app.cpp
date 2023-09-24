@@ -2,7 +2,6 @@
 
 #include "camera.hpp"
 #include "scene.hpp"
-#include "renderer.hpp"
 
 #include <glm/glm.hpp>
 #include <glm/gtx/string_cast.hpp>
@@ -118,7 +117,6 @@ void App::init() {
 
 	camera.init();
 	scene.init();
-	renderer.init();
 }
 
 void App::loop() {
@@ -135,11 +133,10 @@ void App::loop() {
 		std::cout << std::endl;
 
 		camera.update();
-		renderer.update();
 		scene.update();
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		renderer.draw();
+		scene.draw();
 		glfwSwapBuffers(window);
 	}
 }

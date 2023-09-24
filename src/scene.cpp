@@ -40,10 +40,17 @@ void Scene::init() {
 	
 	cube = new Cube();
 	cube->model = glm::translate(cube->model, glm::vec3(-3.0f, -1.0f, -4.0f));
-	cube->model = glm::rotate(cube->model, 1.5f, glm::normalize(glm::vec3(1.0f, 1.0f, 1.0f)));
 	cube->model = glm::scale(cube->model, glm::vec3(0.8f, 0.8f, 0.8f));
+	cube->model = glm::rotate(cube->model, 1.5f, glm::normalize(glm::vec3(1.0f, 1.0f, 1.0f)));
 	cube->color = glm::vec3(1.0f, 0.0f, 1.0f);
 	objects.push_back(cube);
+
+	Quad* quad = new Quad();
+	quad->model = glm::translate(quad->model, glm::vec3(0.0f, -8.0f, 0.0f));
+	quad->model = glm::scale(quad->model, glm::vec3(20.0f, 1.0f, -10.0f));
+	quad->model = glm::rotate(quad->model, 3.14f/2.0f, glm::normalize(glm::vec3(1.0f, 0.0f, 0.0f)));
+	quad->color = glm::vec3(0.5f, 0.5f, 0.5f);
+	objects.push_back(quad);
 
 	for (Object* o : objects) {
 		o->init();

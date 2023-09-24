@@ -2,7 +2,6 @@
 
 #include "camera.hpp"
 #include "scene.hpp"
-#include "renderer.hpp"
 
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
@@ -22,7 +21,6 @@ public:
 
 	Camera camera;
 	Scene scene;
-	Renderer renderer;
 
 	void init();
 	void loop();

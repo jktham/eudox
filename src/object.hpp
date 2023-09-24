@@ -11,8 +11,8 @@ public:
 	unsigned int vbo;
 
 	std::vector<float> vertices = {};
-	int stride = 6;
-	std::string shaderName = "shader";
+	int stride = 11;
+	std::string shaderName = "base";
 	glm::mat4 model = glm::mat4(1.0f);
 
 	void init();
@@ -27,6 +27,13 @@ public:
 };
 
 class Cube : public Object {
+public:
+	glm::vec3 color = glm::vec3(1.0f);
+
+	std::vector<float> getVertices();
+};
+
+class Quad : public Object {
 public:
 	glm::vec3 color = glm::vec3(1.0f);
 
