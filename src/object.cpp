@@ -26,14 +26,20 @@ void Object::draw() {
 	glUseProgram(shader);
 	glBindVertexArray(vao);
 
-	glUniformMatrix4fv(0, 1, GL_FALSE, glm::value_ptr(model));
-	glUniformMatrix4fv(1, 1, GL_FALSE, glm::value_ptr(app.camera.view));
-	glUniformMatrix4fv(2, 1, GL_FALSE, glm::value_ptr(app.camera.projection));
+	updateUniforms();
 
 	glDrawArrays(GL_TRIANGLES, 0, vertices.size() / stride);
 
 	glBindVertexArray(0);
 	glUseProgram(0);
+}
+
+void Object::updateUniforms() {
+	glUniformMatrix4fv(0, 1, GL_FALSE, glm::value_ptr(model));
+	glUniformMatrix4fv(1, 1, GL_FALSE, glm::value_ptr(app.camera.view));
+	glUniformMatrix4fv(2, 1, GL_FALSE, glm::value_ptr(app.camera.projection));
+	glUniform1f(3, app.time);
+	glUniform2f(4, app.width, app.height);
 }
 
 void Object::generateBuffers() {
@@ -113,9 +119,9 @@ unsigned int Object::compileShader(std::string name) {
 
 std::vector<float> Object::getVertices() {
 	std::vector<float> vertices = {
-		-1.0f, -1.0f, 0.0f, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-		 1.0f, -1.0f, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
-		 0.0f,  0.8f, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
+		-1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+		 1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
+		 0.0f,  0.8f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
 	};
 	return vertices;
 }

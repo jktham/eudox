@@ -39,10 +39,32 @@ void Scene::init() {
 	objects.push_back(cube);
 	
 	cube = new Cube();
+	cube->shaderName = "outline";
 	cube->model = glm::translate(cube->model, glm::vec3(-3.0f, -1.0f, -4.0f));
 	cube->model = glm::scale(cube->model, glm::vec3(0.8f, 0.8f, 0.8f));
-	cube->model = glm::rotate(cube->model, 1.5f, glm::normalize(glm::vec3(1.0f, 1.0f, 1.0f)));
+	cube->model = glm::rotate(cube->model, 3.14f/2.0f, glm::normalize(glm::vec3(1.0f, 1.0f, 1.0f)));
 	cube->color = glm::vec3(1.0f, 0.0f, 1.0f);
+	objects.push_back(cube);
+	
+	cube = new Cube();
+	cube->shaderName = "outline";
+	cube->model = glm::translate(cube->model, glm::vec3(0.0f, 10.0f, 0.0f));
+	cube->model = glm::scale(cube->model, glm::vec3(20.0f, 20.0f, 20.0f));
+	cube->color = glm::vec3(1.0f, 1.0f, 1.0f);
+	objects.push_back(cube);
+	
+	cube = new Cube();
+	cube->shaderName = "outline";
+	cube->model = glm::translate(cube->model, glm::vec3(9.0f, 10.0f, 9.0f));
+	cube->model = glm::scale(cube->model, glm::vec3(2.0f, 2.0f, 2.0f));
+	cube->color = glm::vec3(1.0f, 1.0f, 1.0f);
+	objects.push_back(cube);
+
+	cube = new Cube();
+	cube->shaderName = "rainbow";
+	cube->model = glm::translate(cube->model, glm::vec3(9.0f, 12.0f, 9.0f));
+	cube->model = glm::scale(cube->model, glm::vec3(2.0f, 2.0f, 2.0f));
+	cube->color = glm::vec3(0.0f, 0.0f, 0.0f);
 	objects.push_back(cube);
 
 	Quad* quad = new Quad();

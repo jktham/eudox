@@ -19,6 +19,7 @@ public:
 	void update();
 	void draw();
 
+	void updateUniforms();
 	void generateBuffers();
 	void updateBuffers();
 	unsigned int compileShader(std::string name);
