@@ -1,11 +1,11 @@
 #version 460 core
 
-layout (location = 0) in vec4 vPosition;
-layout (location = 1) in vec3 vNormal;
-layout (location = 2) in vec3 vColor;
-layout (location = 3) in vec2 vTexcoord;
+in vec4 vPosition;
+in vec3 vNormal;
+in vec3 vColor;
+in vec2 vTexcoord;
 
-layout (location = 0) out vec4 fColor;
+out vec4 fColor;
 
 void main() {
     float ambient = 0.2;

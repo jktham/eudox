@@ -14,65 +14,61 @@ float Scene::rnd(float min, float max) {
 void Scene::init() {
 	objects.clear();
 	
-	Object* object = new Object();
-	object->model = glm::translate(object->model, glm::vec3(0.0f, 0.0f, 0.0f));
-	objects.push_back(object);
+	Object* o = new Object(new Mesh(), new Material());
+	o->model = glm::translate(o->model, glm::vec3(0.0f, 0.0f, 0.0f));
+	objects.push_back(o);
 	
-	object = new Object();
-	object->model = glm::translate(object->model, glm::vec3(-1.0f, 5.0f, -8.0f));
-	objects.push_back(object);
+	o = new Object(new Mesh(), new Material());
+	o->model = glm::translate(o->model, glm::vec3(-1.0f, 5.0f, -8.0f));
+	objects.push_back(o);
 	
-	object = new Object();
-	object->model = glm::translate(object->model, glm::vec3(3.0f, -4.0f, -6.0f));
-	objects.push_back(object);
+	o = new Object(new Mesh(), new Material());
+	o->model = glm::translate(o->model, glm::vec3(3.0f, -4.0f, -6.0f));
+	objects.push_back(o);
 
-	Cube* cube = new Cube();
-	cube->model = glm::translate(cube->model, glm::vec3(0.0f, 0.0f, -10.0f));
-	cube->model = glm::scale(cube->model, glm::vec3(1.0f, 2.0f, 1.0f));
-	cube->color = glm::vec3(1.0f, 0.0f, 0.0f);
-	objects.push_back(cube);
+	o = new Object(new Cube(), new Material());
+	o->material->color = glm::vec3(1.0f, 0.0f, 0.0f);
+	o->model = glm::translate(o->model, glm::vec3(0.0f, 0.0f, -10.0f));
+	o->model = glm::scale(o->model, glm::vec3(1.0f, 2.0f, 1.0f));
+	objects.push_back(o);
 	
-	cube = new Cube();
-	cube->model = glm::translate(cube->model, glm::vec3(5.0f, 2.0f, -5.0f));
-	cube->model = glm::scale(cube->model, glm::vec3(3.0f, 1.0f, 1.0f));
-	cube->color = glm::vec3(0.0f, 0.0f, 1.0f);
-	objects.push_back(cube);
+	o = new Object(new Cube(), new Material());
+	o->material->color = glm::vec3(0.0f, 0.0f, 1.0f);
+	o->model = glm::translate(o->model, glm::vec3(5.0f, 2.0f, -5.0f));
+	o->model = glm::scale(o->model, glm::vec3(3.0f, 1.0f, 1.0f));
+	objects.push_back(o);
 	
-	cube = new Cube();
-	cube->shaderName = "outline";
-	cube->model = glm::translate(cube->model, glm::vec3(-3.0f, -1.0f, -4.0f));
-	cube->model = glm::scale(cube->model, glm::vec3(0.8f, 0.8f, 0.8f));
-	cube->model = glm::rotate(cube->model, 3.14f/2.0f, glm::normalize(glm::vec3(1.0f, 1.0f, 1.0f)));
-	cube->color = glm::vec3(1.0f, 0.0f, 1.0f);
-	objects.push_back(cube);
+	o = new Object(new Cube(), new Material("outline"));
+	o->material->color = glm::vec3(1.0f, 0.0f, 1.0f);
+	o->model = glm::translate(o->model, glm::vec3(-3.0f, -1.0f, -4.0f));
+	o->model = glm::scale(o->model, glm::vec3(0.8f, 0.8f, 0.8f));
+	o->model = glm::rotate(o->model, 3.14f/2.0f, glm::normalize(glm::vec3(1.0f, 1.0f, 1.0f)));
+	objects.push_back(o);
 	
-	cube = new Cube();
-	cube->shaderName = "outline";
-	cube->model = glm::translate(cube->model, glm::vec3(0.0f, 10.0f, 0.0f));
-	cube->model = glm::scale(cube->model, glm::vec3(20.0f, 20.0f, 20.0f));
-	cube->color = glm::vec3(1.0f, 1.0f, 1.0f);
-	objects.push_back(cube);
+	o = new Object(new Cube(), new Material("outline"));
+	o->material->color = glm::vec3(1.0f, 1.0f, 1.0f);
+	o->model = glm::translate(o->model, glm::vec3(0.0f, 10.0f, 0.0f));
+	o->model = glm::scale(o->model, glm::vec3(20.0f, 20.0f, 20.0f));
+	objects.push_back(o);
 	
-	cube = new Cube();
-	cube->shaderName = "outline";
-	cube->model = glm::translate(cube->model, glm::vec3(9.0f, 10.0f, 9.0f));
-	cube->model = glm::scale(cube->model, glm::vec3(2.0f, 2.0f, 2.0f));
-	cube->color = glm::vec3(1.0f, 1.0f, 1.0f);
-	objects.push_back(cube);
+	o = new Object(new Cube(), new Material("outline"));
+	o->material->color = glm::vec3(1.0f, 1.0f, 1.0f);
+	o->model = glm::translate(o->model, glm::vec3(9.0f, 10.0f, 9.0f));
+	o->model = glm::scale(o->model, glm::vec3(2.0f, 2.0f, 2.0f));
+	objects.push_back(o);
 
-	cube = new Cube();
-	cube->shaderName = "rainbow";
-	cube->model = glm::translate(cube->model, glm::vec3(9.0f, 12.0f, 9.0f));
-	cube->model = glm::scale(cube->model, glm::vec3(2.0f, 2.0f, 2.0f));
-	cube->color = glm::vec3(0.0f, 0.0f, 0.0f);
-	objects.push_back(cube);
+	o = new Object(new Cube(), new Material("rainbow"));
+	o->material->color = glm::vec3(0.0f, 0.0f, 0.0f);
+	o->model = glm::translate(o->model, glm::vec3(9.0f, 12.0f, 9.0f));
+	o->model = glm::scale(o->model, glm::vec3(2.0f, 2.0f, 2.0f));
+	objects.push_back(o);
 
-	Quad* quad = new Quad();
-	quad->model = glm::translate(quad->model, glm::vec3(0.0f, -8.0f, 0.0f));
-	quad->model = glm::scale(quad->model, glm::vec3(20.0f, 1.0f, -10.0f));
-	quad->model = glm::rotate(quad->model, 3.14f/2.0f, glm::normalize(glm::vec3(1.0f, 0.0f, 0.0f)));
-	quad->color = glm::vec3(0.5f, 0.5f, 0.5f);
-	objects.push_back(quad);
+	o = new Object(new Quad(), new Material());
+	o->material->color = glm::vec3(0.5f, 0.5f, 0.5f);
+	o->model = glm::translate(o->model, glm::vec3(0.0f, -8.0f, 0.0f));
+	o->model = glm::scale(o->model, glm::vec3(20.0f, 1.0f, -10.0f));
+	o->model = glm::rotate(o->model, 3.14f/2.0f, glm::normalize(glm::vec3(1.0f, 0.0f, 0.0f)));
+	objects.push_back(o);
 
 	for (Object* o : objects) {
 		o->init();

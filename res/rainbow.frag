@@ -1,14 +1,14 @@
 #version 460 core
 
-layout (location = 0) in vec4 vPosition;
-layout (location = 1) in vec3 vNormal;
-layout (location = 2) in vec3 vColor;
-layout (location = 3) in vec2 vTexcoord;
+in vec4 vPosition;
+in vec3 vNormal;
+in vec3 vColor;
+in vec2 vTexcoord;
 
-layout (location = 0) out vec4 fColor;
+out vec4 fColor;
 
-layout (location = 3) uniform float time;
-layout (location = 4) uniform vec2 resolution;
+uniform float time;
+uniform vec2 resolution;
 
 void main() {
 	vec2 uv = gl_FragCoord.xy/resolution.yx;
