@@ -19,6 +19,7 @@ void Material::updateUniforms() {
 	glUniform1f(glGetUniformLocation(shader, "time"), app.time);
 	glUniform2f(glGetUniformLocation(shader, "resolution"), app.width, app.height);
 	glUniform3f(glGetUniformLocation(shader, "color"), color.r, color.g, color.b);
+	glUniform3f(glGetUniformLocation(shader, "viewPos"), app.camera.position.x, app.camera.position.y, app.camera.position.z);
 }
 
 unsigned int Material::compileShader(std::string name) {

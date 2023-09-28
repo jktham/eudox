@@ -1,15 +1,20 @@
 #version 460 core
 
-in vec4 vPosition;
+in vec3 vPosition;
 in vec3 vNormal;
 in vec3 vColor;
 in vec2 vTexcoord;
 
 out vec4 fColor;
 
+uniform mat4 model;
+uniform vec3 viewPos;
+
 void main() {
 	fColor = vec4(vColor, 1.0);
-	float stroke = 0.001 * gl_FragCoord.z / gl_FragCoord.w;
+	float scale = sqrt(model[0][0] * model[0][0] + model[0][1] * model[0][1] + model[0][2] * model[0][2]);
+	// float angle = abs(dot(normalize(viewPos - vPosition), vNormal));
+	float stroke = 0.01 / gl_FragCoord.w / scale;
 	if (vTexcoord.x < stroke || vTexcoord.x > 1.0 - stroke || vTexcoord.y < stroke || vTexcoord.y > 1.0 - stroke) {
 		fColor = vec4(0.0, 0.0, 0.0, 1.0);
 	}

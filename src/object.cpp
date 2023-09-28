@@ -39,6 +39,18 @@ void Object::draw() {
 	glUseProgram(0);
 }
 
+void Object::translate(glm::vec3 offset) {
+	model = glm::translate(model, offset);
+}
+
+void Object::scale(glm::vec3 factor) {
+	model = glm::scale(model, factor);
+}
+
+void Object::rotate(float angle, glm::vec3 axis) {
+	model = glm::rotate(model, angle / 180.0f * 3.1415f, glm::normalize(axis));
+}
+
 Object::Object() {
 	
 }

@@ -9,8 +9,6 @@ class Scene {
 public:
 	std::vector<Object*> objects;
 
-	float rnd(float min, float max);
-
 	void init();
 	void update();
 	void draw();

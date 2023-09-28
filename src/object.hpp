@@ -19,7 +19,11 @@ public:
 	void init();
 	void update();
 	void draw();
-	
+
+	void translate(glm::vec3 offset);
+	void scale(glm::vec3 factor);
+	void rotate(float angle, glm::vec3 axis);
+
 	Object();
 	Object(Mesh* mesh, Material* material);
 };
