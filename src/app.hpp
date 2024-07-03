@@ -11,6 +11,11 @@ public:
 	int width = 1920;
 	int height = 1080;
 	GLFWwindow* window;
+	
+	unsigned int framebuffer;
+	unsigned int textureColorbuffer;
+	unsigned int textureDepthbuffer;
+	unsigned int rbo;
 
 	float time;
 	float deltaTime;

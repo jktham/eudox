@@ -13,6 +13,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 void Material::updateUniforms() {
+	// default uniforms
 	glUniformMatrix4fv(glGetUniformLocation(shader, "model"), 1, GL_FALSE, glm::value_ptr(parent->model));
 	glUniformMatrix4fv(glGetUniformLocation(shader, "view"), 1, GL_FALSE, glm::value_ptr(app.camera.view));
 	glUniformMatrix4fv(glGetUniformLocation(shader, "projection"), 1, GL_FALSE, glm::value_ptr(app.camera.projection));
@@ -20,6 +21,20 @@ void Material::updateUniforms() {
 	glUniform2f(glGetUniformLocation(shader, "resolution"), app.width, app.height);
 	glUniform3f(glGetUniformLocation(shader, "color"), color.r, color.g, color.b);
 	glUniform3f(glGetUniformLocation(shader, "viewPos"), app.camera.position.x, app.camera.position.y, app.camera.position.z);
+
+	// custom uniforms
+	glUniform1fv(glGetUniformLocation(shader, "u"), 32, &u[0]);
+
+	// textures
+	if (texture0) {
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, texture0);
+	}
+	if (texture1) {
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, texture1);
+	}
+
 }
 
 unsigned int Material::compileShader(std::string name) {

@@ -36,6 +36,7 @@ void Mesh::updateBuffers() {
 }
 
 std::vector<float> Mesh::getVertices() {
+	stride = 11;
 	std::vector<float> vertices = {
 		-1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
 		 1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
@@ -45,6 +46,7 @@ std::vector<float> Mesh::getVertices() {
 }
 
 std::vector<float> Cube::getVertices() {
+	stride = 11;
 	std::vector<float> vertices = {
 		0.0f, 0.0f, 0.0f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f,
 		1.0f, 0.0f, 0.0f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f,
@@ -87,6 +89,7 @@ std::vector<float> Cube::getVertices() {
 }
 
 std::vector<float> Quad::getVertices() {
+	stride = 11;
 	std::vector<float> vertices = {
 		0.0f, 0.0f, 0.0f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f,
 		1.0f, 0.0f, 0.0f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f,
@@ -94,6 +97,38 @@ std::vector<float> Quad::getVertices() {
 		1.0f, 1.0f, 0.0f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
 		0.0f, 1.0f, 0.0f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f,
 		0.0f, 0.0f, 0.0f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f
+	};
+	return vertices;
+}
+
+void ScreenQuad::generateBuffers() {
+	glGenVertexArrays(1, &vao);
+	glGenBuffers(1, &vbo);
+	glBindVertexArray(vao);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0); // position xy
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float))); // uv xy
+	glEnableVertexAttribArray(1);
+	glBindVertexArray(0);
+}
+
+void ScreenQuad::updateBuffers() {
+	glBindVertexArray(vao);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBufferData(GL_ARRAY_BUFFER, 24 * sizeof(float), &vertices.front(), GL_STATIC_DRAW);
+	glBindVertexArray(0);
+}
+
+std::vector<float> ScreenQuad::getVertices() {
+	stride = 4;
+	std::vector<float> vertices = {
+		-1.0f, 1.0f, 0.0f, 1.0f,
+		-1.0f, -1.0f, 0.0f, 0.0f,
+		1.0f, -1.0f, 1.0f, 0.0f,
+		-1.0f, 1.0f, 0.0f, 1.0f,
+		1.0f, -1.0f, 1.0f, 0.0f,
+		1.0f, 1.0f, 1.0f, 1.0f
 	};
 	return vertices;
 }

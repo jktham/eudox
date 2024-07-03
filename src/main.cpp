@@ -1,5 +1,7 @@
 #include "app.hpp"
 
+App app;
+
 int main() {
 	app.init();
 	app.loop();

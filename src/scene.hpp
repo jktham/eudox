@@ -7,7 +7,9 @@
 
 class Scene {
 public:
+	int id = 0;
 	std::vector<Object*> objects;
+	Object* postProcessing;
 
 	void init();
 	void update();

@@ -16,8 +16,8 @@ public:
 	std::vector<float> vertices = {};
 	int stride = 11;
 
-	void generateBuffers();
-	void updateBuffers();
+	virtual void generateBuffers();
+	virtual void updateBuffers();
 	virtual std::vector<float> getVertices();
 };
 
@@ -28,5 +28,12 @@ public:
 
 class Quad : public Mesh {
 public:
+	std::vector<float> getVertices();
+};
+
+class ScreenQuad : public Mesh {
+public:
+	void generateBuffers();
+	void updateBuffers();
 	std::vector<float> getVertices();
 };
