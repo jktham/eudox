@@ -1,6 +1,6 @@
 #version 460 core
 
-in vec4 vPosition;
+in vec3 vPosition;
 in vec2 vTexcoord;
 
 out vec4 fColor;

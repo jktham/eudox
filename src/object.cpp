@@ -15,12 +15,8 @@
 void Object::init()
 {
 	mesh->parent = this;
-	mesh->vertices = mesh->getVertices();
-	mesh->generateBuffers();
-	mesh->updateBuffers();
-
 	material->parent = this;
-	material->shader = material->compileShader(material->shaderName);
+	
 }
 
 void Object::update() {

@@ -3,7 +3,7 @@
 in vec2 aPosition;
 in vec2 aTexcoord;
 
-out vec4 vPosition;
+out vec2 vPosition;
 out vec2 vTexcoord;
 
 uniform mat4 model;
@@ -14,7 +14,7 @@ uniform vec2 resolution;
 uniform vec3 color;
 
 void main() {
-    vPosition = vec4(aPosition.x, aPosition.y, 0.0, 1.0);
+    vPosition = aPosition;
     vTexcoord = aTexcoord;
-    gl_Position = vPosition;
+    gl_Position = vec4(aPosition, 0.0, 1.0);
 }

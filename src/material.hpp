@@ -12,17 +12,17 @@ class Material {
 public:
 	Object* parent;
 	unsigned int shader;
-	std::string shaderName = "base";
 	glm::vec3 color = glm::vec3(1.0f);
 
 	float u[32] = {};
 	
-	unsigned int texture0 = 0;
-	unsigned int texture1 = 0;
+	std::vector<unsigned int> textures = {};
 
-	unsigned int compileShader(std::string name);
 	void updateUniforms();
+	unsigned int compileShader(std::string path);
+	unsigned int loadTexture(std::string path);
 
 	Material();
-	Material(std::string shaderName);
+	Material(std::string shaderPath);
+	Material(std::string shaderPath, std::string texturePath);
 };

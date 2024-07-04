@@ -18,9 +18,10 @@ uniform vec2 resolution;
 uniform vec3 color;
 
 void main() {
-	gl_Position = projection * view * model * vec4(aPosition, 1.0);
 	vPosition = vec3(model * vec4(aPosition, 1.0));
 	vNormal = mat3(transpose(inverse(model))) * aNormal;
 	vColor = aColor * color;
 	vTexcoord = aTexcoord;
+
+	gl_Position = projection * view * model * vec4(aPosition, 1.0);
 }

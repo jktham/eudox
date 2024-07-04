@@ -15,7 +15,8 @@ public:
 	unsigned int framebuffer;
 	unsigned int textureColorbuffer;
 	unsigned int textureDepthbuffer;
-	unsigned int rbo;
+	int fbWidth = 1920;
+	int fbHeight = 1080;
 
 	float time;
 	float deltaTime;

@@ -11,6 +11,7 @@
 #include <string>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <stb/stb_image.h>
 
 void Material::updateUniforms() {
 	// default uniforms
@@ -26,20 +27,16 @@ void Material::updateUniforms() {
 	glUniform1fv(glGetUniformLocation(shader, "u"), 32, &u[0]);
 
 	// textures
-	if (texture0) {
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, texture0);
-	}
-	if (texture1) {
-		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, texture1);
+	for (int i=0; i<textures.size(); i++) {
+		glActiveTexture(GL_TEXTURE0 + i);
+		glBindTexture(GL_TEXTURE_2D, textures[i]);
 	}
 
 }
 
-unsigned int Material::compileShader(std::string name) {
+unsigned int Material::compileShader(std::string path) {
 	const char *vertSource;
-	std::ifstream vertFile("res/" + name + ".vert");
+	std::ifstream vertFile("res/shaders/" + path + ".vert");
 	std::string vertString((std::istreambuf_iterator<char>(vertFile)), std::istreambuf_iterator<char>());
 	vertSource = vertString.c_str();
 	unsigned int vertShader;
@@ -59,7 +56,7 @@ unsigned int Material::compileShader(std::string name) {
 	}
 
 	const char *fragSource;
-	std::ifstream fragFile("res/" + name + ".frag");
+	std::ifstream fragFile("res/shaders/" + path + ".frag");
 	std::string fragString((std::istreambuf_iterator<char>(fragFile)), std::istreambuf_iterator<char>());
 	fragSource = fragString.c_str();
 	unsigned int fragShader;
@@ -87,10 +84,48 @@ unsigned int Material::compileShader(std::string name) {
 	return shader;
 }
 
-Material::Material() {
-	
+unsigned int Material::loadTexture(std::string path) {
+	int width, height, channels;
+	unsigned char *data;
+
+	unsigned int texture;
+	glGenTextures(1, &texture);
+	glBindTexture(GL_TEXTURE_2D, texture);
+
+	stbi_set_flip_vertically_on_load(true);
+	data = stbi_load(("res/textures/" + path).c_str(), &width, &height, &channels, 0);
+	if (data)
+	{
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	stbi_image_free(data);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+	if (width < 256) {
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	} else {
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	}
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	return texture;
 }
 
-Material::Material(std::string shaderName) {
-	this->shaderName = shaderName;
+Material::Material() {
+	this->shader = compileShader("base");
+}
+
+Material::Material(std::string shaderPath) {
+	this->shader = compileShader(shaderPath);
+}
+
+Material::Material(std::string shaderPath, std::string texturePath) {
+	this->shader = compileShader(shaderPath);
+	this->textures.push_back(loadTexture(texturePath));
 }

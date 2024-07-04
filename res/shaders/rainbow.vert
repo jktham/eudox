@@ -5,7 +5,7 @@ in vec3 aNormal;
 in vec3 aColor;
 in vec2 aTexcoord;
 
-out vec4 vPosition;
+out vec3 vPosition;
 out vec3 vNormal;
 out vec3 vColor;
 out vec2 vTexcoord;
@@ -18,10 +18,10 @@ uniform vec2 resolution;
 uniform vec3 color;
 
 void main() {
-	vPosition = projection * view * model * vec4(aPosition, 1.0);
+	vPosition = vec3(model * vec4(aPosition, 1.0));
 	vNormal = mat3(transpose(inverse(model))) * aNormal;
 	vColor = aColor * color;
 	vTexcoord = aTexcoord;
 
-	gl_Position = vPosition;
+	gl_Position = projection * view * model * vec4(aPosition, 1.0);
 }

@@ -1,36 +1,32 @@
 #version 460 core
 
-in vec4 vPosition;
+in vec2 vPosition;
 in vec2 vTexcoord;
 
 out vec4 fColor;
 
 uniform float time;
-uniform float u[32];
+uniform float u[32]; // kernel[9]
+uniform vec2 resolution;
 
 layout (binding = 0) uniform sampler2D colorTexture;
 layout (binding = 1) uniform sampler2D depthTexture;
 
-const float offset = 1.0 / 600.0;
-
 void main() {
-    vec2 offsets[9] = vec2[] (
-        vec2(-offset, offset),
-        vec2(0.0, offset),
-        vec2(offset, offset),
-        vec2(-offset, 0.0),
-        vec2(0.0, 0.0),
-        vec2(offset, 0.0),
-        vec2(-offset, -offset),
-        vec2(0.0, -offset),
-        vec2(offset, -offset)
-    );
+    float offsetx = 1.0 / resolution.x * 1.0;
+    float offsety = 1.0 / resolution.y * 1.0;
 
-    // float kernel[9] = float[] (
-    //     1.0/16, 2.0/16, 1.0/16,
-    //     2.0/16, 4.0/16, 2.0/16,
-    //     1.0/16, 2.0/16, 1.0/16
-    // );
+    vec2 offsets[9] = vec2[] (
+        vec2(-offsetx, offsety),
+        vec2(0.0, offsety),
+        vec2(offsetx, offsety),
+        vec2(-offsetx, 0.0),
+        vec2(0.0, 0.0),
+        vec2(offsetx, 0.0),
+        vec2(-offsetx, -offsety),
+        vec2(0.0, -offsety),
+        vec2(offsetx, -offsety)
+    );
 
     float kernel[9] = float[] (
         u[0], u[1], u[2],

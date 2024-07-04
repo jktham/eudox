@@ -50,7 +50,7 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset) {
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
 	app.width = width;
 	app.height = height;
-	glViewport(0, 0, width, height);
+	// glViewport(0, 0, width, height);
 }
 
 void APIENTRY glDebugOutput(GLenum source, GLenum type, unsigned int id, GLenum severity, GLsizei length, const char *message, const void *userParam) {
@@ -111,7 +111,7 @@ void App::init() {
 	glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE);
 
 	glEnable(GL_DEPTH_TEST);
-	glfwSwapInterval(0);
+	glfwSwapInterval(1);
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glViewport(0, 0, width, height);
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
