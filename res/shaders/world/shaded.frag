@@ -5,7 +5,9 @@ in vec3 vNormal;
 in vec3 vColor;
 in vec2 vTexcoord;
 
-out vec4 fColor;
+layout (location = 0) out vec4 fColor;
+layout (location = 1) out vec3 fPosition;
+layout (location = 2) out vec3 fNormal;
 
 uniform float u[32]; // ambient, diffuse, specular, shininess, lightPos.xyz
 uniform vec3 viewPos;
@@ -24,4 +26,6 @@ void main() {
     vec3 result = vColor * (ambient + diffuse + specular);
 
     fColor = vec4(result, 1.0);
+	fPosition = vPosition;
+	fNormal = normalize(vNormal);
 }

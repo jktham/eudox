@@ -13,10 +13,12 @@ public:
 	GLFWwindow* window;
 	
 	unsigned int framebuffer;
-	unsigned int textureColorbuffer;
-	unsigned int textureDepthbuffer;
 	int fbWidth = 1920;
 	int fbHeight = 1080;
+	unsigned int fbColor;
+	unsigned int fbDepth;
+	unsigned int fbPosition;
+	unsigned int fbNormal;
 
 	float time;
 	float deltaTime;

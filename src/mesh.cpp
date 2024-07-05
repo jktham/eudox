@@ -52,36 +52,3 @@ Mesh::Mesh(std::vector<float> verts) {
 	generateBuffers();
 	updateBuffers();
 }
-
-void ScreenQuad::generateBuffers() {
-	glGenVertexArrays(1, &vao);
-	glGenBuffers(1, &vbo);
-	glBindVertexArray(vao);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0); // position xy
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float))); // uv xy
-	glEnableVertexAttribArray(1);
-	glBindVertexArray(0);
-}
-
-void ScreenQuad::updateBuffers() {
-	glBindVertexArray(vao);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), &vertices.front(), GL_STATIC_DRAW);
-	glBindVertexArray(0);
-}
-
-ScreenQuad::ScreenQuad() {
-	stride = 4;
-	vertices = {
-		-1.0f, 1.0f, 0.0f, 1.0f,
-		-1.0f, -1.0f, 0.0f, 0.0f,
-		1.0f, -1.0f, 1.0f, 0.0f,
-		-1.0f, 1.0f, 0.0f, 1.0f,
-		1.0f, -1.0f, 1.0f, 0.0f,
-		1.0f, 1.0f, 1.0f, 1.0f
-	};
-	generateBuffers();
-	updateBuffers();
-}

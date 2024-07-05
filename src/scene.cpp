@@ -16,18 +16,18 @@ float rnd(float min, float max) {
 void Scene::init() {
 	worldObjects.clear();
 	uiObjects.clear();
-
-	postProcessing = new Object(new ScreenQuad(), new Material("post/base"));
-	postProcessing->material->textures[0] = app.textureColorbuffer;
-	postProcessing->material->textures[1] = app.textureDepthbuffer;
+	Object* o;
 	
 	if (id == 0) {
-		postProcessing = new Object(new ScreenQuad(), new Material("post/kernel"));
-		postProcessing->material->textures[0] = app.textureColorbuffer;
-		postProcessing->material->textures[1] = app.textureDepthbuffer;
+		postProcessing = new Object(new Mesh(quad), new Material("post/kernel"));
+		postProcessing->scale(glm::vec3(app.width, app.height, 1.0f));
+		postProcessing->material->textures[0] = app.fbColor;
+		postProcessing->material->textures[1] = app.fbDepth;
+		postProcessing->material->textures[2] = app.fbPosition;
+		postProcessing->material->textures[3] = app.fbNormal;
 		std::copy(&edgeKernel[0], &edgeKernel[9], postProcessing->material->u);
 
-		Object* o = new Object(new Mesh(), new Material());
+		o = new Object(new Mesh(), new Material());
 		o->translate(glm::vec3(0.0f, 0.0f, 0.0f));
 		worldObjects.push_back(o);
 		
@@ -78,7 +78,7 @@ void Scene::init() {
 		worldObjects.push_back(o);
 
 		o = new Object(new Mesh(quad), new Material());
-		o->material->color = glm::vec3(0.8f, 0.8f, 0.3f);
+		o->material->color = glm::vec3(0.9f, 0.9f, 0.1f);
 		o->translate(glm::vec3(0.0f, -8.0f, -5.0f));
 		o->scale(glm::vec3(20.0f, 1.0f, -10.0f));
 		o->rotate(90.0f, glm::vec3(1.0f, 0.0f, 0.0f));
@@ -103,10 +103,41 @@ void Scene::init() {
 		uiObjects.push_back(o);
 
 		o = new Object(new Mesh(quad), new Material("ui/textured"));
-		o->material->textures[0] = app.textureColorbuffer;
-		o->translate(glm::vec3(50.0f, 50.0f, 0.0f));
-		o->scale(glm::vec3(480.0f, 270.0f, 1.0f));
+		o->material->textures[0] = app.fbColor;
+		o->translate(glm::vec3(10.0f, 10.0f, 0.0f));
+		o->scale(glm::vec3(320.0f, 180.0f, 1.0f));
 		uiObjects.push_back(o);
+
+		o = new Object(new Mesh(quad), new Material("ui/textured"));
+		o->material->textures[0] = app.fbDepth;
+		o->translate(glm::vec3(10.0f, 200.0f, 0.0f));
+		o->scale(glm::vec3(320.0f, 180.0f, 1.0f));
+		uiObjects.push_back(o);
+
+		o = new Object(new Mesh(quad), new Material("ui/textured"));
+		o->material->textures[0] = app.fbPosition;
+		o->translate(glm::vec3(10.0f, 390.0f, 0.0f));
+		o->scale(glm::vec3(320.0f, 180.0f, 1.0f));
+		uiObjects.push_back(o);
+
+		o = new Object(new Mesh(quad), new Material("ui/textured"));
+		o->material->textures[0] = app.fbNormal;
+		o->translate(glm::vec3(10.0f, 580.0f, 0.0f));
+		o->scale(glm::vec3(320.0f, 180.0f, 1.0f));
+		uiObjects.push_back(o);
+
+	} else if (id == 1) {
+		postProcessing = new Object(new Mesh(quad), new Material("post/base"));
+		postProcessing->scale(glm::vec3(app.width, app.height, 1.0f));
+		postProcessing->material->textures[0] = app.fbColor;
+		postProcessing->material->textures[1] = app.fbDepth;
+		postProcessing->material->textures[2] = app.fbPosition;
+		postProcessing->material->textures[3] = app.fbNormal;
+
+		o = new Object(new Mesh(), new Material());
+		o->translate(glm::vec3(0.0f, 0.0f, 0.0f));
+		worldObjects.push_back(o);
+
 	}
 
 	for (Object* o : worldObjects) {
@@ -140,7 +171,7 @@ void Scene::update() {
 void Scene::draw() {
 	glBindFramebuffer(GL_FRAMEBUFFER, app.framebuffer);
 	glViewport(0, 0, app.fbWidth, app.fbHeight);
-	glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
 

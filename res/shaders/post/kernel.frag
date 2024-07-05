@@ -1,6 +1,8 @@
 #version 460 core
 
-in vec2 vPosition;
+in vec3 vPosition;
+in vec3 vNormal;
+in vec3 vColor;
 in vec2 vTexcoord;
 
 out vec4 fColor;
@@ -9,8 +11,10 @@ uniform float time;
 uniform float u[32]; // kernel[9]
 uniform vec2 resolution;
 
-layout (binding = 0) uniform sampler2D colorTexture;
-layout (binding = 1) uniform sampler2D depthTexture;
+layout (binding = 0) uniform sampler2D fbColor;
+layout (binding = 1) uniform sampler2D fbDepth;
+layout (binding = 2) uniform sampler2D fbPosition;
+layout (binding = 3) uniform sampler2D fbNormal;
 
 void main() {
     float offsetx = 1.0 / resolution.x * 1.0;
@@ -36,7 +40,7 @@ void main() {
     
     vec3 sampleTex[9];
     for(int i = 0; i < 9; i++) {
-        sampleTex[i] = vec3(texture(colorTexture, vTexcoord.st + offsets[i]));
+        sampleTex[i] = vec3(texture(fbColor, vTexcoord.st + offsets[i]));
     }
     vec3 col = vec3(0.0);
     for(int i = 0; i < 9; i++) {

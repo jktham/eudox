@@ -14,17 +14,10 @@ public:
 	unsigned int vao;
 	unsigned int vbo;
 	std::vector<float> vertices = {};
-	int stride = 1;
+	int stride = 11;
 
 	virtual void generateBuffers();
 	virtual void updateBuffers();
 	Mesh();
 	Mesh(std::vector<float> verts);
-};
-
-class ScreenQuad : public Mesh {
-public:
-	void generateBuffers();
-	void updateBuffers();
-	ScreenQuad();
 };
