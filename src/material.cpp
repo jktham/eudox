@@ -22,14 +22,17 @@ void Material::updateUniforms() {
 	glUniform2f(glGetUniformLocation(shader, "resolution"), app.width, app.height);
 	glUniform3f(glGetUniformLocation(shader, "color"), color.r, color.g, color.b);
 	glUniform3f(glGetUniformLocation(shader, "viewPos"), app.camera.position.x, app.camera.position.y, app.camera.position.z);
+	glUniformMatrix4fv(glGetUniformLocation(shader, "uiProjection"), 1, GL_FALSE, glm::value_ptr(app.camera.uiProjection));
 
 	// custom uniforms
 	glUniform1fv(glGetUniformLocation(shader, "u"), 32, &u[0]);
 
 	// textures
-	for (int i=0; i<textures.size(); i++) {
-		glActiveTexture(GL_TEXTURE0 + i);
-		glBindTexture(GL_TEXTURE_2D, textures[i]);
+	for (int i=0; i<32; i++) {
+		if (textures[i]) {
+			glActiveTexture(GL_TEXTURE0 + i);
+			glBindTexture(GL_TEXTURE_2D, textures[i]);
+		}
 	}
 
 }
@@ -118,7 +121,7 @@ unsigned int Material::loadTexture(std::string path) {
 }
 
 Material::Material() {
-	this->shader = compileShader("base");
+	this->shader = compileShader("world/base");
 }
 
 Material::Material(std::string shaderPath) {
@@ -127,5 +130,5 @@ Material::Material(std::string shaderPath) {
 
 Material::Material(std::string shaderPath, std::string texturePath) {
 	this->shader = compileShader(shaderPath);
-	this->textures.push_back(loadTexture(texturePath));
+	this->textures[0] = loadTexture(texturePath);
 }

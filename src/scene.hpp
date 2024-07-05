@@ -8,7 +8,8 @@
 class Scene {
 public:
 	int id = 0;
-	std::vector<Object*> objects;
+	std::vector<Object*> worldObjects;
+	std::vector<Object*> uiObjects;
 	Object* postProcessing;
 
 	void init();

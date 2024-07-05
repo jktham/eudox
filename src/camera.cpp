@@ -66,4 +66,5 @@ void Camera::update() {
 
 	view = glm::lookAt(position, position + direction, glm::vec3(0.0f, 1.0f, 0.0f));
 	projection = glm::perspective((float)glm::radians(fov), (float)app.width / (float)app.height, 0.1f, 1000.0f);
+	uiProjection = glm::ortho(0.0f, (float)app.width, 0.0f, (float)app.height, -100.0f, 100.0f);
 }

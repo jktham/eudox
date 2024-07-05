@@ -15,8 +15,7 @@ public:
 	glm::vec3 color = glm::vec3(1.0f);
 
 	float u[32] = {};
-	
-	std::vector<unsigned int> textures = {};
+	unsigned int textures[32] = {};
 
 	void updateUniforms();
 	unsigned int compileShader(std::string path);

@@ -12,11 +12,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-void Object::init()
-{
-	mesh->parent = this;
-	material->parent = this;
-	
+void Object::init() {
+
 }
 
 void Object::update() {
@@ -54,4 +51,6 @@ Object::Object() {
 Object::Object(Mesh* mesh, Material* material) {
 	this->mesh = mesh;
 	this->material = material;
+	this->mesh->parent = this;
+	this->material->parent = this;
 }
