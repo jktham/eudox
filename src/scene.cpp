@@ -97,6 +97,15 @@ void Scene::init() {
 		o->scale(glm::vec3(4.0f, 4.0f, 4.0f));
 		worldObjects.push_back(o);
 
+		o = new Object(new Mesh("test.obj"), new Material("world/shaded"));
+		o->material->u[0] = 0.1f;
+		o->material->u[1] = 0.6f;
+		o->material->u[2] = 0.4f;
+		o->material->u[3] = 32.0f;
+		o->translate(glm::vec3(-10.0f, 0.0f, -10.0f));
+		o->scale(glm::vec3(4.0f, 4.0f, 4.0f));
+		worldObjects.push_back(o);
+
 		o = new Object(new Mesh(cube), new Material("ui/textured", "test.png"));
 		o->translate(glm::vec3(100.0f, app.height - 200.0f, 0.0f));
 		o->scale(glm::vec3(100.0f, 100.0f, 1.0f));
@@ -134,7 +143,11 @@ void Scene::init() {
 		postProcessing->material->textures[2] = app.fbPosition;
 		postProcessing->material->textures[3] = app.fbNormal;
 
-		o = new Object(new Mesh(), new Material());
+		o = new Object(new Mesh("test2.obj"), new Material("world/shadedtextured", "test.png"));
+		o->material->u[0] = 0.1f;
+		o->material->u[1] = 0.6f;
+		o->material->u[2] = 0.4f;
+		o->material->u[3] = 32.0f;
 		o->translate(glm::vec3(0.0f, 0.0f, 0.0f));
 		worldObjects.push_back(o);
 
@@ -151,12 +164,22 @@ void Scene::init() {
 
 void Scene::update() {
 	if (id == 0) {
-		worldObjects[5]->rotate(90.0f * app.deltaTime, glm::vec3(1.0f, 1.0f, 1.0f));
 		glm::vec3 light = glm::vec3(100.0f*cos(app.time*2.0f), 200.0f, 100.0f*sin(app.time*2.0f));
+		worldObjects[5]->rotate(90.0f * app.deltaTime, glm::vec3(1.0f, 1.0f, 1.0f));
 		worldObjects[10]->material->u[4] = light.x;
 		worldObjects[10]->material->u[5] = light.y;
 		worldObjects[10]->material->u[6] = light.z;
+		worldObjects[11]->material->u[4] = light.x;
+		worldObjects[11]->material->u[5] = light.y;
+		worldObjects[11]->material->u[6] = light.z;
 		uiObjects[0]->rotate(90.0f * app.deltaTime, glm::vec3(1.0f, 1.0f, 1.0f));
+
+	} else if (id == 1) {
+		glm::vec3 light = glm::vec3(100.0f*cos(app.time*2.0f), 200.0f, 100.0f*sin(app.time*2.0f));
+		worldObjects[0]->material->u[4] = light.x;
+		worldObjects[0]->material->u[5] = light.y;
+		worldObjects[0]->material->u[6] = light.z;
+
 	}
 
 	for (Object* o : worldObjects) {

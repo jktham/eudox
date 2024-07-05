@@ -18,6 +18,9 @@ public:
 
 	virtual void generateBuffers();
 	virtual void updateBuffers();
+	std::vector<float> loadModel(std::string path);
+	
 	Mesh();
 	Mesh(std::vector<float> verts);
+	Mesh(std::string modelPath);
 };
