@@ -22,6 +22,8 @@ public:
 
 	float time;
 	float deltaTime;
+	float deltaHist[60] = {};
+	int frame = 0;
 
 	bool firstInput = true;
 	glm::ivec2 cursorPos = glm::ivec2(0);

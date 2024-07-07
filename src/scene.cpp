@@ -151,6 +151,10 @@ void Scene::init() {
 		o->translate(glm::vec3(0.0f, 0.0f, 0.0f));
 		worldObjects.push_back(o);
 
+		o = new Object(new Mesh("test.obj"), new Material("world/noise"));
+		o->translate(glm::vec3(5.0f, 0.0f, 0.0f));
+		worldObjects.push_back(o);
+
 	}
 
 	for (Object* o : worldObjects) {

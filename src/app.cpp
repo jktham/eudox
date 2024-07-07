@@ -9,6 +9,7 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include <iomanip>
+#include <fmt/core.h>
 
 void processInput(GLFWwindow* window) {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE)) {
@@ -168,11 +169,18 @@ void App::loop() {
 
 		deltaTime = glfwGetTime() - time;
 		time = glfwGetTime();
+		deltaHist[frame % 60] = deltaTime;
+		frame++;
+
+		float deltaSum = 0.0001f;
+		for (int i = 0; i < 60; i++) {
+			deltaSum += deltaHist[i];
+		}
 		
-		std::cout << std::fixed << std::setprecision(4);
-		std::cout << "time: " << time << ", delta: " << deltaTime << ", fps: " << 1.0f / deltaTime;
-		std::cout << ", pos: (" << camera.position.x << ", " << camera.position.y << ", " << camera.position.z << ")";
-		std::cout << std::endl;
+		fmt::print(
+			"f: {}, t: {:.4f}, dt: {:.4f}, fps: {:.2f}, pos: ({:.2f}, {:.2f}, {:.2f})\n", 
+			frame, time, deltaTime, 1.0f / (deltaSum / 60.0f), camera.position.x, camera.position.y, camera.position.z
+		);
 
 		camera.update();
 		scene.update();
