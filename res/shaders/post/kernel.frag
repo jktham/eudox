@@ -7,9 +7,15 @@ in vec2 vTexcoord;
 
 out vec4 fColor;
 
+uniform mat4 model;
+uniform mat4 view;
+uniform mat4 projection;
 uniform float time;
-uniform float u[32]; // kernel[9]
 uniform vec2 resolution;
+uniform vec3 color;
+uniform vec3 viewPos;
+uniform mat4 uiProjection;
+uniform float u[32]; // kernel[9]
 
 layout (binding = 0) uniform sampler2D fbColor;
 layout (binding = 1) uniform sampler2D fbDepth;

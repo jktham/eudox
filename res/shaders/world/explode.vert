@@ -5,10 +5,12 @@ in vec3 aNormal;
 in vec3 aColor;
 in vec2 aTexcoord;
 
-out vec3 vPosition;
-out vec3 vNormal;
-out vec3 vColor;
-out vec2 vTexcoord;
+out VS_OUT {
+	vec3 vPosition;
+	vec3 vNormal;
+	vec3 vColor;
+	vec2 vTexcoord;
+} vs_out;
 
 uniform mat4 model;
 uniform mat4 view;
@@ -21,10 +23,10 @@ uniform mat4 uiProjection;
 uniform float u[32];
 
 void main() {
-	vPosition = vec3(model * vec4(aPosition, 1.0));
-	vNormal = mat3(transpose(inverse(model))) * aNormal;
-	vColor = aColor * color;
-	vTexcoord = aTexcoord;
+	vs_out.vPosition = vec3(model * vec4(aPosition, 1.0));
+	vs_out.vNormal = mat3(transpose(inverse(model))) * aNormal;
+	vs_out.vColor = aColor * color;
+	vs_out.vTexcoord = aTexcoord;
 
 	gl_Position = projection * view * model * vec4(aPosition, 1.0);
 }

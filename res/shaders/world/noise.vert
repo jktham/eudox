@@ -9,7 +9,6 @@ out vec3 vPosition;
 out vec3 vNormal;
 out vec3 vColor;
 out vec2 vTexcoord;
-out vec2 uv;
 
 uniform mat4 model;
 uniform mat4 view;
@@ -17,6 +16,9 @@ uniform mat4 projection;
 uniform float time;
 uniform vec2 resolution;
 uniform vec3 color;
+uniform vec3 viewPos;
+uniform mat4 uiProjection;
+uniform float u[32];
 
 void main() {
 	vPosition = vec3(model * vec4(aPosition, 1.0));

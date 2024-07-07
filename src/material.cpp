@@ -84,9 +84,34 @@ unsigned int Material::compileShader(std::string path) {
 	unsigned int shader = glCreateProgram();
 	glAttachShader(shader, vertShader);
 	glAttachShader(shader, fragShader);
-	glLinkProgram(shader);
 	glDeleteShader(vertShader);
 	glDeleteShader(fragShader);
+	
+	const char *geomSource;
+	std::ifstream geomFile("res/shaders/" + path + ".geom");
+	if (geomFile.good()) {
+		std::string geomString((std::istreambuf_iterator<char>(geomFile)), std::istreambuf_iterator<char>());
+		geomSource = geomString.c_str();
+		unsigned int geomShader;
+		geomShader = glCreateShader(GL_GEOMETRY_SHADER);
+		glShaderSource(geomShader, 1, &geomSource, NULL);
+		glCompileShader(geomShader);
+
+		success = 0;
+		glGetShaderiv(geomShader, GL_COMPILE_STATUS, &success);
+		if (success == 0) {
+			int logSize = 0;
+			glGetShaderiv(geomShader, GL_INFO_LOG_LENGTH, &logSize);
+			std::vector<char> errorLog(logSize);
+			glGetShaderInfoLog(geomShader, logSize, &logSize, &errorLog.front());
+			std::cout << errorLog.data() << std::endl;
+		}
+
+		glAttachShader(shader, geomShader);
+		glDeleteShader(geomShader);
+	}
+
+	glLinkProgram(shader);
 
 	app.resources.shaders[path] = shader;
 
@@ -133,14 +158,14 @@ unsigned int Material::loadTexture(std::string path) {
 }
 
 Material::Material() {
-	this->shader = compileShader("world/base");
+	shader = compileShader("world/base");
 }
 
 Material::Material(std::string shaderPath) {
-	this->shader = compileShader(shaderPath);
+	shader = compileShader(shaderPath);
 }
 
 Material::Material(std::string shaderPath, std::string texturePath) {
-	this->shader = compileShader(shaderPath);
-	this->textures[0] = loadTexture(texturePath);
+	shader = compileShader(shaderPath);
+	textures[0] = loadTexture(texturePath);
 }

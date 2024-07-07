@@ -9,11 +9,18 @@ layout (location = 0) out vec4 fColor;
 layout (location = 1) out vec3 fPosition;
 layout (location = 2) out vec3 fNormal;
 
-uniform float time;
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
+uniform float time;
 uniform vec2 resolution;
+uniform vec3 color;
+uniform vec3 viewPos;
+uniform mat4 uiProjection;
+uniform float u[32];
+
+layout (binding = 0) uniform sampler2D texture0;
+layout (binding = 1) uniform sampler2D texture1;
 
 float random(vec2 st) {
 	return fract(sin(dot(st.xy, vec2(12.9898,78.233))) * 43758.5453123);
