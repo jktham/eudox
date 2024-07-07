@@ -1,5 +1,6 @@
 #pragma once
 
+#include "resources.hpp"
 #include "camera.hpp"
 #include "scene.hpp"
 
@@ -29,6 +30,7 @@ public:
 	glm::ivec2 cursorPos = glm::ivec2(0);
 	glm::ivec2 cursorOffset = glm::ivec2(0);
 
+	Resources resources;
 	Camera camera;
 	Scene scene;
 

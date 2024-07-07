@@ -1,14 +1,8 @@
 #include "object.hpp"
 
-#include "app.hpp"
-
 #include <glm/glm.hpp>
-#include <vector>
 #include <glad/gl.h>
 #include <GLFW/glfw3.h>
-#include <iostream>
-#include <fstream>
-#include <string>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
@@ -26,7 +20,7 @@ void Object::draw() {
 
 	material->updateUniforms();
 
-	glDrawArrays(GL_TRIANGLES, 0, mesh->vertices.size() / mesh->stride);
+	glDrawArrays(GL_TRIANGLES, 0, mesh->triangles);
 
 	glBindVertexArray(0);
 	glUseProgram(0);

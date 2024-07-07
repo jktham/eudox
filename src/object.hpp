@@ -4,8 +4,6 @@
 #include "material.hpp"
 
 #include <glm/glm.hpp>
-#include <vector>
-#include <string>
 
 class Mesh;
 class Material;

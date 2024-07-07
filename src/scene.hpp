@@ -7,7 +7,9 @@
 
 class Scene {
 public:
-	int id = 0;
+	int sceneId = 1;
+	int postId = 1;
+
 	std::vector<Object*> worldObjects;
 	std::vector<Object*> uiObjects;
 	Object* postProcessing;

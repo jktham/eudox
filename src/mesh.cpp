@@ -1,12 +1,11 @@
 #include "mesh.hpp"
-
 #include "app.hpp"
+#include "data.hpp"
 
 #include <glm/glm.hpp>
 #include <vector>
 #include <glad/gl.h>
 #include <GLFW/glfw3.h>
-#include <iostream>
 #include <fstream>
 #include <string>
 #include <glm/gtc/matrix_transform.hpp>
@@ -19,18 +18,20 @@ void Mesh::generateBuffers() {
 	glGenBuffers(1, &vbo);
 	glBindVertexArray(vao);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, stride * sizeof(float), (void*)0); // position xyz
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*)0); // position xyz
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, stride * sizeof(float), (void*)(3 * sizeof(float))); // normal xyz
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*)(3 * sizeof(float))); // normal xyz
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, stride * sizeof(float), (void*)(6 * sizeof(float))); // color rgb
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*)(6 * sizeof(float))); // color rgb
 	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, stride * sizeof(float), (void*)(9 * sizeof(float))); // texcoord uv
+	glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (void*)(9 * sizeof(float))); // texcoord uv
 	glEnableVertexAttribArray(3);
 	glBindVertexArray(0);
 }
 
-void Mesh::updateBuffers() {
+void Mesh::updateBuffers(std::vector<float> vertices) {
+	triangles = vertices.size() / 11;
+
 	glBindVertexArray(vao);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), &vertices.front(), GL_STATIC_DRAW);
@@ -38,7 +39,7 @@ void Mesh::updateBuffers() {
 }
 
 std::vector<float> Mesh::loadModel(std::string path) {
-	std::vector<float> verts = {};
+	std::vector<float> vertices = {};
 	std::ifstream file("res/models/" + path);
 	std::string line;
 
@@ -101,35 +102,34 @@ std::vector<float> Mesh::loadModel(std::string path) {
 				texcoords[faces[i][1+3*j]-1][0], texcoords[faces[i][1+3*j]-1][1]
 			};
 			for (int k=0; k<vert.size(); k++) {
-				verts.push_back(vert[k]);
+				vertices.push_back(vert[k]);
 			}
 		}
 	}
 
-	return verts;
+	return vertices;
 }
 
 Mesh::Mesh() {
-	stride = 11;
-	vertices = {
-		-1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-		 1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
-		 0.0f,  0.8f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
-	};
 	generateBuffers();
-	updateBuffers();
+	updateBuffers(triangle);
 }
 
-Mesh::Mesh(std::vector<float> verts) {
-	stride = 11;
-	vertices = verts;
+Mesh::Mesh(std::vector<float> vertices) {
 	generateBuffers();
-	updateBuffers();
+	updateBuffers(vertices);
 }
 
 Mesh::Mesh(std::string modelPath) {
-	stride = 11;
-	vertices = loadModel(modelPath);
+	if (app.resources.meshes.contains(modelPath)) {
+		vao = std::get<0>(app.resources.meshes[modelPath]);
+		vbo = std::get<1>(app.resources.meshes[modelPath]);
+		triangles = std::get<2>(app.resources.meshes[modelPath]);
+		return;
+	}
+
 	generateBuffers();
-	updateBuffers();
+	updateBuffers(loadModel(modelPath));
+
+	app.resources.meshes[modelPath] = {vao, vbo, triangles};
 }

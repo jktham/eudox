@@ -38,6 +38,10 @@ void Material::updateUniforms() {
 }
 
 unsigned int Material::compileShader(std::string path) {
+	if (app.resources.shaders.contains(path)) {
+		return app.resources.shaders[path];
+	}
+
 	const char *vertSource;
 	std::ifstream vertFile("res/shaders/" + path + ".vert");
 	std::string vertString((std::istreambuf_iterator<char>(vertFile)), std::istreambuf_iterator<char>());
@@ -84,10 +88,16 @@ unsigned int Material::compileShader(std::string path) {
 	glDeleteShader(vertShader);
 	glDeleteShader(fragShader);
 
+	app.resources.shaders[path] = shader;
+
 	return shader;
 }
 
 unsigned int Material::loadTexture(std::string path) {
+	if (app.resources.textures.contains(path)) {
+		return app.resources.textures[path];
+	}
+
 	int width, height, channels;
 	unsigned char *data;
 
@@ -116,6 +126,8 @@ unsigned int Material::loadTexture(std::string path) {
 	}
 
 	glBindTexture(GL_TEXTURE_2D, 0);
+
+	app.resources.textures[path] = texture;
 
 	return texture;
 }

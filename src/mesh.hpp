@@ -13,14 +13,13 @@ public:
 	Object* parent;
 	unsigned int vao;
 	unsigned int vbo;
-	std::vector<float> vertices = {};
-	int stride = 11;
+	int triangles = 0;
 
 	virtual void generateBuffers();
-	virtual void updateBuffers();
+	virtual void updateBuffers(std::vector<float> vertices);
 	std::vector<float> loadModel(std::string path);
 	
 	Mesh();
-	Mesh(std::vector<float> verts);
+	Mesh(std::vector<float> vertices);
 	Mesh(std::string modelPath);
 };

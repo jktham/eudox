@@ -3,7 +3,6 @@
 #include "object.hpp"
 
 #include <glm/glm.hpp>
-#include <vector>
 #include <string>
 
 class Object;

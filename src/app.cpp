@@ -1,6 +1,7 @@
 #include "app.hpp"
 
 #include "camera.hpp"
+#include "fmt/base.h"
 #include "scene.hpp"
 
 #include <glm/glm.hpp>
@@ -8,7 +9,6 @@
 #include <glad/gl.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
-#include <iomanip>
 #include <fmt/core.h>
 
 void processInput(GLFWwindow* window) {
@@ -28,8 +28,13 @@ void processInput(GLFWwindow* window) {
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
 	if (key >= GLFW_KEY_0 && key <= GLFW_KEY_9 && action == GLFW_PRESS) {
-		app.scene.id = key - GLFW_KEY_0;
-		app.scene.init();
+		if (glfwGetKey(app.window, GLFW_KEY_LEFT_SHIFT)) {
+			app.scene.postId = key - GLFW_KEY_0;
+			app.scene.init();
+		} else {
+			app.scene.sceneId = key - GLFW_KEY_0;
+			app.scene.init();
+		}
 	}
 }
 
@@ -112,7 +117,7 @@ void App::init() {
 	glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE);
 
 	glEnable(GL_DEPTH_TEST);
-	glfwSwapInterval(1);
+	glfwSwapInterval(0);
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glViewport(0, 0, width, height);
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -164,10 +169,11 @@ void App::init() {
 
 void App::loop() {
 	while (!glfwWindowShouldClose(window)) {
-		glfwPollEvents();
-		processInput(window);
-
 		deltaTime = glfwGetTime() - time;
+		if (deltaTime < 1.0f / 120.0f) {
+			continue;
+		}
+
 		time = glfwGetTime();
 		deltaHist[frame % 60] = deltaTime;
 		frame++;
@@ -176,16 +182,20 @@ void App::loop() {
 		for (int i = 0; i < 60; i++) {
 			deltaSum += deltaHist[i];
 		}
-		
-		fmt::print(
-			"f: {}, t: {:.4f}, dt: {:.4f}, fps: {:.2f}, pos: ({:.2f}, {:.2f}, {:.2f})\n", 
-			frame, time, deltaTime, 1.0f / (deltaSum / 60.0f), camera.position.x, camera.position.y, camera.position.z
-		);
+
+		glfwPollEvents();
+		processInput(window);
 
 		camera.update();
 		scene.update();
-
 		scene.draw();
+
+		float elapsedTime = glfwGetTime() - time;
+		fmt::print(
+			"f: {}, t: {:.4f}, dt: {:.4f}, et: {:.6f}, fps: {:.2f}, pos: ({:.2f}, {:.2f}, {:.2f}), res: ({}, {}, {}), id: ({}, {})\n", 
+			frame, time, deltaTime, elapsedTime, 1.0f / (deltaSum / 60.0f), camera.position.x, camera.position.y, camera.position.z, 
+			resources.shaders.size(), resources.textures.size(), resources.meshes.size(), scene.sceneId, scene.postId
+		);
 
 		glfwSwapBuffers(window);
 	}
