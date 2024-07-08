@@ -236,6 +236,17 @@ void Scene::init() {
 		postProcessing->scale(glm::vec3(app.width, app.height, 1.0f));
 		postProcessing->material->textures[0] = app.fbColor;
 
+	} else if (postId == 4) {
+		postProcessing = new Object(new Mesh(quad), new Material("post/distort"));
+		postProcessing->scale(glm::vec3(app.width, app.height, 1.0f));
+		postProcessing->material->textures[0] = app.fbColor;
+		postProcessing->material->textures[1] = postProcessing->material->loadTexture("distortSpiral.png");
+
+	} else if (postId == 5) {
+		postProcessing = new Object(new Mesh(quad), new Material("post/pixel"));
+		postProcessing->scale(glm::vec3(app.width, app.height, 1.0f));
+		postProcessing->material->textures[0] = app.fbColor;
+
 	}
 
 	for (Object* o : worldObjects) {

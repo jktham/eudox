@@ -21,7 +21,5 @@ layout (binding = 0) uniform sampler2D texture0;
 layout (binding = 1) uniform sampler2D texture1;
 
 void main() {
-	vec4 t0 = vec4(vec3(1 - pow(texture(texture1, vTexcoord).r, 100)), 1.0);
-    vec4 t1 = vec4(vec3(1.0 - texture(texture0, vTexcoord)), 1.0);
-    fColor = mix(t0, t1, clamp((cos(time*u[0])*4+1)/2, 0, 1));
+    fColor = texture(texture0, clamp(texture(texture1, vTexcoord).xy * 1.0, 0.0, 0.999));
 }
