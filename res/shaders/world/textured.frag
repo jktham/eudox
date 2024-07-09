@@ -6,8 +6,9 @@ in vec3 vColor;
 in vec2 vTexcoord;
 
 layout (location = 0) out vec4 fColor;
-layout (location = 1) out vec3 fPosition;
-layout (location = 2) out vec3 fNormal;
+layout (location = 1) out vec3 fDepth;
+layout (location = 2) out vec3 fPosition;
+layout (location = 3) out vec3 fNormal;
 
 uniform mat4 model;
 uniform mat4 view;
@@ -24,6 +25,7 @@ layout (binding = 1) uniform sampler2D texture1;
 
 void main() {
 	fColor = vec4(vColor, 1.0) * texture(texture0, vTexcoord.st);
+	fDepth = vec3(gl_FragCoord.z / gl_FragCoord.w);
 	fPosition = vPosition;
 	fNormal = normalize(vNormal);
 }

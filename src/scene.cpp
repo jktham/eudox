@@ -226,21 +226,21 @@ void Scene::init() {
 		// use scene default
 		
 	} else if (postId == 2) {
+		postProcessing = new Object(new Mesh(quad), new Material("post/base"));
+		postProcessing->scale(glm::vec3(app.width, app.height, 1.0f));
+		postProcessing->material->textures[0] = app.fbColor;
+
+	} else if (postId == 3) {
 		postProcessing = new Object(new Mesh(quad), new Material("post/kernel"));
 		postProcessing->scale(glm::vec3(app.width, app.height, 1.0f));
 		postProcessing->material->textures[0] = app.fbNormal;
 		std::copy(&edgeKernel[0], &edgeKernel[9], postProcessing->material->u);
 
-	} else if (postId == 3) {
-		postProcessing = new Object(new Mesh(quad), new Material("post/base"));
-		postProcessing->scale(glm::vec3(app.width, app.height, 1.0f));
-		postProcessing->material->textures[0] = app.fbColor;
-
 	} else if (postId == 4) {
 		postProcessing = new Object(new Mesh(quad), new Material("post/distort"));
 		postProcessing->scale(glm::vec3(app.width, app.height, 1.0f));
 		postProcessing->material->textures[0] = app.fbColor;
-		postProcessing->material->textures[1] = postProcessing->material->loadTexture("distortSpiral.png");
+		postProcessing->material->textures[1] = postProcessing->material->loadTexture("distortDamascus.png");
 
 	} else if (postId == 5) {
 		postProcessing = new Object(new Mesh(quad), new Material("post/pixel"));
@@ -296,7 +296,7 @@ void Scene::draw() {
 	glBindFramebuffer(GL_FRAMEBUFFER, app.framebuffer);
 	glViewport(0, 0, app.fbWidth, app.fbHeight);
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
 
 	for (Object* o : worldObjects) {
@@ -311,7 +311,7 @@ void Scene::draw() {
 
 	postProcessing->draw();
 
-	glClear(GL_DEPTH_BUFFER_BIT);
+	glClear(GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
 	for (Object* o : uiObjects) {
 		o->draw();

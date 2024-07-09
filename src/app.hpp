@@ -17,6 +17,7 @@ public:
 	int fbWidth = 1920;
 	int fbHeight = 1080;
 	unsigned int fbColor;
+	unsigned int fbDepthStencil;
 	unsigned int fbDepth;
 	unsigned int fbPosition;
 	unsigned int fbNormal;

@@ -6,8 +6,9 @@ in vec3 vColor;
 in vec2 vTexcoord;
 
 layout (location = 0) out vec4 fColor;
-layout (location = 1) out vec3 fPosition;
-layout (location = 2) out vec3 fNormal;
+layout (location = 1) out vec3 fDepth;
+layout (location = 2) out vec3 fPosition;
+layout (location = 3) out vec3 fNormal;
 
 uniform mat4 model;
 uniform mat4 view;
@@ -30,6 +31,7 @@ void main() {
 	if (vTexcoord.x < stroke || vTexcoord.x > 1.0 - stroke || vTexcoord.y < stroke || vTexcoord.y > 1.0 - stroke) {
 		fColor = vec4(0.0, 0.0, 0.0, 1.0);
 	}
+	fDepth = vec3(gl_FragCoord.z / gl_FragCoord.w);
 	fPosition = vPosition;
 	fNormal = normalize(vNormal);
 }

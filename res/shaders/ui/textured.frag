@@ -21,5 +21,5 @@ layout (binding = 0) uniform sampler2D texture0;
 layout (binding = 1) uniform sampler2D texture1;
 
 void main() {
-	fColor = vec4(vColor, 1.0) * texture(texture0, vTexcoord.st);
+	fColor = fract(max(abs(vec4(vColor, 1.0) * texture(texture0, vTexcoord.st)) - 0.000001, 0.0));
 }
