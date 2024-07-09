@@ -47,6 +47,9 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		stbi_flip_vertically_on_write(true);
 		stbi_write_png(fmt::format("img/{}.png", time).c_str(), app.width, app.height, 4, data, app.fbWidth * 4);
 	}
+	if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
+		app.scene.paused = !app.scene.paused;
+	}
 }
 
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods) {

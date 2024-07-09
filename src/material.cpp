@@ -18,7 +18,7 @@ void Material::updateUniforms() {
 	glUniformMatrix4fv(glGetUniformLocation(shader, "model"), 1, GL_FALSE, glm::value_ptr(parent->model));
 	glUniformMatrix4fv(glGetUniformLocation(shader, "view"), 1, GL_FALSE, glm::value_ptr(app.camera.view));
 	glUniformMatrix4fv(glGetUniformLocation(shader, "projection"), 1, GL_FALSE, glm::value_ptr(app.camera.projection));
-	glUniform1f(glGetUniformLocation(shader, "time"), app.time);
+	glUniform1f(glGetUniformLocation(shader, "time"), app.scene.time);
 	glUniform2f(glGetUniformLocation(shader, "resolution"), app.width, app.height);
 	glUniform3f(glGetUniformLocation(shader, "color"), color.r, color.g, color.b);
 	glUniform3f(glGetUniformLocation(shader, "viewPos"), app.camera.position.x, app.camera.position.y, app.camera.position.z);
@@ -44,6 +44,10 @@ unsigned int Material::compileShader(std::string path) {
 
 	const char *vertSource;
 	std::ifstream vertFile("res/shaders/" + path + ".vert");
+	if (!vertFile.good()) { // default to base
+		std::string pathdir = path.substr(0, path.find_last_of("/") + 1);
+		vertFile = std::ifstream("res/shaders/" + pathdir + "base.vert");
+	}
 	std::string vertString((std::istreambuf_iterator<char>(vertFile)), std::istreambuf_iterator<char>());
 	vertSource = vertString.c_str();
 	unsigned int vertShader;
@@ -64,6 +68,10 @@ unsigned int Material::compileShader(std::string path) {
 
 	const char *fragSource;
 	std::ifstream fragFile("res/shaders/" + path + ".frag");
+	if (!fragFile.good()) { // default to base
+		std::string pathdir = path.substr(0, path.find_last_of("/") + 1);
+		fragFile = std::ifstream("res/shaders/" + pathdir + "base.frag");
+	}
 	std::string fragString((std::istreambuf_iterator<char>(fragFile)), std::istreambuf_iterator<char>());
 	fragSource = fragString.c_str();
 	unsigned int fragShader;

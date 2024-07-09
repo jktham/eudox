@@ -25,6 +25,8 @@ void Scene::init() {
 		postProcessing->material->textures[2] = app.fbPosition;
 		postProcessing->material->textures[3] = app.fbNormal;
 		std::copy(&edgeKernel[0], &edgeKernel[9], postProcessing->material->u);
+		
+		glm::vec3 light = glm::vec3(100.0f*cos(time*2.0f), 200.0f, 100.0f*sin(time*2.0f));
 
 		o = new Object(new Mesh(), new Material());
 		o->translate(glm::vec3(0.0f, 0.0f, 0.0f));
@@ -89,27 +91,33 @@ void Scene::init() {
 		o->material->u[1] = 0.6f;
 		o->material->u[2] = 0.4f;
 		o->material->u[3] = 32.0f;
-		o->material->u[4] = 0.0f;
-		o->material->u[5] = 0.0f;
-		o->material->u[6] = 0.0f;
+		o->material->u[4] = light.x;
+		o->material->u[5] = light.y;
+		o->material->u[6] = light.z;
 		o->translate(glm::vec3(0.0f, -10.0f, 0.0f));
 		o->scale(glm::vec3(4.0f, 4.0f, 4.0f));
 		worldObjects.push_back(o);
 
-		o = new Object(new Mesh("test.obj"), new Material("world/shaded"));
+		o = new Object(new Mesh("monke.obj"), new Material("world/shaded"));
 		o->material->u[0] = 0.1f;
 		o->material->u[1] = 0.6f;
 		o->material->u[2] = 0.4f;
 		o->material->u[3] = 32.0f;
+		o->material->u[4] = light.x;
+		o->material->u[5] = light.y;
+		o->material->u[6] = light.z;
 		o->translate(glm::vec3(-10.0f, 0.0f, -10.0f));
 		o->scale(glm::vec3(4.0f, 4.0f, 4.0f));
 		worldObjects.push_back(o);
 
-		o = new Object(new Mesh("test.obj"), new Material("world/explode"));
+		o = new Object(new Mesh("monke.obj"), new Material("world/explode"));
 		o->material->u[0] = 0.1f;
 		o->material->u[1] = 0.6f;
 		o->material->u[2] = 0.4f;
 		o->material->u[3] = 32.0f;
+		o->material->u[4] = light.x;
+		o->material->u[5] = light.y;
+		o->material->u[6] = light.z;
 		o->translate(glm::vec3(-20.0f, 0.0f, -10.0f));
 		o->scale(glm::vec3(2.0f, 2.0f, 2.0f));
 		worldObjects.push_back(o);
@@ -150,13 +158,18 @@ void Scene::init() {
 		postProcessing->material->textures[1] = app.fbDepth;
 		postProcessing->material->textures[2] = app.fbPosition;
 		postProcessing->material->textures[3] = app.fbNormal;
+		
+		glm::vec3 light = glm::vec3(100.0f*cos(time*2.0f), 200.0f, 100.0f*sin(time*2.0f));
 
 		for (int i = 0; i < 400; i++) {
-			o = new Object(new Mesh("test2.obj"), new Material("world/shadedtextured", "test.png"));
+			o = new Object(new Mesh("monkesmooth.obj"), new Material("world/shadedtextured", "test.png"));
 			o->material->u[0] = 0.1f;
 			o->material->u[1] = 0.6f;
 			o->material->u[2] = 0.4f;
 			o->material->u[3] = 32.0f;
+			o->material->u[4] = light.x;
+			o->material->u[5] = light.y;
+			o->material->u[6] = light.z;
 			o->translate(glm::vec3(rnd(-20.0f, 20.0f), rnd(-20.0f, 20.0f), rnd(-20.0f, 20.0f)));
 			o->rotate(rnd(0.0f, 360.0f), glm::vec3(rnd(0.0f, 1.0f), rnd(0.0f, 1.0f), rnd(0.0f, 1.0f)));
 			worldObjects.push_back(o);
@@ -169,54 +182,56 @@ void Scene::init() {
 		postProcessing->material->textures[1] = app.fbDepth;
 		postProcessing->material->textures[2] = app.fbPosition;
 		postProcessing->material->textures[3] = app.fbNormal;
+		
+		glm::vec3 light = glm::vec3(100.0f, 100.0f, 200.0f);
 
-		o = new Object(new Mesh("test.obj"), new Material("world/base"));
+		o = new Object(new Mesh("monke.obj"), new Material("world/base"));
 		o->translate(glm::vec3(0.0f, 0.0f, 0.0f));
 		worldObjects.push_back(o);
 
-		o = new Object(new Mesh("test.obj"), new Material("world/textured", "test.png"));
+		o = new Object(new Mesh("monke.obj"), new Material("world/textured", "test.png"));
 		o->translate(glm::vec3(5.0f, 0.0f, 0.0f));
 		worldObjects.push_back(o);
 
-		o = new Object(new Mesh("test.obj"), new Material("world/shaded"));
+		o = new Object(new Mesh("monke.obj"), new Material("world/shaded"));
 		o->material->u[0] = 0.1f;
 		o->material->u[1] = 0.6f;
 		o->material->u[2] = 0.4f;
 		o->material->u[3] = 32.0f;
-		o->material->u[4] = 100.0f;
-		o->material->u[5] = 100.0f;
-		o->material->u[6] = 200.0f;
+		o->material->u[4] = light.x;
+		o->material->u[5] = light.y;
+		o->material->u[6] = light.z;
 		o->translate(glm::vec3(10.0f, 0.0f, 0.0f));
 		worldObjects.push_back(o);
 
-		o = new Object(new Mesh("test.obj"), new Material("world/shadedtextured", "test.png"));
+		o = new Object(new Mesh("monke.obj"), new Material("world/shadedtextured", "test.png"));
 		o->material->u[0] = 0.1f;
 		o->material->u[1] = 0.6f;
 		o->material->u[2] = 0.4f;
 		o->material->u[3] = 32.0f;
-		o->material->u[4] = 100.0f;
-		o->material->u[5] = 100.0f;
-		o->material->u[6] = 200.0f;
+		o->material->u[4] = light.x;
+		o->material->u[5] = light.y;
+		o->material->u[6] = light.z;
 		o->translate(glm::vec3(15.0f, 0.0f, 0.0f));
 		worldObjects.push_back(o);
 
-		o = new Object(new Mesh("test.obj"), new Material("world/rainbow"));
+		o = new Object(new Mesh("monke.obj"), new Material("world/rainbow"));
 		o->material->u[0] = 1.0f;
 		o->translate(glm::vec3(20.0f, 0.0f, 0.0f));
 		worldObjects.push_back(o);
 
-		o = new Object(new Mesh("test.obj"), new Material("world/noise"));
+		o = new Object(new Mesh("monke.obj"), new Material("world/noise"));
 		o->translate(glm::vec3(25.0f, 0.0f, 0.0f));
 		worldObjects.push_back(o);
 
-		o = new Object(new Mesh("test.obj"), new Material("world/explode", "test.png"));
+		o = new Object(new Mesh("monke.obj"), new Material("world/explode", "test.png"));
 		o->material->u[0] = 0.1f;
 		o->material->u[1] = 0.6f;
 		o->material->u[2] = 0.4f;
 		o->material->u[3] = 32.0f;
-		o->material->u[4] = 100.0f;
-		o->material->u[5] = 100.0f;
-		o->material->u[6] = 200.0f;
+		o->material->u[4] = light.x;
+		o->material->u[5] = light.y;
+		o->material->u[6] = light.z;
 		o->translate(glm::vec3(30.0f, 0.0f, 0.0f));
 		worldObjects.push_back(o);
 
@@ -259,9 +274,16 @@ void Scene::init() {
 }
 
 void Scene::update() {
+	if (paused) {
+		return;
+	}
+
+	deltaTime = app.deltaTime;
+	time += deltaTime;
+
 	if (sceneId == 1) {
-		glm::vec3 light = glm::vec3(100.0f*cos(app.time*2.0f), 200.0f, 100.0f*sin(app.time*2.0f));
-		worldObjects[5]->rotate(90.0f * app.deltaTime, glm::vec3(1.0f, 1.0f, 1.0f));
+		glm::vec3 light = glm::vec3(100.0f*cos(time*2.0f), 200.0f, 100.0f*sin(time*2.0f));
+		worldObjects[5]->rotate(90.0f * deltaTime, glm::vec3(1.0f, 1.0f, 1.0f));
 		worldObjects[10]->material->u[4] = light.x;
 		worldObjects[10]->material->u[5] = light.y;
 		worldObjects[10]->material->u[6] = light.z;
@@ -271,10 +293,10 @@ void Scene::update() {
 		worldObjects[12]->material->u[4] = light.x;
 		worldObjects[12]->material->u[5] = light.y;
 		worldObjects[12]->material->u[6] = light.z;
-		uiObjects[0]->rotate(90.0f * app.deltaTime, glm::vec3(1.0f, 1.0f, 1.0f));
+		uiObjects[0]->rotate(90.0f * deltaTime, glm::vec3(1.0f, 1.0f, 1.0f));
 
 	} else if (sceneId == 2) {
-		glm::vec3 light = glm::vec3(100.0f*cos(app.time*2.0f), 200.0f, 100.0f*sin(app.time*2.0f));
+		glm::vec3 light = glm::vec3(100.0f*cos(time*2.0f), 200.0f, 100.0f*sin(time*2.0f));
 		for (int i = 0; i < 400; i++) {
 			worldObjects[i]->material->u[4] = light.x;
 			worldObjects[i]->material->u[5] = light.y;
