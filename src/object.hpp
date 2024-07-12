@@ -14,10 +14,7 @@ public:
 	Material* material;
 	glm::mat4 model = glm::mat4(1.0f);
 
-	void init();
-	void update();
 	void draw();
-
 	void translate(glm::vec3 offset);
 	void scale(glm::vec3 factor);
 	void rotate(float angle, glm::vec3 axis);

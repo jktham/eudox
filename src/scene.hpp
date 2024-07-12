@@ -15,9 +15,10 @@ public:
 
 	std::vector<Object*> worldObjects;
 	std::vector<Object*> uiObjects;
-	Object* postProcessing;
+	Object* post;
 
 	void init();
+	void initPost();
 	void update();
 	void draw();
 };

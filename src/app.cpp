@@ -34,9 +34,29 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	if (key >= GLFW_KEY_0 && key <= GLFW_KEY_9 && action == GLFW_PRESS) {
 		if (glfwGetKey(app.window, GLFW_KEY_LEFT_SHIFT)) {
 			app.scene.postId = key - GLFW_KEY_0;
-			app.scene.init();
+			app.scene.initPost();
 		} else {
 			app.scene.sceneId = key - GLFW_KEY_0;
+			app.scene.init();
+		}
+	}
+	if (key == GLFW_KEY_Q && action == GLFW_PRESS) {
+		if (glfwGetKey(app.window, GLFW_KEY_LEFT_SHIFT)) {
+			app.scene.postId--;
+			if (app.scene.postId < 1) app.scene.postId = 1;
+			app.scene.initPost();
+		} else {
+			app.scene.sceneId--;
+			if (app.scene.sceneId < 1) app.scene.sceneId = 1;
+			app.scene.init();
+		}
+	}
+	if (key == GLFW_KEY_E && action == GLFW_PRESS) {
+		if (glfwGetKey(app.window, GLFW_KEY_LEFT_SHIFT)) {
+			app.scene.postId++;
+			app.scene.initPost();
+		} else {
+			app.scene.sceneId++;
 			app.scene.init();
 		}
 	}
@@ -135,6 +155,9 @@ void App::init() {
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glViewport(0, 0, width, height);
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
+	glLineWidth(1.0f);
+	glPointSize(1.0f);
 
 	glGenFramebuffers(1, &framebuffer);
 	glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);

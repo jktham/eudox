@@ -18,14 +18,6 @@ void Scene::init() {
 	Object* o;
 	
 	if (sceneId == 1) {
-		postProcessing = new Object(new Mesh(quad), new Material("post/kernel"));
-		postProcessing->scale(glm::vec3(app.width, app.height, 1.0f));
-		postProcessing->material->textures[0] = app.fbColor;
-		postProcessing->material->textures[1] = app.fbDepth;
-		postProcessing->material->textures[2] = app.fbPosition;
-		postProcessing->material->textures[3] = app.fbNormal;
-		std::copy(&edgeKernel[0], &edgeKernel[9], postProcessing->material->u);
-		
 		glm::vec3 light = glm::vec3(100.0f*cos(time*2.0f), 200.0f, 100.0f*sin(time*2.0f));
 
 		o = new Object(new Mesh(), new Material());
@@ -152,13 +144,6 @@ void Scene::init() {
 		uiObjects.push_back(o);
 
 	} else if (sceneId == 2) {
-		postProcessing = new Object(new Mesh(quad), new Material("post/base"));
-		postProcessing->scale(glm::vec3(app.width, app.height, 1.0f));
-		postProcessing->material->textures[0] = app.fbColor;
-		postProcessing->material->textures[1] = app.fbDepth;
-		postProcessing->material->textures[2] = app.fbPosition;
-		postProcessing->material->textures[3] = app.fbNormal;
-		
 		glm::vec3 light = glm::vec3(100.0f*cos(time*2.0f), 200.0f, 100.0f*sin(time*2.0f));
 
 		for (int i = 0; i < 400; i++) {
@@ -176,13 +161,6 @@ void Scene::init() {
 		}
 
 	} else if (sceneId == 3) {
-		postProcessing = new Object(new Mesh(quad), new Material("post/base"));
-		postProcessing->scale(glm::vec3(app.width, app.height, 1.0f));
-		postProcessing->material->textures[0] = app.fbColor;
-		postProcessing->material->textures[1] = app.fbDepth;
-		postProcessing->material->textures[2] = app.fbPosition;
-		postProcessing->material->textures[3] = app.fbNormal;
-		
 		glm::vec3 light = glm::vec3(100.0f, 100.0f, 200.0f);
 
 		o = new Object(new Mesh("monke.obj"), new Material("world/base"));
@@ -235,42 +213,91 @@ void Scene::init() {
 		o->translate(glm::vec3(30.0f, 0.0f, 0.0f));
 		worldObjects.push_back(o);
 
+		o = new Object(new Mesh("monke.obj"), new Material("world/shadedtextured", "test.png"));
+		o->material->u[0] = 0.1f;
+		o->material->u[1] = 0.6f;
+		o->material->u[2] = 0.4f;
+		o->material->u[3] = 32.0f;
+		o->material->u[4] = light.x;
+		o->material->u[5] = light.y;
+		o->material->u[6] = light.z;
+		o->translate(glm::vec3(35.0f, 0.0f, 0.0f));
+		worldObjects.push_back(o);
+
+		o = new Object(new Mesh("monke.obj"), new Material("world/normals"));
+		o->translate(glm::vec3(35.0f, 0.0f, 0.0f));
+		worldObjects.push_back(o);
+
+		o = new Object(new Mesh("monkesmooth.obj"), new Material("world/normals"));
+		o->translate(glm::vec3(40.0f, 0.0f, 0.0f));
+		worldObjects.push_back(o);
+
+		o = new Object(new Mesh("monkesmooth.obj"), new Material("world/wireframe"));
+		o->translate(glm::vec3(45.0f, 0.0f, 0.0f));
+		worldObjects.push_back(o);
+
+		o = new Object(new Mesh("monkesmooth.obj"), new Material("world/points"));
+		o->translate(glm::vec3(50.0f, 0.0f, 0.0f));
+		worldObjects.push_back(o);
+
 	}
 
+	initPost();
+}
+
+void Scene::initPost() {
 	if (postId == 1) {
 		// use scene default
+		if (sceneId == 1) {
+			post = new Object(new Mesh(quad), new Material("post/kernel"));
+			post->scale(glm::vec3(app.width, app.height, 1.0f));
+			post->material->textures[0] = app.fbColor;
+			post->material->textures[1] = app.fbDepth;
+			post->material->textures[2] = app.fbPosition;
+			post->material->textures[3] = app.fbNormal;
+			std::copy(&edgeKernel[0], &edgeKernel[9], post->material->u);
+		
+		} else if (sceneId == 2) {
+			post = new Object(new Mesh(quad), new Material("post/base"));
+			post->scale(glm::vec3(app.width, app.height, 1.0f));
+			post->material->textures[0] = app.fbColor;
+			post->material->textures[1] = app.fbDepth;
+			post->material->textures[2] = app.fbPosition;
+			post->material->textures[3] = app.fbNormal;
+			
+		} else if (sceneId == 3) {
+			post = new Object(new Mesh(quad), new Material("post/base"));
+			post->scale(glm::vec3(app.width, app.height, 1.0f));
+			post->material->textures[0] = app.fbColor;
+			post->material->textures[1] = app.fbDepth;
+			post->material->textures[2] = app.fbPosition;
+			post->material->textures[3] = app.fbNormal;
+
+		}
 		
 	} else if (postId == 2) {
-		postProcessing = new Object(new Mesh(quad), new Material("post/base"));
-		postProcessing->scale(glm::vec3(app.width, app.height, 1.0f));
-		postProcessing->material->textures[0] = app.fbColor;
+		post = new Object(new Mesh(quad), new Material("post/base"));
+		post->scale(glm::vec3(app.width, app.height, 1.0f));
+		post->material->textures[0] = app.fbColor;
 
 	} else if (postId == 3) {
-		postProcessing = new Object(new Mesh(quad), new Material("post/kernel"));
-		postProcessing->scale(glm::vec3(app.width, app.height, 1.0f));
-		postProcessing->material->textures[0] = app.fbNormal;
-		std::copy(&edgeKernel[0], &edgeKernel[9], postProcessing->material->u);
+		post = new Object(new Mesh(quad), new Material("post/kernel"));
+		post->scale(glm::vec3(app.width, app.height, 1.0f));
+		post->material->textures[0] = app.fbNormal;
+		std::copy(&edgeKernel[0], &edgeKernel[9], post->material->u);
 
 	} else if (postId == 4) {
-		postProcessing = new Object(new Mesh(quad), new Material("post/distort"));
-		postProcessing->scale(glm::vec3(app.width, app.height, 1.0f));
-		postProcessing->material->textures[0] = app.fbColor;
-		postProcessing->material->textures[1] = postProcessing->material->loadTexture("distortDamascus.png");
+		post = new Object(new Mesh(quad), new Material("post/distort"));
+		post->scale(glm::vec3(app.width, app.height, 1.0f));
+		post->material->textures[0] = app.fbColor;
+		post->material->textures[1] = post->material->loadTexture("distortDamascus.png");
 
 	} else if (postId == 5) {
-		postProcessing = new Object(new Mesh(quad), new Material("post/pixel"));
-		postProcessing->scale(glm::vec3(app.width, app.height, 1.0f));
-		postProcessing->material->textures[0] = app.fbColor;
+		post = new Object(new Mesh(quad), new Material("post/pixel"));
+		post->scale(glm::vec3(app.width, app.height, 1.0f));
+		post->material->textures[0] = app.fbColor;
 
 	}
-
-	for (Object* o : worldObjects) {
-		o->init();
-	}
-	for (Object* o : uiObjects) {
-		o->init();
-	}
-	postProcessing->init();
 }
 
 void Scene::update() {
@@ -304,14 +331,6 @@ void Scene::update() {
 		}
 
 	}
-
-	for (Object* o : worldObjects) {
-		o->update();
-	}
-	for (Object* o : uiObjects) {
-		o->update();
-	}
-	postProcessing->update();
 }
 
 void Scene::draw() {
@@ -331,7 +350,7 @@ void Scene::draw() {
 	glClear(GL_COLOR_BUFFER_BIT);
 	glDisable(GL_DEPTH_TEST);
 
-	postProcessing->draw();
+	post->draw();
 
 	glClear(GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);

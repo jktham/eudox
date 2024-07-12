@@ -6,14 +6,6 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-void Object::init() {
-
-}
-
-void Object::update() {
-	
-}
-
 void Object::draw() {
 	glUseProgram(material->shader);
 	glBindVertexArray(mesh->vao);
