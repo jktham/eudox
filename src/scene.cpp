@@ -114,6 +114,28 @@ void Scene::init() {
 		o->scale(glm::vec3(2.0f, 2.0f, 2.0f));
 		worldObjects.push_back(o);
 
+		o = new Object(new Mesh("icosphere.obj"), new Material("world/wireframe"));
+		o->translate(glm::vec3(-10.0f, 0.0f, 10.0f));
+		o->scale(glm::vec3(1.0f, 1.0f, 1.0f));
+		worldObjects.push_back(o);
+
+		o = new Object(new Mesh("torus.obj"), new Material("world/wireframe"));
+		o->translate(glm::vec3(-10.0f, 0.0f, 10.0f));
+		o->scale(glm::vec3(2.0f, 2.0f, 2.0f));
+		worldObjects.push_back(o);
+
+		o = new Object(new Mesh("monkesmooth.obj"), new Material("world/noise"));
+		o->translate(glm::vec3(-20.0f, 0.0f, 10.0f));
+		o->scale(glm::vec3(1.0f, 1.0f, 1.0f));
+		o->rotate(180.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+		worldObjects.push_back(o);
+
+		o = new Object(new Mesh("ngon.obj"), new Material("world/textured", "test.png"));
+		o->translate(glm::vec3(-30.0f, 0.0f, 10.0f));
+		o->scale(glm::vec3(2.0f, 2.0f, 2.0f));
+		o->rotate(90.0f, glm::vec3(1.0f, 0.0f, 0.0f));
+		worldObjects.push_back(o);
+
 		o = new Object(new Mesh(cube), new Material("ui/textured", "test.png"));
 		o->translate(glm::vec3(100.0f, app.height - 200.0f, 0.0f));
 		o->scale(glm::vec3(100.0f, 100.0f, 1.0f));
@@ -320,6 +342,8 @@ void Scene::update() {
 		worldObjects[12]->material->u[4] = light.x;
 		worldObjects[12]->material->u[5] = light.y;
 		worldObjects[12]->material->u[6] = light.z;
+		worldObjects[13]->rotate(-90.0f * deltaTime, glm::vec3(0.0f, 1.0f, 0.0f));
+		worldObjects[14]->rotate(60.0f * deltaTime, glm::vec3(0.0f, 1.0f, 0.0f));
 		uiObjects[0]->rotate(90.0f * deltaTime, glm::vec3(1.0f, 1.0f, 1.0f));
 
 	} else if (sceneId == 2) {

@@ -55,38 +55,41 @@ std::vector<float> Mesh::loadModel(std::string path) {
 		ss >> label;
 
 		if (label == "v") {
-			std::string tokens[3];
 			std::vector<float> v = {};
 			for (int i=0; i<3; i++) {
-				ss >> tokens[i];
-				v.push_back(std::stof(tokens[i]));
+				std::string token;
+				ss >> token;
+				v.push_back(std::stof(token));
 			}
 			positions.push_back(v);
 
 		} else if (label == "vn") {
-			std::string tokens[3];
 			std::vector<float> v = {};
 			for (int i=0; i<3; i++) {
-				ss >> tokens[i];
-				v.push_back(std::stof(tokens[i]));
+				std::string token;
+				ss >> token;
+				v.push_back(std::stof(token));
 			}
 			normals.push_back(v);
 
 		} else if (label == "vt") {
-			std::string tokens[2];
 			std::vector<float> v = {};
 			for (int i=0; i<2; i++) {
-				ss >> tokens[i];
-				v.push_back(std::stof(tokens[i]));
+				std::string token;
+				ss >> token;
+				v.push_back(std::stof(token));
 			}
 			texcoords.push_back(v);
 
 		} else if (label == "f") {
-			std::string tokens[9];
 			std::vector<int> v = {};
-			for (int i=0; i<9; i++) {
-				ss >> tokens[i];
-				v.push_back(std::stoi(tokens[i]));
+			for (int i=0; i<3*100; i++) {
+				std::string token;
+				if (ss >> token) {
+					v.push_back(std::stoi(token));
+				} else {
+					break;
+				}
 			}
 			faces.push_back(v);
 
@@ -94,15 +97,17 @@ std::vector<float> Mesh::loadModel(std::string path) {
 	}
 
 	for (int i=0; i<faces.size(); i++) {
-		for (int j=0; j<3; j++) {
-			std::vector<float> vert = {
-				positions[faces[i][0+3*j]-1][0], positions[faces[i][0+3*j]-1][1], positions[faces[i][0+3*j]-1][2],
-				normals[faces[i][2+3*j]-1][0], normals[faces[i][2+3*j]-1][1], normals[faces[i][2+3*j]-1][2],
-				1.0f, 1.0f, 1.0f,
-				texcoords[faces[i][1+3*j]-1][0], texcoords[faces[i][1+3*j]-1][1]
-			};
-			for (int k=0; k<vert.size(); k++) {
-				vertices.push_back(vert[k]);
+		for (int s=0; s<faces[i].size()/3 - 2; s++) {
+			for (int j : {0, s+1, s+2}) {
+				std::vector<float> vert = {
+					positions[faces[i][0+3*j]-1][0], positions[faces[i][0+3*j]-1][1], positions[faces[i][0+3*j]-1][2],
+					normals[faces[i][2+3*j]-1][0], normals[faces[i][2+3*j]-1][1], normals[faces[i][2+3*j]-1][2],
+					1.0f, 1.0f, 1.0f,
+					texcoords[faces[i][1+3*j]-1][0], texcoords[faces[i][1+3*j]-1][1]
+				};
+				for (int k=0; k<vert.size(); k++) {
+					vertices.push_back(vert[k]);
+				}
 			}
 		}
 	}
