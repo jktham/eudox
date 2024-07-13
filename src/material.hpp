@@ -12,6 +12,7 @@ public:
 	Object* parent;
 	unsigned int shader;
 	glm::vec3 color = glm::vec3(1.0f);
+	glm::vec3 light = glm::vec3(0.0f);
 
 	float u[32] = {};
 	unsigned int textures[32] = {};

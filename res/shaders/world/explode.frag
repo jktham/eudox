@@ -16,6 +16,7 @@ uniform mat4 projection;
 uniform float time;
 uniform vec2 resolution;
 uniform vec3 color;
+uniform vec3 light;
 uniform vec3 viewPos;
 uniform mat4 uiProjection;
 uniform float u[32]; // ambient, diffuse, specular, shininess, lightPos.xyz
@@ -25,7 +26,7 @@ layout (binding = 1) uniform sampler2D texture1;
 
 void main() {
 	vec3 norm = normalize(vNormal);
-	vec3 lightPos = vec3(u[4], u[5], u[6]);
+	vec3 lightPos = light;
     vec3 lightDir = normalize(lightPos - vPosition);
     vec3 viewDir = normalize(viewPos - vPosition);
     vec3 reflectDir = reflect(-lightDir, norm);

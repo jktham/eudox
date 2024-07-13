@@ -21,6 +21,7 @@ void Material::updateUniforms() {
 	glUniform1f(glGetUniformLocation(shader, "time"), app.scene.time);
 	glUniform2f(glGetUniformLocation(shader, "resolution"), app.width, app.height);
 	glUniform3f(glGetUniformLocation(shader, "color"), color.r, color.g, color.b);
+	glUniform3f(glGetUniformLocation(shader, "light"), light.x, light.y, light.z);
 	glUniform3f(glGetUniformLocation(shader, "viewPos"), app.camera.position.x, app.camera.position.y, app.camera.position.z);
 	glUniformMatrix4fv(glGetUniformLocation(shader, "uiProjection"), 1, GL_FALSE, glm::value_ptr(app.camera.uiProjection));
 
