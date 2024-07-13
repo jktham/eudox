@@ -12,6 +12,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <stb/stb_image.h>
+#include <sstream>
 
 void Material::updateUniforms() {
 	// default uniforms
@@ -43,10 +44,24 @@ unsigned int Material::compileShader(std::string path) {
 		return app.resources.shaders[path];
 	}
 
+	std::istringstream pathStream(path);
+	std::vector<std::string> paths = {};
+	for (int i=0; i<3; i++) {
+		std::string token;
+		if (pathStream >> token) {
+			paths.push_back(token);
+		}
+	}
+
+	std::string p = path;
+	if (paths.size() == 3) {
+		p = paths[0];
+	}
+
 	const char *vertSource;
-	std::ifstream vertFile("res/shaders/" + path + ".vert");
+	std::ifstream vertFile("res/shaders/" + p + ".vert");
 	if (!vertFile.good()) { // default to base
-		std::string pathdir = path.substr(0, path.find_last_of("/") + 1);
+		std::string pathdir = p.substr(0, p.find_last_of("/") + 1);
 		vertFile = std::ifstream("res/shaders/" + pathdir + "base.vert");
 	}
 	std::string vertString((std::istreambuf_iterator<char>(vertFile)), std::istreambuf_iterator<char>());
@@ -67,10 +82,14 @@ unsigned int Material::compileShader(std::string path) {
 		std::cout << errorLog.data() << std::endl;
 	}
 
+	if (paths.size() == 3){
+		p = paths[2];
+	}
+
 	const char *fragSource;
-	std::ifstream fragFile("res/shaders/" + path + ".frag");
+	std::ifstream fragFile("res/shaders/" + p + ".frag");
 	if (!fragFile.good()) { // default to base
-		std::string pathdir = path.substr(0, path.find_last_of("/") + 1);
+		std::string pathdir = p.substr(0, p.find_last_of("/") + 1);
 		fragFile = std::ifstream("res/shaders/" + pathdir + "base.frag");
 	}
 	std::string fragString((std::istreambuf_iterator<char>(fragFile)), std::istreambuf_iterator<char>());
@@ -95,10 +114,18 @@ unsigned int Material::compileShader(std::string path) {
 	glAttachShader(shader, fragShader);
 	glDeleteShader(vertShader);
 	glDeleteShader(fragShader);
-	
+
+	if (paths.size() == 3) {
+		p = paths[1];
+	}
+
 	const char *geomSource;
-	std::ifstream geomFile("res/shaders/" + path + ".geom");
-	if (geomFile.good()) {
+	std::ifstream geomFile("res/shaders/" + p + ".geom");
+	if (!geomFile.good()) { // default to base
+		std::string pathdir = p.substr(0, p.find_last_of("/") + 1);
+		geomFile = std::ifstream("res/shaders/" + pathdir + "base.geom");
+	}
+	if (geomFile.good()) { // dir actually has geometry base
 		std::string geomString((std::istreambuf_iterator<char>(geomFile)), std::istreambuf_iterator<char>());
 		geomSource = geomString.c_str();
 		unsigned int geomShader;
