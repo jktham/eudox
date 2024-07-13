@@ -40,3 +40,30 @@ Object::Object(Mesh* mesh, Material* material) {
 	this->mesh->parent = this;
 	this->material->parent = this;
 }
+
+void InstancedObject::draw() {
+	glUseProgram(material->shader);
+	glBindVertexArray(mesh->vao);
+
+	material->updateUniforms();
+
+	// todo: use buffer
+	glUniformMatrix4fv(glGetUniformLocation(material->shader, "instanceModels"), instanceModels.size(), GL_FALSE, glm::value_ptr(instanceModels.front()));
+
+	glDrawArraysInstanced(GL_TRIANGLES, 0, mesh->triangles, instanceModels.size());
+
+	glBindVertexArray(0);
+	glUseProgram(0);
+}
+
+InstancedObject::InstancedObject() {
+
+}
+
+InstancedObject::InstancedObject(Mesh* mesh, Material* material) {
+	this->mesh = mesh;
+	this->material = material;
+	this->mesh->parent = this;
+	this->material->parent = this;
+
+}

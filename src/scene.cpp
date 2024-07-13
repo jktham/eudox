@@ -1,6 +1,7 @@
 #include "scene.hpp"
 
 #include "app.hpp"
+#include "glm/fwd.hpp"
 #include "object.hpp"
 #include "data.hpp"
 
@@ -90,7 +91,7 @@ void Scene::init() {
 		o->scale(glm::vec3(4.0f, 4.0f, 4.0f));
 		worldObjects.push_back(o);
 
-		o = new Object(new Mesh("monke.obj"), new Material("world/base world/explode world/shadedtextured", "test.png"));
+		o = new Object(new Mesh("monke.obj"), new Material("world/base_g world/explode world/shadedtextured", "test.png"));
 		o->material->light = light;
 		o->translate(glm::vec3(-20.0f, 0.0f, -10.0f));
 		o->scale(glm::vec3(2.0f, 2.0f, 2.0f));
@@ -150,13 +151,26 @@ void Scene::init() {
 	} else if (sceneId == 2) {
 		glm::vec3 light = glm::vec3(100.0f*cos(time*2.0f), 200.0f, 100.0f*sin(time*2.0f));
 
-		for (int i = 0; i < 400; i++) {
-			o = new Object(new Mesh("monkesmooth.obj"), new Material("world/shadedtextured", "test.png"));
-			o->material->light = light;
-			o->translate(glm::vec3(rnd(-20.0f, 20.0f), rnd(-20.0f, 20.0f), rnd(-20.0f, 20.0f)));
-			o->rotate(rnd(0.0f, 360.0f), glm::vec3(rnd(0.0f, 1.0f), rnd(0.0f, 1.0f), rnd(0.0f, 1.0f)));
-			worldObjects.push_back(o);
+		InstancedObject* o;
+		o = new InstancedObject(new Mesh("monkesmooth.obj"), new Material("world/base_i world/shadedtextured", "test.png"));
+		o->material->light = light;
+		for (int i = 0; i < 200; i++) {
+			glm::mat4 model = glm::mat4(1.0f);
+			model = glm::translate(model, glm::vec3(rnd(-20.0f, 20.0f), rnd(-20.0f, 20.0f), rnd(-20.0f, 20.0f)));
+			model = glm::rotate(model, rnd(0.0f, 360.0f), glm::vec3(rnd(0.0f, 1.0f), rnd(0.0f, 1.0f), rnd(0.0f, 1.0f)));
+			o->instanceModels.push_back(model);
 		}
+		worldObjects.push_back(o);
+
+		o = new InstancedObject(new Mesh("monkesmooth.obj"), new Material("world/base_i world/shadedtextured", "test.png"));
+		o->material->light = light;
+		for (int i = 0; i < 200; i++) {
+			glm::mat4 model = glm::mat4(1.0f);
+			model = glm::translate(model, glm::vec3(rnd(-20.0f, 20.0f), rnd(-20.0f, 20.0f), rnd(-20.0f, 20.0f)));
+			model = glm::rotate(model, rnd(0.0f, 360.0f), glm::vec3(rnd(0.0f, 1.0f), rnd(0.0f, 1.0f), rnd(0.0f, 1.0f)));
+			o->instanceModels.push_back(model);
+		}
+		worldObjects.push_back(o);
 
 	} else if (sceneId == 3) {
 		glm::vec3 light = glm::vec3(100.0f, 150.0f, 200.0f);
@@ -188,7 +202,7 @@ void Scene::init() {
 		o->translate(glm::vec3(25.0f, 0.0f, -10.0f));
 		worldObjects.push_back(o);
 
-		o = new Object(new Mesh("monke.obj"), new Material("world/base world/explode world/shadedtextured", "test.png"));
+		o = new Object(new Mesh("monke.obj"), new Material("world/base_g world/explode world/shadedtextured", "test.png"));
 		o->material->light = light;
 		o->translate(glm::vec3(0.0f, 5.0f, -10.0f));
 		worldObjects.push_back(o);
@@ -214,23 +228,23 @@ void Scene::init() {
 		o->translate(glm::vec3(20.0f, 5.0f, -10.0f));
 		worldObjects.push_back(o);
 
-		o = new Object(new Mesh("monke.obj"), new Material("world/base world/wireframe world/shadedtextured", "test.png"));
+		o = new Object(new Mesh("monke.obj"), new Material("world/base_g world/wireframe world/shadedtextured", "test.png"));
 		o->material->light = light;
 		o->translate(glm::vec3(25.0f, 5.0f, -10.0f));
 		worldObjects.push_back(o);
 
-		o = new Object(new Mesh("monke.obj"), new Material("world/base world/glitch world/shadedtextured", "test.png"));
+		o = new Object(new Mesh("monke.obj"), new Material("world/base_g world/glitch world/shadedtextured", "test.png"));
 		o->material->light = light;
 		o->translate(glm::vec3(0.0f, 10.0f, -10.0f));
 		worldObjects.push_back(o);
 
-		o = new Object(new Mesh("monkesmooth.obj"), new Material("world/base world/glitch world/shadedtextured", "test.png"));
+		o = new Object(new Mesh("monkesmooth.obj"), new Material("world/base_g world/glitch world/shadedtextured", "test.png"));
 		o->material->light = light;
 		o->translate(glm::vec3(5.0f, 10.0f, -10.0f));
 		worldObjects.push_back(o);
 
 		for (int i = 0; i < 20; i++) {
-			o = new Object(new Mesh("monkesmooth.obj"), new Material("world/base world/points world/noise"));
+			o = new Object(new Mesh("monkesmooth.obj"), new Material("world/base_g world/points world/noise"));
 			o->translate(glm::vec3(10.0f + (i-10)/200.0f, 10.0f, -10.0f));
 			worldObjects.push_back(o);
 		}
@@ -318,9 +332,8 @@ void Scene::update() {
 
 	} else if (sceneId == 2) {
 		glm::vec3 light = glm::vec3(100.0f*cos(time*2.0f), 200.0f, 100.0f*sin(time*2.0f));
-		for (int i = 0; i < 400; i++) {
-			worldObjects[i]->material->light = light;
-		}
+		worldObjects[0]->material->light = light;
+		worldObjects[1]->material->light = light;
 
 	}
 }

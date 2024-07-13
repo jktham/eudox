@@ -55,6 +55,37 @@ unsigned int Material::compileShader(std::string path) {
 
 	std::string p = path;
 	if (paths.size() == 3) {
+		p = paths[1];
+	}
+
+	int success = 0;
+	unsigned int shader = glCreateProgram();
+
+	const char *geomSource;
+	std::ifstream geomFile("res/shaders/" + p + ".geom");
+	if (geomFile.good()) { // only if exists
+		std::string geomString((std::istreambuf_iterator<char>(geomFile)), std::istreambuf_iterator<char>());
+		geomSource = geomString.c_str();
+		unsigned int geomShader;
+		geomShader = glCreateShader(GL_GEOMETRY_SHADER);
+		glShaderSource(geomShader, 1, &geomSource, NULL);
+		glCompileShader(geomShader);
+
+		success = 0;
+		glGetShaderiv(geomShader, GL_COMPILE_STATUS, &success);
+		if (success == 0) {
+			int logSize = 0;
+			glGetShaderiv(geomShader, GL_INFO_LOG_LENGTH, &logSize);
+			std::vector<char> errorLog(logSize);
+			glGetShaderInfoLog(geomShader, logSize, &logSize, &errorLog.front());
+			std::cout << errorLog.data() << std::endl;
+		}
+
+		glAttachShader(shader, geomShader);
+		glDeleteShader(geomShader);
+	}
+
+	if (paths.size() == 3 || paths.size() == 2) {
 		p = paths[0];
 	}
 
@@ -62,7 +93,11 @@ unsigned int Material::compileShader(std::string path) {
 	std::ifstream vertFile("res/shaders/" + p + ".vert");
 	if (!vertFile.good()) { // default to base
 		std::string pathdir = p.substr(0, p.find_last_of("/") + 1);
-		vertFile = std::ifstream("res/shaders/" + pathdir + "base.vert");
+		if (geomFile.good()) {
+			vertFile = std::ifstream("res/shaders/" + pathdir + "base_g.vert");
+		} else {
+			vertFile = std::ifstream("res/shaders/" + pathdir + "base.vert");
+		}
 	}
 	std::string vertString((std::istreambuf_iterator<char>(vertFile)), std::istreambuf_iterator<char>());
 	vertSource = vertString.c_str();
@@ -71,8 +106,6 @@ unsigned int Material::compileShader(std::string path) {
 	glShaderSource(vertShader, 1, &vertSource, NULL);
 	glCompileShader(vertShader);
 
-	int success;
-	success = 0;
 	glGetShaderiv(vertShader, GL_COMPILE_STATUS, &success);
 	if (success == 0) {
 		int logSize = 0;
@@ -82,8 +115,8 @@ unsigned int Material::compileShader(std::string path) {
 		std::cout << errorLog.data() << std::endl;
 	}
 
-	if (paths.size() == 3){
-		p = paths[2];
+	if (paths.size() == 3 || paths.size() == 2) {
+		p = paths[paths.size()-1];
 	}
 
 	const char *fragSource;
@@ -109,43 +142,10 @@ unsigned int Material::compileShader(std::string path) {
 		std::cout << errorLog.data() << std::endl;
 	}
 
-	unsigned int shader = glCreateProgram();
 	glAttachShader(shader, vertShader);
 	glAttachShader(shader, fragShader);
 	glDeleteShader(vertShader);
 	glDeleteShader(fragShader);
-
-	if (paths.size() == 3) {
-		p = paths[1];
-	}
-
-	const char *geomSource;
-	std::ifstream geomFile("res/shaders/" + p + ".geom");
-	if (!geomFile.good()) { // default to base
-		std::string pathdir = p.substr(0, p.find_last_of("/") + 1);
-		geomFile = std::ifstream("res/shaders/" + pathdir + "base.geom");
-	}
-	if (geomFile.good()) { // dir actually has geometry base
-		std::string geomString((std::istreambuf_iterator<char>(geomFile)), std::istreambuf_iterator<char>());
-		geomSource = geomString.c_str();
-		unsigned int geomShader;
-		geomShader = glCreateShader(GL_GEOMETRY_SHADER);
-		glShaderSource(geomShader, 1, &geomSource, NULL);
-		glCompileShader(geomShader);
-
-		success = 0;
-		glGetShaderiv(geomShader, GL_COMPILE_STATUS, &success);
-		if (success == 0) {
-			int logSize = 0;
-			glGetShaderiv(geomShader, GL_INFO_LOG_LENGTH, &logSize);
-			std::vector<char> errorLog(logSize);
-			glGetShaderInfoLog(geomShader, logSize, &logSize, &errorLog.front());
-			std::cout << errorLog.data() << std::endl;
-		}
-
-		glAttachShader(shader, geomShader);
-		glDeleteShader(geomShader);
-	}
 
 	glLinkProgram(shader);
 
