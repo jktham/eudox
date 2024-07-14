@@ -25,7 +25,7 @@ void Scene::init() {
 		o->translate(glm::vec3(0.0f, 0.0f, 0.0f));
 		worldObjects.push_back(o);
 		
-		o = new Object(new Mesh(triangle), new Material("world/textured", "test.png"));
+		o = new Object(new Mesh(triangle), new Material("textured", "test.png"));
 		o->translate(glm::vec3(-1.0f, 5.0f, -8.0f));
 		worldObjects.push_back(o);
 		
@@ -33,7 +33,7 @@ void Scene::init() {
 		o->translate(glm::vec3(3.0f, -4.0f, -6.0f));
 		worldObjects.push_back(o);
 
-		o = new Object(new Mesh(cube), new Material("world/textured", "test.png"));
+		o = new Object(new Mesh(cube), new Material("textured", "test.png"));
 		o->material->color = glm::vec3(1.0f, 0.0f, 0.0f);
 		o->translate(glm::vec3(0.0f, 0.0f, -10.0f));
 		o->scale(glm::vec3(1.0f, 2.0f, 1.0f));
@@ -45,26 +45,26 @@ void Scene::init() {
 		o->scale(glm::vec3(3.0f, 1.0f, 1.0f));
 		worldObjects.push_back(o);
 		
-		o = new Object(new Mesh(cube), new Material("world/outline"));
+		o = new Object(new Mesh(cube), new Material("outline"));
 		o->material->color = glm::vec3(1.0f, 0.0f, 1.0f);
 		o->translate(glm::vec3(-3.0f, -1.0f, -4.0f));
 		o->scale(glm::vec3(0.8f, 0.8f, 0.8f));
 		o->rotate(90.0f, glm::vec3(1.0f, 1.0f, 1.0f));
 		worldObjects.push_back(o);
 		
-		o = new Object(new Mesh(cube), new Material("world/outline"));
+		o = new Object(new Mesh(cube), new Material("outline"));
 		o->material->color = glm::vec3(1.0f, 1.0f, 1.0f);
 		o->translate(glm::vec3(0.0f, 10.0f, 0.0f));
 		o->scale(glm::vec3(20.0f, 20.0f, 20.0f));
 		worldObjects.push_back(o);
 		
-		o = new Object(new Mesh(cube), new Material("world/outline"));
+		o = new Object(new Mesh(cube), new Material("outline"));
 		o->material->color = glm::vec3(1.0f, 1.0f, 1.0f);
 		o->translate(glm::vec3(9.0f, 10.0f, 9.0f));
 		o->scale(glm::vec3(2.0f, 2.0f, 2.0f));
 		worldObjects.push_back(o);
 
-		o = new Object(new Mesh(cube), new Material("world/rainbow"));
+		o = new Object(new Mesh(cube), new Material("rainbow"));
 		o->material->color = glm::vec3(0.0f, 0.0f, 0.0f);
 		o->material->u[0] = 1.0f;
 		o->translate(glm::vec3(9.0f, 12.0f, 9.0f));
@@ -78,42 +78,42 @@ void Scene::init() {
 		o->rotate(90.0f, glm::vec3(1.0f, 0.0f, 0.0f));
 		worldObjects.push_back(o);
 		
-		o = new Object(new Mesh(cube), new Material("world/shaded"));
+		o = new Object(new Mesh(cube), new Material("shaded"));
 		o->material->color = glm::vec3(1.0f, 1.0f, 1.0f);
 		o->material->light = light;
 		o->translate(glm::vec3(0.0f, -10.0f, 0.0f));
 		o->scale(glm::vec3(4.0f, 4.0f, 4.0f));
 		worldObjects.push_back(o);
 
-		o = new Object(new Mesh("monke.obj"), new Material("world/shaded"));
+		o = new Object(new Mesh("monke.obj"), new Material("shaded"));
 		o->material->light = light;
 		o->translate(glm::vec3(-10.0f, 0.0f, -10.0f));
 		o->scale(glm::vec3(4.0f, 4.0f, 4.0f));
 		worldObjects.push_back(o);
 
-		o = new Object(new Mesh("monke.obj"), new Material("world/base_g world/explode world/shadedtextured", "test.png"));
+		o = new Object(new Mesh("monke.obj"), new Material("explode shadedtextured", "test.png"));
 		o->material->light = light;
 		o->translate(glm::vec3(-20.0f, 0.0f, -10.0f));
 		o->scale(glm::vec3(2.0f, 2.0f, 2.0f));
 		worldObjects.push_back(o);
 
-		o = new Object(new Mesh("icosphere.obj"), new Material("world/wireframe"));
+		o = new Object(new Mesh("icosphere.obj"), new Material("wireframe"));
 		o->translate(glm::vec3(-10.0f, 0.0f, 10.0f));
 		o->scale(glm::vec3(1.0f, 1.0f, 1.0f));
 		worldObjects.push_back(o);
 
-		o = new Object(new Mesh("torus.obj"), new Material("world/wireframe"));
+		o = new Object(new Mesh("torus.obj"), new Material("wireframe"));
 		o->translate(glm::vec3(-10.0f, 0.0f, 10.0f));
 		o->scale(glm::vec3(2.0f, 2.0f, 2.0f));
 		worldObjects.push_back(o);
 
-		o = new Object(new Mesh("monkesmooth.obj"), new Material("world/noise"));
+		o = new Object(new Mesh("monkesmooth.obj"), new Material("noise"));
 		o->translate(glm::vec3(-20.0f, 0.0f, 10.0f));
 		o->scale(glm::vec3(1.0f, 1.0f, 1.0f));
 		o->rotate(180.0f, glm::vec3(0.0f, 1.0f, 0.0f));
 		worldObjects.push_back(o);
 
-		o = new Object(new Mesh("ngon.obj"), new Material("world/textured", "test.png"));
+		o = new Object(new Mesh("ngon.obj"), new Material("textured", "test.png"));
 		o->translate(glm::vec3(-30.0f, 0.0f, 10.0f));
 		o->scale(glm::vec3(2.0f, 2.0f, 2.0f));
 		o->rotate(90.0f, glm::vec3(1.0f, 0.0f, 0.0f));
@@ -152,7 +152,7 @@ void Scene::init() {
 		glm::vec3 light = glm::vec3(100.0f*cos(time*2.0f), 200.0f, 100.0f*sin(time*2.0f));
 
 		InstancedObject* o;
-		o = new InstancedObject(new Mesh("monkesmooth.obj"), new Material("world/base_i world/shadedtextured", "test.png"));
+		o = new InstancedObject(new Mesh("monkesmooth.obj"), new Material("instanced shadedtextured", "test.png"));
 		o->material->light = light;
 		for (int i = 0; i < 200; i++) {
 			glm::mat4 model = glm::mat4(1.0f);
@@ -162,7 +162,7 @@ void Scene::init() {
 		}
 		worldObjects.push_back(o);
 
-		o = new InstancedObject(new Mesh("monkesmooth.obj"), new Material("world/base_i world/shadedtextured", "test.png"));
+		o = new InstancedObject(new Mesh("monkesmooth.obj"), new Material("instanced shadedtextured", "test.png"));
 		o->material->light = light;
 		for (int i = 0; i < 200; i++) {
 			glm::mat4 model = glm::mat4(1.0f);
@@ -175,79 +175,93 @@ void Scene::init() {
 	} else if (sceneId == 3) {
 		glm::vec3 light = glm::vec3(100.0f, 150.0f, 200.0f);
 
-		o = new Object(new Mesh("monke.obj"), new Material("world/base"));
+		o = new Object(new Mesh("monke.obj"), new Material("base"));
 		o->translate(glm::vec3(0.0f, 0.0f, -10.0f));
 		worldObjects.push_back(o);
 
-		o = new Object(new Mesh("monke.obj"), new Material("world/textured", "test.png"));
+		o = new Object(new Mesh("monke.obj"), new Material("textured", "test.png"));
 		o->translate(glm::vec3(5.0f, 0.0f, -10.0f));
 		worldObjects.push_back(o);
 
-		o = new Object(new Mesh("monke.obj"), new Material("world/shaded"));
+		o = new Object(new Mesh("monke.obj"), new Material("shaded"));
 		o->material->light = light;
 		o->translate(glm::vec3(10.0f, 0.0f, -10.0f));
 		worldObjects.push_back(o);
 
-		o = new Object(new Mesh("monke.obj"), new Material("world/shadedtextured", "test.png"));
+		o = new Object(new Mesh("monke.obj"), new Material("shadedtextured", "test.png"));
 		o->material->light = light;
 		o->translate(glm::vec3(15.0f, 0.0f, -10.0f));
 		worldObjects.push_back(o);
 
-		o = new Object(new Mesh("monke.obj"), new Material("world/rainbow"));
+		o = new Object(new Mesh("monke.obj"), new Material("rainbow"));
 		o->material->u[0] = 1.0f;
 		o->translate(glm::vec3(20.0f, 0.0f, -10.0f));
 		worldObjects.push_back(o);
 
-		o = new Object(new Mesh("monke.obj"), new Material("world/noise"));
+		o = new Object(new Mesh("monke.obj"), new Material("noise"));
 		o->translate(glm::vec3(25.0f, 0.0f, -10.0f));
 		worldObjects.push_back(o);
 
-		o = new Object(new Mesh("monke.obj"), new Material("world/base_g world/explode world/shadedtextured", "test.png"));
+		o = new Object(new Mesh("monke.obj"), new Material("explode shadedtextured", "test.png"));
 		o->material->light = light;
 		o->translate(glm::vec3(0.0f, 5.0f, -10.0f));
 		worldObjects.push_back(o);
 
-		o = new Object(new Mesh("monke.obj"), new Material("world/shadedtextured", "test.png"));
+		o = new Object(new Mesh("monke.obj"), new Material("shadedtextured", "test.png"));
 		o->material->light = light;
 		o->translate(glm::vec3(5.0f, 5.0f, -10.0f));
 		worldObjects.push_back(o);
 
-		o = new Object(new Mesh("monke.obj"), new Material("world/normals"));
+		o = new Object(new Mesh("monke.obj"), new Material("normals"));
 		o->translate(glm::vec3(5.0f, 5.0f, -10.0f));
 		worldObjects.push_back(o);
 
-		o = new Object(new Mesh("monkesmooth.obj"), new Material("world/normals"));
+		o = new Object(new Mesh("monkesmooth.obj"), new Material("normals"));
 		o->translate(glm::vec3(10.0f, 5.0f, -10.0f));
 		worldObjects.push_back(o);
 
-		o = new Object(new Mesh("monkesmooth.obj"), new Material("world/wireframe"));
+		o = new Object(new Mesh("monkesmooth.obj"), new Material("wireframe"));
 		o->translate(glm::vec3(15.0f, 5.0f, -10.0f));
 		worldObjects.push_back(o);
 
-		o = new Object(new Mesh("monkesmooth.obj"), new Material("world/points"));
+		o = new Object(new Mesh("monkesmooth.obj"), new Material("points"));
 		o->translate(glm::vec3(20.0f, 5.0f, -10.0f));
 		worldObjects.push_back(o);
 
-		o = new Object(new Mesh("monke.obj"), new Material("world/base_g world/wireframe world/shadedtextured", "test.png"));
+		o = new Object(new Mesh("monke.obj"), new Material("base wireframe shadedtextured", "test.png"));
 		o->material->light = light;
 		o->translate(glm::vec3(25.0f, 5.0f, -10.0f));
 		worldObjects.push_back(o);
 
-		o = new Object(new Mesh("monke.obj"), new Material("world/base_g world/glitch world/shadedtextured", "test.png"));
+		o = new Object(new Mesh("monke.obj"), new Material("glitch shadedtextured", "test.png"));
 		o->material->light = light;
 		o->translate(glm::vec3(0.0f, 10.0f, -10.0f));
 		worldObjects.push_back(o);
 
-		o = new Object(new Mesh("monkesmooth.obj"), new Material("world/base_g world/glitch world/shadedtextured", "test.png"));
+		o = new Object(new Mesh("monkesmooth.obj"), new Material("glitch shadedtextured", "test.png"));
 		o->material->light = light;
 		o->translate(glm::vec3(5.0f, 10.0f, -10.0f));
 		worldObjects.push_back(o);
 
 		for (int i = 0; i < 20; i++) {
-			o = new Object(new Mesh("monkesmooth.obj"), new Material("world/base_g world/points world/noise"));
+			o = new Object(new Mesh("monkesmooth.obj"), new Material("base points noise"));
 			o->translate(glm::vec3(10.0f + (i-10)/200.0f, 10.0f, -10.0f));
 			worldObjects.push_back(o);
 		}
+
+		o = new Object(new Mesh("monkesmooth.obj"), new Material("ripple shadedtextured", "test.png"));
+		o->material->light = light;
+		o->translate(glm::vec3(15.0f, 10.0f, -10.0f));
+		worldObjects.push_back(o);
+
+		o = new Object(new Mesh("monkesmooth.obj"), new Material("ripple wireframe rainbow"));
+		o->material->u[0] = 1.0f;
+		o->translate(glm::vec3(20.0f, 10.0f, -10.0f));
+		worldObjects.push_back(o);
+
+		o = new Object(new Mesh("monkesmooth.obj"), new Material("glitch wireframe noise"));
+		o->translate(glm::vec3(25.0f, 10.0f, -10.0f));
+		worldObjects.push_back(o);
 
 	}
 

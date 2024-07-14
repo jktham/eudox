@@ -70,6 +70,9 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
 		app.scene.paused = !app.scene.paused;
 	}
+	if (key == GLFW_KEY_TAB && action == GLFW_PRESS) {
+		app.limitFps = !app.limitFps;
+	}
 }
 
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods) {
@@ -225,7 +228,7 @@ void App::init() {
 void App::loop() {
 	while (!glfwWindowShouldClose(window)) {
 		deltaTime = glfwGetTime() - time;
-		if (deltaTime < 1.0f / 120.0f) {
+		if (limitFps && deltaTime < 1.0f / 120.0f) {
 			continue;
 		}
 

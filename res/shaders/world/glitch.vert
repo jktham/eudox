@@ -34,11 +34,21 @@ uniform vec3 viewPos;
 uniform mat4 uiProjection;
 uniform float u[32];
 
+float random(vec2 st) {
+	return fract(sin(dot(st.xy, vec2(12.9898,78.233))) * 43758.5453123);
+}
+
 void main() {
 	vPosition = vec3(model * vec4(aPosition, 1.0));
 	vNormal = mat3(transpose(inverse(model))) * aNormal;
 	vColor = aColor * color;
 	vTexcoord = aTexcoord;
+
+	float t = floor(time * 30);
+	float d = 0.12;
+	
+	vec3 rnd = normalize(vec3(random(vPosition.xy + vNormal.xy + t + 0.0), random(vPosition.xy + vNormal.xy + t + 0.1), random(vPosition.xy + vNormal.xy + t + 0.2)));
+	vPosition = vPosition + rnd * d;
 
 	gl_Position = projection * view * vec4(vPosition, 1.0);
 }

@@ -40,5 +40,12 @@ void main() {
 	vColor = aColor * color;
 	vTexcoord = aTexcoord;
 
+	float timeFactor = 8.0;
+	float posFactor = 8.0;
+	float exponent = 1.0;
+	float height = 0.05;
+	float ripple = height * pow((sin((time) * timeFactor + (vPosition.x + vPosition.y + vPosition.z) * posFactor) + 1.0) / 2.0, exponent);
+	vPosition = vPosition + vNormal * ripple;
+
 	gl_Position = projection * view * vec4(vPosition, 1.0);
 }

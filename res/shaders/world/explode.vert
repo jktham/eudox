@@ -40,5 +40,7 @@ void main() {
 	vColor = aColor * color;
 	vTexcoord = aTexcoord;
 
+	vPosition = vPosition + vNormal * 0.5 * sin(time);
+
 	gl_Position = projection * view * vec4(vPosition, 1.0);
 }

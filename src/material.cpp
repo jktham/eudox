@@ -53,7 +53,14 @@ unsigned int Material::compileShader(std::string path) {
 		}
 	}
 
-	std::string p = path;
+	// default to world/
+	for (int i=0; i<paths.size(); i++) {
+		if (paths[i].find("/") == std::string::npos) {
+			paths[i] = "world/" + paths[i];
+		}
+	}
+
+	std::string p = paths[0];
 	if (paths.size() == 3) {
 		p = paths[1];
 	}
@@ -93,13 +100,12 @@ unsigned int Material::compileShader(std::string path) {
 	std::ifstream vertFile("res/shaders/" + p + ".vert");
 	if (!vertFile.good()) { // default to base
 		std::string pathdir = p.substr(0, p.find_last_of("/") + 1);
-		if (geomFile.good()) {
-			vertFile = std::ifstream("res/shaders/" + pathdir + "base_g.vert");
-		} else {
-			vertFile = std::ifstream("res/shaders/" + pathdir + "base.vert");
-		}
+		vertFile = std::ifstream("res/shaders/" + pathdir + "base.vert");
 	}
 	std::string vertString((std::istreambuf_iterator<char>(vertFile)), std::istreambuf_iterator<char>());
+	if (geomFile.good()) { // insert preprocessor define
+		vertString.insert(vertString.find("\n", vertString.find("#version"))+1, "#define HASGEOMSTAGE\n");
+	}
 	vertSource = vertString.c_str();
 	unsigned int vertShader;
 	vertShader = glCreateShader(GL_VERTEX_SHADER);

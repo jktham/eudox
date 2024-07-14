@@ -5,10 +5,23 @@ in vec3 aNormal;
 in vec3 aColor;
 in vec2 aTexcoord;
 
+#ifdef HASGEOMSTAGE
+out VS_OUT {
+	vec3 vPosition;
+	vec3 vNormal;
+	vec3 vColor;
+	vec2 vTexcoord;
+} vs_out;
+#define vPosition vs_out.vPosition
+#define vNormal vs_out.vNormal
+#define vColor vs_out.vColor
+#define vTexcoord vs_out.vTexcoord
+#else
 out vec3 vPosition;
 out vec3 vNormal;
 out vec3 vColor;
 out vec2 vTexcoord;
+#endif
 
 uniform mat4 model;
 uniform mat4 view;
@@ -28,5 +41,5 @@ void main() {
 	vColor = aColor * color;
 	vTexcoord = aTexcoord;
 
-	gl_Position = projection * view * instanceModels[gl_InstanceID] * model * vec4(aPosition, 1.0);
+	gl_Position = projection * view * vec4(vPosition, 1.0);
 }
