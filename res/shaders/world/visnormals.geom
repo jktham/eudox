@@ -26,17 +26,17 @@ uniform vec3 viewPos;
 uniform mat4 uiProjection;
 uniform float u[32];
 
-void line(int i) {
+void line(int i, float size) {
 	vPosition = vs_out[i].vPosition;
 	vNormal = vs_out[i].vNormal;
-	vColor = abs(vs_out[i].vNormal);
+	vColor = vs_out[i].vColor;
 	vTexcoord = vs_out[i].vTexcoord;
 	gl_Position = projection * view * vec4(vPosition, 1.0);
     EmitVertex();
 
-	vPosition = vs_out[i].vPosition + vs_out[i].vNormal * 0.2;
+	vPosition = vs_out[i].vPosition + vs_out[i].vNormal * size;
 	vNormal = vs_out[i].vNormal;
-	vColor = abs(vs_out[i].vNormal);
+	vColor = vs_out[i].vColor;
 	vTexcoord = vs_out[i].vTexcoord;
 	gl_Position = projection * view * vec4(vPosition, 1.0);
     EmitVertex();
@@ -45,7 +45,9 @@ void line(int i) {
 }
 
 void main() {
-	line(0);
-	line(1);
-	line(2);
+	float size = u[24] != 0 ? u[24] : 0.2;
+
+	line(0, size);
+	line(1, size);
+	line(2, size);
 }

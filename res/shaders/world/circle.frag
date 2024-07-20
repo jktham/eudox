@@ -25,12 +25,12 @@ layout (binding = 0) uniform sampler2D texture0;
 layout (binding = 1) uniform sampler2D texture1;
 
 void main() {
-	vec2 uv = gl_FragCoord.xy/resolution.yx;
-
-	float speed = u[0] != 0 ? u[0] : 1.0;
-	float t = time * speed;
-	
-	fColor = vec4(abs(sin(uv.x*3 + t*3)), abs(cos(uv.x*3 + t*1))*abs(cos(uv.y*3 + t*-1)), abs(sin(uv.y*3 + t*2)), 1.0);
+	vec2 pos = (gl_PointCoord - vec2(0.5)) * 2.0;
+	float r = sqrt(pos.x * pos.x + pos.y * pos.y);
+	if (r > 0.9) {
+		discard;
+	}
+	fColor = vec4(vColor * (1.0 - r), 1.0);
 	fDepth = vec3(gl_FragCoord.z / gl_FragCoord.w);
 	fPosition = vPosition;
 	fNormal = normalize(vNormal);

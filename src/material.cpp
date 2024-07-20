@@ -27,6 +27,9 @@ void Material::updateUniforms() {
 	glUniformMatrix4fv(glGetUniformLocation(shader, "uiProjection"), 1, GL_FALSE, glm::value_ptr(app.camera.uiProjection));
 
 	// custom uniforms
+	// 0-15: frag
+	// 16-23: vert
+	// 24-31: geom
 	glUniform1fv(glGetUniformLocation(shader, "u"), 32, &u[0]);
 
 	// textures

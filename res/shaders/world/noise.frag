@@ -29,9 +29,10 @@ float random(vec2 st) {
 }
 
 void main() {
+	float scale = u[0] != 0 ? u[0] : 4.0;
+	
 	vec4 screen = projection * view * vec4(vPosition, 1.0);
 	vec2 uv = (screen.xy / screen.w + vec2(1.0)) / 2.0;
-	float scale = 4.0;
 	vec2 xy = floor(uv * resolution / scale) / resolution;
 	vec3 col = vec3(random(xy * 1.0 + time), random(xy * 2.0 + time), random(xy * 3.0 + time));
 

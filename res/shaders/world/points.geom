@@ -38,6 +38,9 @@ void point(int i) {
 }
 
 void main() {
+	float size = u[24] != 0 ? u[24] : 1.0;
+	gl_PointSize = size;
+
 	point(0);
 	point(1);
 	point(2);

@@ -44,11 +44,12 @@ void main() {
 	vColor = aColor * color;
 	vTexcoord = aTexcoord;
 
-	float t = floor(time * 30);
-	float d = 0.12;
+	float speed = u[16] != 0 ? u[16] : 30.0;
+	float height = u[17] != 0 ? u[17] : 0.12;
+	float t = floor(time * speed);
 	
 	vec3 rnd = normalize(vec3(random(vPosition.xy + vNormal.xy + t + 0.0), random(vPosition.xy + vNormal.xy + t + 0.1), random(vPosition.xy + vNormal.xy + t + 0.2)));
-	vPosition = vPosition + rnd * d;
+	vPosition = vPosition + rnd * height;
 
 	gl_Position = projection * view * vec4(vPosition, 1.0);
 }

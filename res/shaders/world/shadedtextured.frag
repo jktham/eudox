@@ -19,7 +19,7 @@ uniform vec3 color;
 uniform vec3 light;
 uniform vec3 viewPos;
 uniform mat4 uiProjection;
-uniform float u[32]; // ambient, diffuse, specular, shininess
+uniform float u[32];
 
 layout (binding = 0) uniform sampler2D texture0;
 layout (binding = 1) uniform sampler2D texture1;
@@ -31,11 +31,10 @@ void main() {
     vec3 viewDir = normalize(viewPos - vPosition);
     vec3 reflectDir = reflect(-lightDir, norm);
 
-    const float eps = 0.00001;
-    float ambientStrength = abs(u[0]) > eps ? u[0] : 0.1;
-    float diffuseStrength = abs(u[1]) > eps ? u[1] : 0.6;
-    float specularStrength = abs(u[2]) > eps ? u[2] : 0.4;
-    float specularExponent = abs(u[3]) > eps ? u[3] : 32.0;
+    float ambientStrength = u[0] != 0 ? u[0] : 0.1;
+    float diffuseStrength = u[1] != 0 ? u[1] : 0.6;
+    float specularStrength = u[2] != 0 ? u[2] : 0.4;
+    float specularExponent = u[3] != 0 ? u[3] : 32.0;
 
     float ambient = ambientStrength;
     float diffuse = diffuseStrength * max(dot(norm, lightDir), 0.0);

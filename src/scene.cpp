@@ -212,11 +212,11 @@ void Scene::init() {
 		o->translate(glm::vec3(5.0f, 5.0f, -10.0f));
 		worldObjects.push_back(o);
 
-		o = new Object(new Mesh("monke.obj"), new Material("normals"));
+		o = new Object(new Mesh("monke.obj"), new Material("base visnormals normal"));
 		o->translate(glm::vec3(5.0f, 5.0f, -10.0f));
 		worldObjects.push_back(o);
 
-		o = new Object(new Mesh("monkesmooth.obj"), new Material("normals"));
+		o = new Object(new Mesh("monkesmooth.obj"), new Material("base visnormals normal"));
 		o->translate(glm::vec3(10.0f, 5.0f, -10.0f));
 		worldObjects.push_back(o);
 
@@ -255,12 +255,29 @@ void Scene::init() {
 		worldObjects.push_back(o);
 
 		o = new Object(new Mesh("monkesmooth.obj"), new Material("ripple wireframe rainbow"));
-		o->material->u[0] = 1.0f;
+		o->material->u[0] = 2.0f;
+		o->material->u[16] = 20.0f;
+		o->material->u[19] = 0.1f;
 		o->translate(glm::vec3(20.0f, 10.0f, -10.0f));
 		worldObjects.push_back(o);
 
 		o = new Object(new Mesh("monkesmooth.obj"), new Material("glitch wireframe noise"));
+		o->material->u[0] = 4.0f;
+		o->material->u[16] = 20.0f;
 		o->translate(glm::vec3(25.0f, 10.0f, -10.0f));
+		worldObjects.push_back(o);
+
+		o = new Object(new Mesh("monke.obj"), new Material("ripple wireframe normal"));
+		o->material->u[16] = 6.0f;
+		o->material->u[17] = 2.0f;
+		o->material->u[18] = 8.0f;
+		o->material->u[19] = 0.1f;
+		o->translate(glm::vec3(0.0f, 15.0f, -10.0f));
+		worldObjects.push_back(o);
+
+		o = new Object(new Mesh("monkesmooth.obj"), new Material("base points circle"));
+		o->material->u[24] = 16.0f;
+		o->translate(glm::vec3(5.0f, 15.0f, -10.0f));
 		worldObjects.push_back(o);
 
 	}

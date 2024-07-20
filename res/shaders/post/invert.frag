@@ -22,7 +22,9 @@ layout (binding = 0) uniform sampler2D texture0;
 layout (binding = 1) uniform sampler2D texture1;
 
 void main() {
+    float speed = u[0] != 0 ? u[0] : 1.0;
+
 	vec4 t0 = vec4(vec3(texture(texture0, vTexcoord)), 1.0);
     vec4 t1 = vec4(vec3(1.0 - texture(texture0, vTexcoord)), 1.0);
-    fColor = mix(t0, t1, clamp((cos(time)*4+1)/2, 0, 1));
+    fColor = mix(t0, t1, clamp((cos(time * speed)*4+1)/2, 0, 1));
 }

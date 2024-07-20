@@ -22,7 +22,8 @@ layout (binding = 0) uniform sampler2D texture0;
 layout (binding = 1) uniform sampler2D texture1;
 
 void main() {
-    float scale = 8.0;
+    float scale = u[0] != 0 ? u[0] : 8.0;
+
 	vec2 xy = floor(vTexcoord * resolution / scale) / resolution * scale;
     fColor = texture(texture0, xy);
 }

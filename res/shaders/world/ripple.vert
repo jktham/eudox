@@ -40,10 +40,11 @@ void main() {
 	vColor = aColor * color;
 	vTexcoord = aTexcoord;
 
-	float timeFactor = 8.0;
-	float posFactor = 8.0;
-	float exponent = 1.0;
-	float height = 0.05;
+	float timeFactor = u[16] != 0 ? u[16] : 8.0;
+	float posFactor = u[17] != 0 ? u[17] : 8.0;
+	float exponent = u[18] != 0 ? u[18] : 1.0;
+	float height = u[19] != 0 ? u[19] : 0.05;
+
 	float ripple = height * pow((sin((time) * timeFactor + (vPosition.x + vPosition.y + vPosition.z) * posFactor) + 1.0) / 2.0, exponent);
 	vPosition = vPosition + vNormal * ripple;
 
