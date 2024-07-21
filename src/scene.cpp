@@ -346,6 +346,12 @@ void Scene::initPost() {
 		post->material->textures[0] = app.fbColor;
 		post->material->textures[1] = app.fbPosition;
 
+	} else if (postId == 8) {
+		post = new Object(new Mesh(quad), new Material("post/dither"));
+		post->scale(glm::vec3(app.width, app.height, 1.0f));
+		post->material->textures[0] = app.fbColor;
+		post->material->textures[1] = post->material->loadTexture("ditherTest.png");
+
 	}
 }
 
