@@ -159,6 +159,9 @@ void App::init() {
 	glViewport(0, 0, width, height);
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
+	// glEnable(GL_CULL_FACE);
+	// glCullFace(GL_BACK);
+
 	glLineWidth(1.0f);
 	glPointSize(1.0f);
 	glEnable(GL_PROGRAM_POINT_SIZE);

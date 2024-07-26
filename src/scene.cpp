@@ -351,6 +351,18 @@ void Scene::initPost() {
 		post->scale(glm::vec3(app.width, app.height, 1.0f));
 		post->material->textures[0] = app.fbColor;
 		post->material->textures[1] = post->material->loadTexture("ditherTest.png");
+		post->material->u[0] = 16.0f;
+		post->material->u[1] = 8.0f;
+		post->material->u[2] = 4.0f;
+
+	} else if (postId == 9) {
+		post = new Object(new Mesh(quad), new Material("post/dither"));
+		post->scale(glm::vec3(app.width, app.height, 1.0f));
+		post->material->textures[0] = app.fbColor;
+		post->material->textures[1] = post->material->loadTexture("ditherAscii.png");
+		post->material->u[0] = 14.0f;
+		post->material->u[1] = 8.0f;
+		post->material->u[2] = 2.0f;
 
 	}
 }
