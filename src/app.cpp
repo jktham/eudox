@@ -162,6 +162,9 @@ void App::init() {
 	// glEnable(GL_CULL_FACE);
 	// glCullFace(GL_BACK);
 
+	// glEnable(GL_BLEND); // funky
+	// glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 	glLineWidth(1.0f);
 	glPointSize(1.0f);
 	glEnable(GL_PROGRAM_POINT_SIZE);

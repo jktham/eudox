@@ -2,6 +2,7 @@
 
 #include "app.hpp"
 #include "glm/fwd.hpp"
+#include "mesh.hpp"
 #include "object.hpp"
 #include "data.hpp"
 
@@ -119,33 +120,49 @@ void Scene::init() {
 		o->rotate(90.0f, glm::vec3(1.0f, 0.0f, 0.0f));
 		worldObjects.push_back(o);
 
+		o = new Object(new TextMesh("sdfashfgl\nbwaaah!", "arial.csv"), new Material("textured", "arial.png"));
+		o->translate(glm::vec3(-60.0f, 10.0f, 10.0f));
+		o->scale(glm::vec3(4.0f, 4.0f, 4.0f));
+		o->rotate(90.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+		worldObjects.push_back(o);
+
 		o = new Object(new Mesh(cube), new Material("ui/textured", "test.png"));
 		o->translate(glm::vec3(100.0f, app.height - 200.0f, 0.0f));
 		o->scale(glm::vec3(100.0f, 100.0f, 1.0f));
 		uiObjects.push_back(o);
 
-		o = new Object(new Mesh(quad), new Material("ui/textured"));
+		o = new Object(new Mesh(quad), new Material("ui/texturedfract"));
 		o->material->textures[0] = app.fbColor;
 		o->translate(glm::vec3(10.0f, 10.0f, 0.0f));
 		o->scale(glm::vec3(320.0f, 180.0f, 1.0f));
 		uiObjects.push_back(o);
 
-		o = new Object(new Mesh(quad), new Material("ui/textured"));
+		o = new Object(new Mesh(quad), new Material("ui/texturedfract"));
 		o->material->textures[0] = app.fbDepth;
 		o->translate(glm::vec3(10.0f, 200.0f, 0.0f));
 		o->scale(glm::vec3(320.0f, 180.0f, 1.0f));
 		uiObjects.push_back(o);
 
-		o = new Object(new Mesh(quad), new Material("ui/textured"));
+		o = new Object(new Mesh(quad), new Material("ui/texturedfract"));
 		o->material->textures[0] = app.fbPosition;
 		o->translate(glm::vec3(10.0f, 390.0f, 0.0f));
 		o->scale(glm::vec3(320.0f, 180.0f, 1.0f));
 		uiObjects.push_back(o);
 
-		o = new Object(new Mesh(quad), new Material("ui/textured"));
+		o = new Object(new Mesh(quad), new Material("ui/texturedfract"));
 		o->material->textures[0] = app.fbNormal;
 		o->translate(glm::vec3(10.0f, 580.0f, 0.0f));
 		o->scale(glm::vec3(320.0f, 180.0f, 1.0f));
+		uiObjects.push_back(o);
+
+		o = new Object(new TextMesh("hello\ntest 123$+!!\nXYZ >_<", "arial.csv"), new Material("ui/textured", "arial.png"));
+		o->translate(glm::vec3(400.0f, 1000.0f, 0.0f));
+		o->scale(glm::vec3(32.0f, 32.0f, 1.0f));
+		uiObjects.push_back(o);
+
+		o = new Object(new TextMesh("mono\ntext!", "mono.csv"), new Material("ui/textured", "arial.png"));
+		o->translate(glm::vec3(600.0f, 1000.0f, 0.0f));
+		o->scale(glm::vec3(32.0f, 32.0f, 1.0f));
 		uiObjects.push_back(o);
 
 	} else if (sceneId == 2) {
@@ -383,6 +400,7 @@ void Scene::update() {
 		worldObjects[12]->material->light = light;
 		worldObjects[13]->rotate(-90.0f * deltaTime, glm::vec3(0.0f, 1.0f, 0.0f));
 		worldObjects[14]->rotate(60.0f * deltaTime, glm::vec3(0.0f, 1.0f, 0.0f));
+		worldObjects[17]->rotate(60.0f * deltaTime, glm::vec3(0.0f, 1.0f, 0.0f));
 		uiObjects[0]->rotate(90.0f * deltaTime, glm::vec3(1.0f, 1.0f, 1.0f));
 
 	} else if (sceneId == 2) {

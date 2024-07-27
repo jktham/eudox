@@ -23,3 +23,10 @@ public:
 	Mesh(std::vector<float> vertices);
 	Mesh(std::string modelPath);
 };
+
+class TextMesh : public Mesh {
+public:
+	std::vector<float> generateTextVerts(std::string text, std::string fontPath);
+	
+	TextMesh(std::string text, std::string fontPath);
+};

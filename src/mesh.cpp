@@ -138,3 +138,70 @@ Mesh::Mesh(std::string modelPath) {
 
 	app.resources.meshes[modelPath] = {vao, vbo, triangles};
 }
+
+std::vector<float> TextMesh::generateTextVerts(std::string text, std::string fontPath) {
+	std::vector<float> vertices = {};
+	std::ifstream file("res/fonts/" + fontPath);
+
+	float char_widths[256] = {};
+	if (file.good()) {
+		std::string line;
+		int i = 0;
+		while (std::getline(file, line)) {
+			if (i >= 8 && i < 256+8) {
+				char_widths[i-8] = std::stof(line.substr(line.find(',')+1)) / 128.0f;
+			}
+			i++;
+		}
+
+	} else { // mono
+		for (int i=0; i<256; i++) {
+			char_widths[i] = 1.0f;
+		}
+	}
+
+	float uv_w = 1.0f / 16.0f;
+	float x = 0.0f;
+	float y = 0.0f;
+
+	for (char c : text) {
+		float uv_x = (c % 16) * uv_w - 0.002f;
+		float uv_y = 1.0f - ((int)(c / 16) - 1) * uv_w - 0.002f;
+
+		if (c == '\n') {
+			x = 0.0f;
+			y -= 1.0f;
+			continue;
+		}
+
+		std::vector<float> charQuad = {
+			x + 0.0f, y + 0.0f, 0.0f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f, 1.0f, uv_x + 0.0f * uv_w, uv_y + 0.0f * uv_w,
+			x + 1.0f, y + 0.0f, 0.0f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f, 1.0f, uv_x + 1.0f * uv_w, uv_y + 0.0f * uv_w,
+			x + 1.0f, y + 1.0f, 0.0f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f, 1.0f, uv_x + 1.0f * uv_w, uv_y + 1.0f * uv_w,
+			x + 1.0f, y + 1.0f, 0.0f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f, 1.0f, uv_x + 1.0f * uv_w, uv_y + 1.0f * uv_w,
+			x + 0.0f, y + 1.0f, 0.0f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f, 1.0f, uv_x + 0.0f * uv_w, uv_y + 1.0f * uv_w,
+			x + 0.0f, y + 0.0f, 0.0f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f, 1.0f, uv_x + 0.0f * uv_w, uv_y + 0.0f * uv_w
+		};
+
+		x += char_widths[c];
+
+		vertices.insert(vertices.end(), charQuad.begin(), charQuad.end());
+	}
+
+	return vertices;
+}
+
+TextMesh::TextMesh(std::string text, std::string fontPath) {
+	std::string key = text+", "+fontPath;
+	if (app.resources.meshes.contains(key)) {
+		vao = std::get<0>(app.resources.meshes[key]);
+		vbo = std::get<1>(app.resources.meshes[key]);
+		triangles = std::get<2>(app.resources.meshes[key]);
+		return;
+	}
+
+	generateBuffers();
+	updateBuffers(generateTextVerts(text, fontPath));
+
+	app.resources.meshes[key] = {vao, vbo, triangles};
+}
