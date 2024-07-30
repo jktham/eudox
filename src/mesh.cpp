@@ -165,8 +165,8 @@ std::vector<float> TextMesh::generateTextVerts(std::string text, std::string fon
 	float y = 0.0f;
 
 	for (char c : text) {
-		float uv_x = (c % 16) * uv_w - 0.002f;
-		float uv_y = 1.0f - ((int)(c / 16) - 1) * uv_w - 0.002f;
+		float uv_x = (c % 16) * uv_w;
+		float uv_y = 1.0f - ((int)(c / 16) - 1) * uv_w;
 
 		if (c == '\n') {
 			x = 0.0f;

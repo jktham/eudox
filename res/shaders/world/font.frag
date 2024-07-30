@@ -25,8 +25,12 @@ layout (binding = 0) uniform sampler2D texture0;
 layout (binding = 1) uniform sampler2D texture1;
 
 void main() {
-	if (texture(texture0, vTexcoord.st).a < 0.5) discard;
-	fColor = vec4(vColor, 1.0) * texture(texture0, vTexcoord.st);
+	vec4 font = texture(texture0, vTexcoord.st);
+	font.a = font.r;
+	font.rgb = color;
+	if (font.a < 0.5) discard;
+	
+	fColor = vec4(vColor, 1.0) * font;
 	fDepth = vec3(gl_FragCoord.z / gl_FragCoord.w);
 	fPosition = vPosition;
 	fNormal = normalize(vNormal);

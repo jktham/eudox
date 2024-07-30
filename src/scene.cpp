@@ -120,8 +120,20 @@ void Scene::init() {
 		o->rotate(90.0f, glm::vec3(1.0f, 0.0f, 0.0f));
 		worldObjects.push_back(o);
 
-		o = new Object(new TextMesh("sdfashfgl\nbwaaah!", "arial.csv"), new Material("textured", "arial.png"));
-		o->translate(glm::vec3(-60.0f, 10.0f, 10.0f));
+		o = new Object(new TextMesh(">_<", "arial.csv"), new Material("font", "../fonts/arial.png"));
+		o->translate(glm::vec3(-40.0f, 10.0f, 0.0f));
+		o->scale(glm::vec3(4.0f, 4.0f, 4.0f));
+		o->rotate(90.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+		worldObjects.push_back(o);
+
+		o = new Object(new TextMesh("o_o", "arial.csv"), new Material("font", "../fonts/arial.png"));
+		o->translate(glm::vec3(-40.0f, 16.0f, 0.0f));
+		o->scale(glm::vec3(4.0f, 4.0f, 4.0f));
+		o->rotate(90.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+		worldObjects.push_back(o);
+
+		o = new Object(new TextMesh("^_^", "arial.csv"), new Material("font", "../fonts/arial.png"));
+		o->translate(glm::vec3(-40.0f, 22.0f, 0.0f));
 		o->scale(glm::vec3(4.0f, 4.0f, 4.0f));
 		o->rotate(90.0f, glm::vec3(0.0f, 1.0f, 0.0f));
 		worldObjects.push_back(o);
@@ -153,16 +165,6 @@ void Scene::init() {
 		o->material->textures[0] = app.fbNormal;
 		o->translate(glm::vec3(10.0f, 580.0f, 0.0f));
 		o->scale(glm::vec3(320.0f, 180.0f, 1.0f));
-		uiObjects.push_back(o);
-
-		o = new Object(new TextMesh("hello\ntest 123$+!!\nXYZ >_<", "arial.csv"), new Material("ui/textured", "arial.png"));
-		o->translate(glm::vec3(400.0f, 1000.0f, 0.0f));
-		o->scale(glm::vec3(32.0f, 32.0f, 1.0f));
-		uiObjects.push_back(o);
-
-		o = new Object(new TextMesh("mono\ntext!", "mono.csv"), new Material("ui/textured", "arial.png"));
-		o->translate(glm::vec3(600.0f, 1000.0f, 0.0f));
-		o->scale(glm::vec3(32.0f, 32.0f, 1.0f));
 		uiObjects.push_back(o);
 
 	} else if (sceneId == 2) {
@@ -297,6 +299,95 @@ void Scene::init() {
 		o->translate(glm::vec3(5.0f, 15.0f, -10.0f));
 		worldObjects.push_back(o);
 
+	} else if (sceneId == 4) {
+		glm::vec3 light = glm::vec3(100.0f, 150.0f, 200.0f);
+
+		o = new Object(new Mesh(cube), new Material("base"));
+		o->material->color = glm::vec3(1.0f, 1.0f, 1.0f);
+		o->translate(glm::vec3(0.0f, 0.0f, -10.0f));
+		o->scale(glm::vec3(9.0f, 9.0f, 1.0f));
+		worldObjects.push_back(o);
+
+		o = new Object(new Mesh(cube), new Material("base"));
+		o->material->color = glm::vec3(0.7f, 0.7f, 0.7f);
+		o->translate(glm::vec3(10.0f, 0.0f, -10.0f));
+		o->scale(glm::vec3(9.0f, 9.0f, 1.0f));
+		worldObjects.push_back(o);
+
+		o = new Object(new Mesh(cube), new Material("base"));
+		o->material->color = glm::vec3(0.4f, 0.4f, 0.4f);
+		o->translate(glm::vec3(20.0f, 0.0f, -10.0f));
+		o->scale(glm::vec3(9.0f, 9.0f, 1.0f));
+		worldObjects.push_back(o);
+
+		o = new Object(new Mesh(cube), new Material("base"));
+		o->material->color = glm::vec3(0.1f, 0.1f, 0.1f);
+		o->translate(glm::vec3(30.0f, 0.0f, -10.0f));
+		o->scale(glm::vec3(9.0f, 9.0f, 1.0f));
+		worldObjects.push_back(o);
+
+		std::string testText = "The quick brown fox \njumps over the lazy dog. \n!!:;>_<+% 123";
+
+		o = new Object(new TextMesh(testText + " // arial", "arial.csv"), new Material("font", "../fonts/arial.png"));
+		o->translate(glm::vec3(0.0f, 8.0f, 10.0f));
+		o->scale(glm::vec3(1.0f, 1.0f, 1.0f));
+		worldObjects.push_back(o);
+
+		o = new Object(new TextMesh(testText + " // noto", "noto.csv"), new Material("font", "../fonts/noto.png"));
+		o->translate(glm::vec3(0.0f, 4.0f, 10.0f));
+		o->scale(glm::vec3(1.0f, 1.0f, 1.0f));
+		worldObjects.push_back(o);
+
+		o = new Object(new TextMesh(testText + " // comfortaa", "comfortaa.csv"), new Material("font", "../fonts/comfortaa.png"));
+		o->translate(glm::vec3(0.0f, 0.0f, 10.0f));
+		o->scale(glm::vec3(1.0f, 1.0f, 1.0f));
+		worldObjects.push_back(o);
+
+		o = new Object(new TextMesh(testText + " // arial 64", "arial.csv"), new Material("ui/font", "../fonts/arial.png"));
+		o->translate(glm::vec3(10.0f, 1000.0f, 0.0f));
+		o->scale(glm::vec3(64.0f, 64.0f, 1.0f));
+		uiObjects.push_back(o);
+
+		o = new Object(new TextMesh(testText + " // arial 32", "arial.csv"), new Material("ui/font", "../fonts/arial.png"));
+		o->translate(glm::vec3(800.0f, 1000.0f, 0.0f));
+		o->scale(glm::vec3(32.0f, 32.0f, 1.0f));
+		uiObjects.push_back(o);
+
+		o = new Object(new TextMesh(testText + " // arial 16", "arial.csv"), new Material("ui/font", "../fonts/arial.png"));
+		o->translate(glm::vec3(1200.0f, 1000.0f, 0.0f));
+		o->scale(glm::vec3(16.0f, 16.0f, 1.0f));
+		uiObjects.push_back(o);
+
+		o = new Object(new TextMesh(testText + " // noto 64", "noto.csv"), new Material("ui/font", "../fonts/noto.png"));
+		o->translate(glm::vec3(10.0f, 800.0f, 0.0f));
+		o->scale(glm::vec3(64.0f, 64.0f, 1.0f));
+		uiObjects.push_back(o);
+
+		o = new Object(new TextMesh(testText + " // noto 32", "noto.csv"), new Material("ui/font", "../fonts/noto.png"));
+		o->translate(glm::vec3(800.0f, 800.0f, 0.0f));
+		o->scale(glm::vec3(32.0f, 32.0f, 1.0f));
+		uiObjects.push_back(o);
+
+		o = new Object(new TextMesh(testText + " // noto 16", "noto.csv"), new Material("ui/font", "../fonts/noto.png"));
+		o->translate(glm::vec3(1200.0f, 800.0f, 0.0f));
+		o->scale(glm::vec3(16.0f, 16.0f, 1.0f));
+		uiObjects.push_back(o);
+
+		o = new Object(new TextMesh(testText + " // comfortaa 64", "comfortaa.csv"), new Material("ui/font", "../fonts/comfortaa.png"));
+		o->translate(glm::vec3(10.0f, 600.0f, 0.0f));
+		o->scale(glm::vec3(64.0f, 64.0f, 1.0f));
+		uiObjects.push_back(o);
+
+		o = new Object(new TextMesh(testText + " // comfortaa 32", "comfortaa.csv"), new Material("ui/font", "../fonts/comfortaa.png"));
+		o->translate(glm::vec3(800.0f, 600.0f, 0.0f));
+		o->scale(glm::vec3(32.0f, 32.0f, 1.0f));
+		uiObjects.push_back(o);
+
+		o = new Object(new TextMesh(testText + " // comfortaa 16", "comfortaa.csv"), new Material("ui/font", "../fonts/comfortaa.png"));
+		o->translate(glm::vec3(1200.0f, 600.0f, 0.0f));
+		o->scale(glm::vec3(16.0f, 16.0f, 1.0f));
+		uiObjects.push_back(o);
+
 	}
 
 	initPost();
@@ -320,7 +411,7 @@ void Scene::initPost() {
 			post->material->textures[0] = app.fbColor;
 			post->material->textures[1] = post->material->loadTexture("distortSpiral.png");
 			
-		} else if (sceneId == 3) {
+		} else {
 			post = new Object(new Mesh(quad), new Material("post/base"));
 			post->scale(glm::vec3(app.width, app.height, 1.0f));
 			post->material->textures[0] = app.fbColor;
@@ -401,6 +492,8 @@ void Scene::update() {
 		worldObjects[13]->rotate(-90.0f * deltaTime, glm::vec3(0.0f, 1.0f, 0.0f));
 		worldObjects[14]->rotate(60.0f * deltaTime, glm::vec3(0.0f, 1.0f, 0.0f));
 		worldObjects[17]->rotate(60.0f * deltaTime, glm::vec3(0.0f, 1.0f, 0.0f));
+		worldObjects[18]->rotate(-60.0f * deltaTime, glm::vec3(0.0f, 1.0f, 0.0f));
+		worldObjects[19]->rotate(60.0f * deltaTime, glm::vec3(0.0f, 1.0f, 0.0f));
 		uiObjects[0]->rotate(90.0f * deltaTime, glm::vec3(1.0f, 1.0f, 1.0f));
 
 	} else if (sceneId == 2) {

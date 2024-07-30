@@ -42,7 +42,7 @@ void main() {
 
     vec3 result = vColor * (ambient + diffuse + specular);
 
-	if (texture(texture0, vTexcoord.st).a < 0.1) discard;
+	if (texture(texture0, vTexcoord.st).a < 0.5) discard;
 	fColor = vec4(result, 1.0) * texture(texture0, vTexcoord.st);
 	fDepth = vec3(gl_FragCoord.z / gl_FragCoord.w);
 	fPosition = vPosition;
