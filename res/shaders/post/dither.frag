@@ -12,8 +12,6 @@ uniform mat4 view;
 uniform mat4 projection;
 uniform float time;
 uniform vec2 resolution;
-uniform vec3 color;
-uniform vec3 light;
 uniform vec3 viewPos;
 uniform mat4 uiProjection;
 uniform float u[32];
@@ -21,28 +19,28 @@ uniform float u[32];
 layout (binding = 0) uniform sampler2D texture0;
 layout (binding = 1) uniform sampler2D texture1;
 
+uniform float ditherScale = 16.0;
+uniform float ditherStages = 8.0;
+uniform float ditherSamples = 4.0;
+
 float luminance(vec3 color) {
     return dot(color, vec3(0.299, 0.587, 0.114));
 }
 
 void main() {
-    float scale = u[0] != 0 ? u[0] : 16.0;
-    float stages = u[1] != 0 ? u[1] : 8.0;
-    float samples = u[2] != 0 ? u[2] : 4.0;
-
-	vec2 xy = floor(vTexcoord * resolution / scale) * scale;
+	vec2 xy = floor(vTexcoord * resolution / ditherScale) * ditherScale;
     float avg = 0.0;
     float k = 0.0;
-    for (int i = 0; i < scale; i += int(scale / samples)) {
-        for (int j = 0; j < scale; j += int(scale / samples)) {
+    for (int i = 0; i < ditherScale; i += int(ditherScale / ditherSamples)) {
+        for (int j = 0; j < ditherScale; j += int(ditherScale / ditherSamples)) {
             avg += luminance(texture(texture0, (xy + vec2(i, j)) / resolution).rgb);
             k++;
         }
     }
     avg = avg / k;
 
-    float cell = floor(clamp(avg, 0.0, 0.999) * stages) / stages;
-    vec2 cellOffset = mod(vTexcoord * resolution, scale) / vec2(scale*stages, scale);
+    float cell = floor(clamp(avg, 0.0, 0.999) * ditherStages) / ditherStages;
+    vec2 cellOffset = mod(vTexcoord * resolution, ditherScale) / vec2(ditherScale*ditherStages, ditherScale);
 
     fColor = texture(texture1, vec2(cell, 0.0) + cellOffset);
 }

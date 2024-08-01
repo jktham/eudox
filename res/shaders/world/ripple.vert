@@ -28,11 +28,15 @@ uniform mat4 view;
 uniform mat4 projection;
 uniform float time;
 uniform vec2 resolution;
-uniform vec3 color;
-uniform vec3 light;
 uniform vec3 viewPos;
 uniform mat4 uiProjection;
 uniform float u[32];
+
+uniform vec3 color = vec3(1.0, 1.0, 1.0);
+uniform float rippleTimeFactor = 8.0;
+uniform float ripplePosFactor = 8.0;
+uniform float rippleExponent = 1.0;
+uniform float rippleHeight = 0.05;
 
 void main() {
 	vPosition = vec3(model * vec4(aPosition, 1.0));
@@ -40,12 +44,7 @@ void main() {
 	vColor = aColor * color;
 	vTexcoord = aTexcoord;
 
-	float timeFactor = u[16] != 0 ? u[16] : 8.0;
-	float posFactor = u[17] != 0 ? u[17] : 8.0;
-	float exponent = u[18] != 0 ? u[18] : 1.0;
-	float height = u[19] != 0 ? u[19] : 0.05;
-
-	float ripple = height * pow((sin((time) * timeFactor + (vPosition.x + vPosition.y + vPosition.z) * posFactor) + 1.0) / 2.0, exponent);
+	float ripple = rippleHeight * pow((sin((time) * rippleTimeFactor + (vPosition.x + vPosition.y + vPosition.z) * ripplePosFactor) + 1.0) / 2.0, rippleExponent);
 	vPosition = vPosition + vNormal * ripple;
 
 	gl_Position = projection * view * vec4(vPosition, 1.0);

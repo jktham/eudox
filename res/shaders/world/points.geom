@@ -20,11 +20,11 @@ uniform mat4 view;
 uniform mat4 projection;
 uniform float time;
 uniform vec2 resolution;
-uniform vec3 color;
-uniform vec3 light;
 uniform vec3 viewPos;
 uniform mat4 uiProjection;
 uniform float u[32];
+
+uniform float pointSize = 1.0;
 
 void point(int i) {
 	vPosition = vs_out[i].vPosition;
@@ -38,8 +38,7 @@ void point(int i) {
 }
 
 void main() {
-	float size = u[24] != 0 ? u[24] : 1.0;
-	gl_PointSize = size;
+	gl_PointSize = pointSize;
 
 	point(0);
 	point(1);

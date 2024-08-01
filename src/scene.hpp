@@ -13,8 +13,8 @@ public:
 	float deltaTime = 0.0f;
 	bool paused = false;
 
-	std::vector<Object*> worldObjects;
-	std::vector<Object*> uiObjects;
+	std::vector<Object*> world;
+	std::vector<Object*> ui;
 	Object* post;
 
 	void init();

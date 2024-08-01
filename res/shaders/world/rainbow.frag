@@ -15,8 +15,6 @@ uniform mat4 view;
 uniform mat4 projection;
 uniform float time;
 uniform vec2 resolution;
-uniform vec3 color;
-uniform vec3 light;
 uniform vec3 viewPos;
 uniform mat4 uiProjection;
 uniform float u[32];
@@ -24,11 +22,12 @@ uniform float u[32];
 layout (binding = 0) uniform sampler2D texture0;
 layout (binding = 1) uniform sampler2D texture1;
 
+uniform float rainbowSpeed = 1.0;
+
 void main() {
 	vec2 uv = gl_FragCoord.xy/resolution.yx;
 
-	float speed = u[0] != 0 ? u[0] : 1.0;
-	float t = time * speed;
+	float t = time * rainbowSpeed;
 	
 	fColor = vec4(abs(sin(uv.x*3 + t*3)), abs(cos(uv.x*3 + t*1))*abs(cos(uv.y*3 + t*-1)), abs(sin(uv.y*3 + t*2)), 1.0);
 	fDepth = vec3(gl_FragCoord.z / gl_FragCoord.w);

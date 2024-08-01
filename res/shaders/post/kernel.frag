@@ -12,8 +12,6 @@ uniform mat4 view;
 uniform mat4 projection;
 uniform float time;
 uniform vec2 resolution;
-uniform vec3 color;
-uniform vec3 light;
 uniform vec3 viewPos;
 uniform mat4 uiProjection;
 uniform float u[32]; // kernel[9]

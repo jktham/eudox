@@ -4,4 +4,5 @@ void Resources::clear() {
 	shaders.clear();
 	textures.clear();
 	meshes.clear();
+	uniforms.clear();
 }

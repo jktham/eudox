@@ -31,14 +31,13 @@ uniform vec2 resolution;
 uniform vec3 viewPos;
 uniform mat4 uiProjection;
 uniform float u[32];
-uniform mat4 instanceModels[200];
 
-uniform vec3 color = vec3(1.0, 1.0, 1.0);
+uniform vec3 col = vec3(0.0, 1.0, 0.0);
 
 void main() {
-	vPosition = vec3(instanceModels[gl_InstanceID] * model * vec4(aPosition, 1.0));
-	vNormal = mat3(transpose(inverse(instanceModels[gl_InstanceID] * model))) * aNormal;
-	vColor = aColor * color;
+	vPosition = vec3(model * vec4(aPosition, 1.0));
+	vNormal = mat3(transpose(inverse(model))) * aNormal;
+	vColor = col;
 	vTexcoord = aTexcoord;
 
 	gl_Position = projection * view * vec4(vPosition, 1.0);

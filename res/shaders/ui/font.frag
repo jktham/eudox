@@ -12,14 +12,14 @@ uniform mat4 view;
 uniform mat4 projection;
 uniform float time;
 uniform vec2 resolution;
-uniform vec3 color;
-uniform vec3 light;
 uniform vec3 viewPos;
 uniform mat4 uiProjection;
 uniform float u[32];
 
 layout (binding = 0) uniform sampler2D texture0;
 layout (binding = 1) uniform sampler2D texture1;
+
+uniform vec3 color = vec3(1.0, 1.0, 1.0);
 
 void main() {
 	vec4 font = texture(texture0, vTexcoord.st);

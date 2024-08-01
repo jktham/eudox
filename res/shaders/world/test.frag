@@ -22,17 +22,17 @@ uniform float u[32];
 layout (binding = 0) uniform sampler2D texture0;
 layout (binding = 1) uniform sampler2D texture1;
 
-uniform float outlineWidth = 0.01;
+uniform vec3 col;
+uniform float f;
+uniform mat4 m = mat4(1.0);
+uniform mat4 m2 = mat4(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0);
+uniform int i = 9999;
+uniform float f2 = 0.33;
+uniform vec2 v = vec2(1, 2);
+uniform vec2 v2 = vec2(0.1);
 
 void main() {
-	fColor = vec4(vColor, 1.0);
-	float scale = sqrt(model[0][0] * model[0][0] + model[0][1] * model[0][1] + model[0][2] * model[0][2]);
-	// float angle = abs(dot(normalize(viewPos - vPosition), vNormal));
-	
-	float stroke = outlineWidth / gl_FragCoord.w / scale;
-	if (vTexcoord.x < stroke || vTexcoord.x > 1.0 - stroke || vTexcoord.y < stroke || vTexcoord.y > 1.0 - stroke) {
-		fColor = vec4(0.0, 0.0, 0.0, 1.0);
-	}
+	fColor = vec4(vColor * col, 1.0);
 	fDepth = vec3(gl_FragCoord.z / gl_FragCoord.w);
 	fPosition = vPosition;
 	fNormal = normalize(vNormal);

@@ -20,11 +20,11 @@ uniform mat4 view;
 uniform mat4 projection;
 uniform float time;
 uniform vec2 resolution;
-uniform vec3 color;
-uniform vec3 light;
 uniform vec3 viewPos;
 uniform mat4 uiProjection;
 uniform float u[32];
+
+uniform float normalSize = 0.2;
 
 void line(int i, float size) {
 	vPosition = vs_out[i].vPosition;
@@ -45,9 +45,7 @@ void line(int i, float size) {
 }
 
 void main() {
-	float size = u[24] != 0 ? u[24] : 0.2;
-
-	line(0, size);
-	line(1, size);
-	line(2, size);
+	line(0, normalSize);
+	line(1, normalSize);
+	line(2, normalSize);
 }

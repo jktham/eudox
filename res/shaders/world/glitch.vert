@@ -28,11 +28,13 @@ uniform mat4 view;
 uniform mat4 projection;
 uniform float time;
 uniform vec2 resolution;
-uniform vec3 color;
-uniform vec3 light;
 uniform vec3 viewPos;
 uniform mat4 uiProjection;
 uniform float u[32];
+
+uniform vec3 color = vec3(1.0, 1.0, 1.0);
+uniform float glitchSpeed = 30.0;
+uniform float glitchHeight = 0.12;
 
 float random(vec2 st) {
 	return fract(sin(dot(st.xy, vec2(12.9898,78.233))) * 43758.5453123);
@@ -44,12 +46,10 @@ void main() {
 	vColor = aColor * color;
 	vTexcoord = aTexcoord;
 
-	float speed = u[16] != 0 ? u[16] : 30.0;
-	float height = u[17] != 0 ? u[17] : 0.12;
-	float t = floor(time * speed);
+	float t = floor(time * glitchSpeed);
 	
 	vec3 rnd = normalize(vec3(random(vPosition.xy + vNormal.xy + t + 0.0), random(vPosition.xy + vNormal.xy + t + 0.1), random(vPosition.xy + vNormal.xy + t + 0.2)));
-	vPosition = vPosition + rnd * height;
+	vPosition = vPosition + rnd * glitchHeight;
 
 	gl_Position = projection * view * vec4(vPosition, 1.0);
 }
