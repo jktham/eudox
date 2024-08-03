@@ -204,6 +204,9 @@ unsigned int Material::loadTexture(std::string path) {
 
 	stbi_set_flip_vertically_on_load(true);
 	data = stbi_load(("res/textures/" + path).c_str(), &width, &height, &channels, 0);
+	if (!data) { // check fonts
+		data = stbi_load(("res/fonts/" + path).c_str(), &width, &height, &channels, 0);
+	}
 	if (data) {
 		int format = (channels == 4) ? GL_RGBA : GL_RGB;
 		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);

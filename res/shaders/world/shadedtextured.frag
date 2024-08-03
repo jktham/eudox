@@ -25,7 +25,7 @@ layout (binding = 1) uniform sampler2D texture1;
 uniform vec3 light = vec3(0.0, 0.0, 0.0);
 uniform float ambientStrength = 0.1;
 uniform float diffuseStrength = 0.6;
-uniform float specularStrength = 0.4;
+uniform float specularStrength = 0.3;
 uniform float specularExponent = 32.0;
 
 void main() {

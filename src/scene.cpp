@@ -119,19 +119,19 @@ void Scene::init() {
 		o->rotate(90.0f, glm::vec3(1.0f, 0.0f, 0.0f));
 		world.push_back(o);
 
-		o = new Object(new TextMesh(">_<", "arial.csv"), new Material("font", "../fonts/arial.png"));
+		o = new Object(new TextMesh(">_<", "arial.csv"), new Material("font", "arial.png"));
 		o->translate(glm::vec3(-40.0f, 10.0f, 0.0f));
 		o->scale(glm::vec3(4.0f, 4.0f, 4.0f));
 		o->rotate(90.0f, glm::vec3(0.0f, 1.0f, 0.0f));
 		world.push_back(o);
 
-		o = new Object(new TextMesh("o_o", "arial.csv"), new Material("font", "../fonts/arial.png"));
+		o = new Object(new TextMesh("o_o", "arial.csv"), new Material("font", "arial.png"));
 		o->translate(glm::vec3(-40.0f, 16.0f, 0.0f));
 		o->scale(glm::vec3(4.0f, 4.0f, 4.0f));
 		o->rotate(90.0f, glm::vec3(0.0f, 1.0f, 0.0f));
 		world.push_back(o);
 
-		o = new Object(new TextMesh("^_^", "arial.csv"), new Material("font", "../fonts/arial.png"));
+		o = new Object(new TextMesh("^_^", "arial.csv"), new Material("font", "arial.png"));
 		o->translate(glm::vec3(-40.0f, 22.0f, 0.0f));
 		o->scale(glm::vec3(4.0f, 4.0f, 4.0f));
 		o->rotate(90.0f, glm::vec3(0.0f, 1.0f, 0.0f));
@@ -327,89 +327,202 @@ void Scene::init() {
 
 		std::string testText = "The quick brown fox \njumps over the lazy dog. \n!!:;>_<+% 123";
 
-		o = new Object(new TextMesh(testText + " // arial", "arial.csv"), new Material("font", "../fonts/arial.png"));
+		o = new Object(new TextMesh(testText + " // arial", "arial.csv"), new Material("font", "arial.png"));
 		o->translate(glm::vec3(0.0f, 8.0f, 10.0f));
 		o->scale(glm::vec3(1.0f, 1.0f, 1.0f));
 		world.push_back(o);
 
-		o = new Object(new TextMesh(testText + " // noto", "noto.csv"), new Material("font", "../fonts/noto.png"));
+		o = new Object(new TextMesh(testText + " // noto", "noto.csv"), new Material("font", "noto.png"));
 		o->translate(glm::vec3(0.0f, 4.0f, 10.0f));
 		o->scale(glm::vec3(1.0f, 1.0f, 1.0f));
 		world.push_back(o);
 
-		o = new Object(new TextMesh(testText + " // comfortaa", "comfortaa.csv"), new Material("font", "../fonts/comfortaa.png"));
+		o = new Object(new TextMesh(testText + " // comfortaa", "comfortaa.csv"), new Material("font", "comfortaa.png"));
 		o->translate(glm::vec3(0.0f, 0.0f, 10.0f));
 		o->scale(glm::vec3(1.0f, 1.0f, 1.0f));
 		world.push_back(o);
 
-		o = new Object(new TextMesh(testText + " // arial 64", "arial.csv"), new Material("ui/font", "../fonts/arial.png"));
+		o = new Object(new TextMesh(testText + " // arial 64", "arial.csv"), new Material("ui/font", "arial.png"));
 		o->translate(glm::vec3(10.0f, 1000.0f, 0.0f));
 		o->scale(glm::vec3(64.0f, 64.0f, 1.0f));
 		ui.push_back(o);
 
-		o = new Object(new TextMesh(testText + " // arial 32", "arial.csv"), new Material("ui/font", "../fonts/arial.png"));
+		o = new Object(new TextMesh(testText + " // arial 32", "arial.csv"), new Material("ui/font", "arial.png"));
 		o->translate(glm::vec3(800.0f, 1000.0f, 0.0f));
 		o->scale(glm::vec3(32.0f, 32.0f, 1.0f));
 		ui.push_back(o);
 
-		o = new Object(new TextMesh(testText + " // arial 16", "arial.csv"), new Material("ui/font", "../fonts/arial.png"));
+		o = new Object(new TextMesh(testText + " // arial 16", "arial.csv"), new Material("ui/font", "arial.png"));
 		o->translate(glm::vec3(1200.0f, 1000.0f, 0.0f));
 		o->scale(glm::vec3(16.0f, 16.0f, 1.0f));
 		ui.push_back(o);
 
-		o = new Object(new TextMesh(testText + " // noto 64", "noto.csv"), new Material("ui/font", "../fonts/noto.png"));
+		o = new Object(new TextMesh(testText + " // noto 64", "noto.csv"), new Material("ui/font", "noto.png"));
 		o->translate(glm::vec3(10.0f, 800.0f, 0.0f));
 		o->scale(glm::vec3(64.0f, 64.0f, 1.0f));
 		ui.push_back(o);
 
-		o = new Object(new TextMesh(testText + " // noto 32", "noto.csv"), new Material("ui/font", "../fonts/noto.png"));
+		o = new Object(new TextMesh(testText + " // noto 32", "noto.csv"), new Material("ui/font", "noto.png"));
 		o->translate(glm::vec3(800.0f, 800.0f, 0.0f));
 		o->scale(glm::vec3(32.0f, 32.0f, 1.0f));
 		ui.push_back(o);
 
-		o = new Object(new TextMesh(testText + " // noto 16", "noto.csv"), new Material("ui/font", "../fonts/noto.png"));
+		o = new Object(new TextMesh(testText + " // noto 16", "noto.csv"), new Material("ui/font", "noto.png"));
 		o->translate(glm::vec3(1200.0f, 800.0f, 0.0f));
 		o->scale(glm::vec3(16.0f, 16.0f, 1.0f));
 		ui.push_back(o);
 
-		o = new Object(new TextMesh(testText + " // comfortaa 64", "comfortaa.csv"), new Material("ui/font", "../fonts/comfortaa.png"));
+		o = new Object(new TextMesh(testText + " // comfortaa 64", "comfortaa.csv"), new Material("ui/font", "comfortaa.png"));
 		o->translate(glm::vec3(10.0f, 600.0f, 0.0f));
 		o->scale(glm::vec3(64.0f, 64.0f, 1.0f));
 		ui.push_back(o);
 
-		o = new Object(new TextMesh(testText + " // comfortaa 32", "comfortaa.csv"), new Material("ui/font", "../fonts/comfortaa.png"));
+		o = new Object(new TextMesh(testText + " // comfortaa 32", "comfortaa.csv"), new Material("ui/font", "comfortaa.png"));
 		o->translate(glm::vec3(800.0f, 600.0f, 0.0f));
 		o->scale(glm::vec3(32.0f, 32.0f, 1.0f));
 		ui.push_back(o);
 
-		o = new Object(new TextMesh(testText + " // comfortaa 16", "comfortaa.csv"), new Material("ui/font", "../fonts/comfortaa.png"));
+		o = new Object(new TextMesh(testText + " // comfortaa 16", "comfortaa.csv"), new Material("ui/font", "comfortaa.png"));
 		o->translate(glm::vec3(1200.0f, 600.0f, 0.0f));
 		o->scale(glm::vec3(16.0f, 16.0f, 1.0f));
 		ui.push_back(o);
 
 	} else if (sceneId == 5) {
-		o = new Object(new Mesh("monke.obj"), new Material("test"));
-		o->translate(glm::vec3(0.0f, 0.0f, -10.0f));
-		o->material->uniforms["col"] = glm::vec3(0.0f, 0.0f, 1.0f);
+		glm::vec3 light = glm::vec3(0.0f, 12.0f, 0.0f);
+		float ambientStrenght = 0.75f;
+		float diffuseStrenght = 0.24f;
+		float specularStrenght = 0.01f;
+		float specularExponent = 2.0f;
+
+		o = new Object(new Mesh(cube), new Material("flipnormals shaded"));
+		o->translate(glm::vec3(-20.0f, -2.0f, -20.0f));
+		o->scale(glm::vec3(40.0f, 20.0f, 40.0f));
+		o->material->uniforms["light"] = light;
+		o->material->uniforms["ambientStrength"] = ambientStrenght;
+		o->material->uniforms["diffuseStrength"] = diffuseStrenght;
+		o->material->uniforms["specularStrength"] = specularStrenght;
+		o->material->uniforms["specularExponent"] = specularExponent;
 		world.push_back(o);
 
-		o = new Object(new Mesh("monke.obj"), new Material("test"));
-		o->translate(glm::vec3(10.0f, 0.0f, -10.0f));
+		o = new Object(new Mesh(cube), new Material("shaded"));
+		o->translate(glm::vec3(-11.0f, -2.0f, -20.0f));
+		o->scale(glm::vec3(2.0f, 2.0f, 2.0f));
+		o->material->uniforms["light"] = light;
+		o->material->uniforms["ambientStrength"] = ambientStrenght;
+		o->material->uniforms["diffuseStrength"] = diffuseStrenght;
+		o->material->uniforms["specularStrength"] = specularStrenght;
+		o->material->uniforms["specularExponent"] = specularExponent;
 		world.push_back(o);
 
-		o = new Object(new Mesh("monke.obj"), new Material("test"));
-		o->translate(glm::vec3(20.0f, 0.0f, -10.0f));
-		o->material->uniforms["col"] = glm::vec3(1.0f, 0.0f, 0.0f);
-		world.push_back(o);
-		
-		o = new Object(new Mesh("monke.obj"), new Material("test"));
-		o->translate(glm::vec3(30.0f, 0.0f, -10.0f));
-		o->material->uniforms["col"] = glm::vec3(1.0f, 0.0f, 1.0f);
+		o = new Object(new Mesh(cube), new Material("shaded"));
+		o->translate(glm::vec3(-1.0f, -2.0f, -20.0f));
+		o->scale(glm::vec3(2.0f, 2.0f, 2.0f));
+		o->material->uniforms["light"] = light;
+		o->material->uniforms["ambientStrength"] = ambientStrenght;
+		o->material->uniforms["diffuseStrength"] = diffuseStrenght;
+		o->material->uniforms["specularStrength"] = specularStrenght;
+		o->material->uniforms["specularExponent"] = specularExponent;
 		world.push_back(o);
 
-		o = new Object(new Mesh("monke.obj"), new Material("test"));
-		o->translate(glm::vec3(40.0f, 0.0f, -10.0f));
-		o->material->uniforms["col2"] = glm::vec3(0.0f, 1.0f, 1.0f);
+		o = new Object(new Mesh(cube), new Material("shaded"));
+		o->translate(glm::vec3(9.0f, -2.0f, -20.0f));
+		o->scale(glm::vec3(2.0f, 2.0f, 2.0f));
+		o->material->uniforms["light"] = light;
+		o->material->uniforms["ambientStrength"] = ambientStrenght;
+		o->material->uniforms["diffuseStrength"] = diffuseStrenght;
+		o->material->uniforms["specularStrength"] = specularStrenght;
+		o->material->uniforms["specularExponent"] = specularExponent;
+		world.push_back(o);
+
+		o = new Object(new Mesh(cube), new Material("shaded"));
+		o->translate(glm::vec3(-11.0f, 0.0f, -20.0f));
+		o->scale(glm::vec3(2.0f, 2.0f, 2.0f));
+		o->material->uniforms["light"] = light;
+		o->material->uniforms["ambientStrength"] = ambientStrenght;
+		o->material->uniforms["diffuseStrength"] = diffuseStrenght;
+		o->material->uniforms["specularStrength"] = specularStrenght;
+		o->material->uniforms["specularExponent"] = specularExponent;
+		world.push_back(o);
+
+		o = new Object(new Mesh(cube), new Material("rainbow"));
+		o->translate(glm::vec3(-1.0f, 0.0f, -20.0f));
+		o->scale(glm::vec3(2.0f, 2.0f, 2.0f));
+		o->material->uniforms["rainbowSpeed"] = 1.0f;
+		world.push_back(o);
+
+		o = new Object(new Mesh(cube), new Material("shadedtextured", "test.png"));
+		o->translate(glm::vec3(9.0f, 0.0f, -20.0f));
+		o->scale(glm::vec3(2.0f, 2.0f, 2.0f));
+		o->material->uniforms["light"] = light;
+		o->material->uniforms["ambientStrength"] = ambientStrenght;
+		o->material->uniforms["diffuseStrength"] = diffuseStrenght;
+		o->material->uniforms["specularStrength"] = specularStrenght;
+		o->material->uniforms["specularExponent"] = specularExponent;
+		world.push_back(o);
+
+		o = new Object(new Mesh(quad), new Material("shaded"));
+		o->translate(glm::vec3(-7.0f, 6.0f, -19.8f));
+		o->scale(glm::vec3(6.0f, 4.0f, 2.0f));
+		o->rotate(180.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+		o->material->uniforms["light"] = light;
+		o->material->uniforms["ambientStrength"] = ambientStrenght;
+		o->material->uniforms["diffuseStrength"] = diffuseStrenght;
+		o->material->uniforms["specularStrength"] = specularStrenght;
+		o->material->uniforms["specularExponent"] = specularExponent;
+		world.push_back(o);
+
+		o = new Object(new Mesh(quad), new Material("rainbow"));
+		o->translate(glm::vec3(3.0f, 6.0f, -19.8f));
+		o->scale(glm::vec3(6.0f, 4.0f, 2.0f));
+		o->rotate(180.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+		o->material->uniforms["rainbowSpeed"] = 1.0f;
+		world.push_back(o);
+
+		o = new Object(new Mesh(quad), new Material("shadedtextured", "test.png"));
+		o->translate(glm::vec3(13.0f, 6.0f, -19.8f));
+		o->scale(glm::vec3(6.0f, 4.0f, 2.0f));
+		o->rotate(180.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+		o->material->uniforms["light"] = light;
+		o->material->uniforms["ambientStrength"] = ambientStrenght;
+		o->material->uniforms["diffuseStrength"] = diffuseStrenght;
+		o->material->uniforms["specularStrength"] = specularStrenght;
+		o->material->uniforms["specularExponent"] = specularExponent;
+		world.push_back(o);
+
+		o = new Object(new TextMesh("canvas #1", "noto.csv"), new Material("font", "noto.png"));
+		o->translate(glm::vec3(-12.8f, 5.2f, -19.8f));
+		o->scale(glm::vec3(0.8f));
+		o->material->uniforms["color"] = glm::vec3(1.0f);
+		world.push_back(o);
+
+		o = new Object(new TextMesh("pedestal #1", "noto.csv"), new Material("font", "noto.png"));
+		o->translate(glm::vec3(-10.95f, -0.2f, -17.98f));
+		o->scale(glm::vec3(0.2f));
+		o->material->uniforms["color"] = glm::vec3(1.0f);
+		world.push_back(o);
+
+		o = new Object(new TextMesh("canvas #2", "noto.csv"), new Material("font", "noto.png"));
+		o->translate(glm::vec3(-2.8f, 5.2f, -19.8f));
+		o->scale(glm::vec3(0.8f));
+		o->material->uniforms["color"] = glm::vec3(1.0f);
+		world.push_back(o);
+
+		o = new Object(new TextMesh("pedestal #2\nrainbow :3", "noto.csv"), new Material("font", "noto.png"));
+		o->translate(glm::vec3(-0.95f, -0.2f, -17.98f));
+		o->scale(glm::vec3(0.2f));
+		o->material->uniforms["color"] = glm::vec3(1.0f);
+		world.push_back(o);
+
+		o = new Object(new TextMesh("canvas #3", "noto.csv"), new Material("font", "noto.png"));
+		o->translate(glm::vec3(7.2f, 5.2f, -19.8f));
+		o->scale(glm::vec3(0.8f));
+		o->material->uniforms["color"] = glm::vec3(1.0f);
+		world.push_back(o);
+
+		o = new Object(new TextMesh("pedestal #3", "noto.csv"), new Material("font", "noto.png"));
+		o->translate(glm::vec3(9.05f, -0.2f, -17.98f));
+		o->scale(glm::vec3(0.2f));
+		o->material->uniforms["color"] = glm::vec3(1.0f);
 		world.push_back(o);
 
 	}
@@ -424,9 +537,6 @@ void Scene::initPost() {
 			post = new Object(new Mesh(quad), new Material("post/kernel"));
 			post->scale(glm::vec3(app.width, app.height, 1.0f));
 			post->material->textures[0] = app.fbColor;
-			post->material->textures[1] = app.fbDepth;
-			post->material->textures[2] = app.fbPosition;
-			post->material->textures[3] = app.fbNormal;
 			std::copy(&edgeKernel[0], &edgeKernel[9], post->material->u);
 		
 		} else if (sceneId == 2) {
@@ -435,13 +545,20 @@ void Scene::initPost() {
 			post->material->textures[0] = app.fbColor;
 			post->material->textures[1] = post->material->loadTexture("distortSpiral.png");
 			
-		} else {
-			post = new Object(new Mesh(quad), new Material("post/base"));
+		} else if (sceneId == 5) {
+			post = new Object(new Mesh(quad), new Material("post/edge"));
 			post->scale(glm::vec3(app.width, app.height, 1.0f));
 			post->material->textures[0] = app.fbColor;
 			post->material->textures[1] = app.fbDepth;
 			post->material->textures[2] = app.fbPosition;
 			post->material->textures[3] = app.fbNormal;
+			post->material->uniforms["edgeColor"] = glm::vec3(0.0f);
+			post->material->uniforms["edgeWidth"] = 1.0f;
+			
+		} else {
+			post = new Object(new Mesh(quad), new Material("post/base"));
+			post->scale(glm::vec3(app.width, app.height, 1.0f));
+			post->material->textures[0] = app.fbColor;
 
 		}
 		
@@ -468,26 +585,12 @@ void Scene::initPost() {
 		post->material->textures[0] = app.fbColor;
 
 	} else if (postId == 6) {
-		post = new Object(new Mesh(quad), new Material("post/invert"));
-		post->scale(glm::vec3(app.width, app.height, 1.0f));
-		post->material->textures[0] = app.fbColor;
-
-	} else if (postId == 7) {
 		post = new Object(new Mesh(quad), new Material("post/sonar"));
 		post->scale(glm::vec3(app.width, app.height, 1.0f));
 		post->material->textures[0] = app.fbColor;
 		post->material->textures[1] = app.fbPosition;
 
-	} else if (postId == 8) {
-		post = new Object(new Mesh(quad), new Material("post/dither"));
-		post->scale(glm::vec3(app.width, app.height, 1.0f));
-		post->material->textures[0] = app.fbColor;
-		post->material->textures[1] = post->material->loadTexture("ditherTest.png");
-		post->material->uniforms["ditherScale"] = 16.0f;
-		post->material->uniforms["ditherStages"] = 8.0f;
-		post->material->uniforms["ditherSamples"] = 4.0f;
-
-	} else if (postId == 9) {
+	} else if (postId == 7) {
 		post = new Object(new Mesh(quad), new Material("post/dither"));
 		post->scale(glm::vec3(app.width, app.height, 1.0f));
 		post->material->textures[0] = app.fbColor;
@@ -496,6 +599,16 @@ void Scene::initPost() {
 		post->material->uniforms["ditherStages"] = 8.0f;
 		post->material->uniforms["ditherSamples"] = 2.0f;
 
+	} else if (postId == 8) {
+		post = new Object(new Mesh(quad), new Material("post/edge"));
+		post->scale(glm::vec3(app.width, app.height, 1.0f));
+		post->material->textures[0] = app.fbColor;
+		post->material->textures[1] = app.fbDepth;
+		post->material->textures[2] = app.fbPosition;
+		post->material->textures[3] = app.fbNormal;
+		post->material->uniforms["edgeColor"] = glm::vec3(0.0f);
+		post->material->uniforms["edgeWidth"] = 1.0f;
+		
 	}
 }
 
