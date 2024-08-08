@@ -190,9 +190,9 @@ unsigned int Material::compileShader(std::string path) {
 	return shader;
 }
 
-unsigned int Material::loadTexture(std::string path) {
-	if (app.resources.textures.contains(path)) {
-		return app.resources.textures[path];
+unsigned int Material::loadTexture(std::string path, bool noInterp) {
+	if (app.resources.textures.contains(noInterp ? path + "noInterp" : path)) {
+		return app.resources.textures[noInterp ? path + "noInterp" : path];
 	}
 
 	int width, height, channels;
@@ -216,12 +216,18 @@ unsigned int Material::loadTexture(std::string path) {
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+	if (noInterp) {
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	} else {
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	}
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 
-	app.resources.textures[path] = texture;
+	app.resources.textures[noInterp ? path + "noInterp" : path] = texture;
 
 	return texture;
 }

@@ -20,7 +20,7 @@ public:
 
 	void updateUniforms();
 	unsigned int compileShader(std::string path);
-	unsigned int loadTexture(std::string path);
+	unsigned int loadTexture(std::string path, bool noInterp = false);
 	void getUniforms(std::string source);
 
 	Material();
