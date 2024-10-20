@@ -416,9 +416,48 @@ void Scene::init() {
 				world.push_back(o);
 				
 			} else if (i == 5) {
-				label = "";
+				label = "monke glitch";
 
+				o = new Object(new Mesh(quad), new Material("glitch wireframe noise"));
+				o->translate(pos + glm::vec3(-3.0f, 6.0f, 0.2f));
+				o->scale(glm::vec3(6.0f, 4.0f, 2.0f));
+				world.push_back(o);
+
+				o = new Object(new Mesh("monke.obj"), new Material("glitch wireframe noise"));
+				o->material->uniforms["noiseScale"] = 4.0f;
+				o->material->uniforms["glitchSpeed"] = 20.0f;
+				o->translate(pos + glm::vec3(-0.045f, 1.0f, 2.0f));
+				o->scale(glm::vec3(0.8f, 0.8f, 0.8f));
+				world.push_back(o);
+
+			} else if (i == 6) {
+				label = "ray sphere";
+
+				o = new Object(new Mesh(quad), new Material("raysphere"));
+				o->material->uniforms["light"] = light;
+				o->material->uniforms["spherePos"] = glm::vec4(pos + glm::vec3(0.0f, 8.0f, -4.0f), 1.0f);
+				o->material->uniforms["sphereCol"] = glm::vec3(1.0f, 0.0f, 0.0f);
+				o->material->uniforms["sphereBgCol"] = glm::vec3(0.0f, 0.0f, 0.0f);
+				o->material->uniforms["sphereNoBg"] = 0;
+				o->translate(pos + glm::vec3(-3.0f, 6.0f, 0.2f));
+				o->scale(glm::vec3(6.0f, 4.0f, 2.0f));
+				world.push_back(o);
+
+				o = new Object(new Mesh(cube), new Material("raysphere"));
+				o->material->uniforms["light"] = light;
+				o->material->uniforms["spherePos"] = glm::vec4(pos + glm::vec3(0.0f, 1.0f, 2.0f), 0.4f);
+				o->material->uniforms["sphereCol"] = glm::vec3(1.0f, 0.0f, 0.0f);
+				o->material->uniforms["sphereBgCol"] = glm::vec3(0.0f, 0.0f, 0.0f);
+				o->material->uniforms["sphereNoBg"] = 1;
+				o->translate(pos + glm::vec3(-1.0f, 0.0f, 1.0f));
+				o->scale(glm::vec3(2.0f, 2.0f, 2.0f));
+				world.push_back(o);
 				
+				o = new Object(new Mesh(cube), new Material("rainbow"));
+				o->translate(pos + glm::vec3(0.0f, 1.0f, 2.0f));
+				o->scale(glm::vec3(0.02f, 0.02f, 0.02f));
+				world.push_back(o);
+
 			}
 
 			o = new Object(new Mesh(cube), new Material("shaded"));
