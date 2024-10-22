@@ -25,10 +25,14 @@ layout (binding = 0) uniform sampler2D texture0;
 layout (binding = 1) uniform sampler2D texture1;
 
 uniform vec3 light = vec3(0.0, 0.0, 0.0);
+uniform float ambientStrength = 0.1;
+uniform float diffuseStrength = 0.6;
+uniform float specularStrength = 0.3;
+uniform float specularExponent = 32.0;
 uniform vec4 spherePos = vec4(0.0, 0.0, 0.0, 1.0);
 uniform vec3 sphereCol = vec3(1.0, 1.0, 1.0);
 uniform vec3 sphereBgCol = vec3(0.0, 0.0, 0.0);
-uniform int sphereNoBg = 0;
+uniform bool sphereNoBg = false;
 
 struct Ray {
 	vec3 origin;
@@ -38,7 +42,6 @@ struct Ray {
 float far = 10000.0;
 float near = 0.001;
 const float PI = 3.1415926;
-const int MAX_OBJECTS = 60;
 
 float intersectSphere(Ray ray, vec4 position) {
 	float a = dot(ray.direction, ray.direction);
@@ -61,20 +64,32 @@ void main() {
 	vec3 rayOffset = vec3(inverseView * vec4(uv.x, uv.y, 0.0, 0.0));
 
 	vec3 rayDir = normalize(cameraDir + rayOffset * fov / 180.0 * PI);
-	Ray r = Ray(cameraPos, rayDir);
-	vec4 s = spherePos;
+	Ray ray = Ray(cameraPos, rayDir);
 
 	vec4 color = vec4(sphereBgCol, 1.0);
-	float t = intersectSphere(r, s);
+	vec3 normal = normalize(-rayDir);
+
+	float t = intersectSphere(ray, spherePos);
 	if (t > near && t < far) {
-		color = vec4(sphereCol, 1.0);
-	} else if (sphereNoBg == 1) {
+		normal = normalize(cameraPos + rayDir * t - spherePos.xyz);
+		vec3 lightPos = light;
+		vec3 lightDir = normalize(lightPos - (cameraPos + rayDir * t));
+		vec3 viewDir = normalize(viewPos - (cameraPos + rayDir * t));
+		vec3 reflectDir = reflect(-lightDir, normal);
+
+		float ambient = ambientStrength;
+		float diffuse = diffuseStrength * max(dot(normal, lightDir), 0.0);
+		float specular = specularStrength * pow(max(dot(viewDir, reflectDir), 0.0), specularExponent);
+
+		vec3 result = sphereCol * (ambient + diffuse + specular);
+		color = vec4(result, 1.0);
+	} else if (sphereNoBg) {
 		discard;
 	}
 
 	fColor = color;
 	fDepth = rayDir * t;
 	fPosition = cameraPos + rayDir * t;
-	fNormal = normalize(-rayDir);
+	fNormal = normal;
 }
 

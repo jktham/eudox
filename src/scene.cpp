@@ -438,7 +438,7 @@ void Scene::init() {
 				o->material->uniforms["spherePos"] = glm::vec4(pos + glm::vec3(0.0f, 8.0f, -4.0f), 1.0f);
 				o->material->uniforms["sphereCol"] = glm::vec3(1.0f, 0.0f, 0.0f);
 				o->material->uniforms["sphereBgCol"] = glm::vec3(0.0f, 0.0f, 0.0f);
-				o->material->uniforms["sphereNoBg"] = 0;
+				o->material->uniforms["sphereNoBg"] = false;
 				o->translate(pos + glm::vec3(-3.0f, 6.0f, 0.2f));
 				o->scale(glm::vec3(6.0f, 4.0f, 2.0f));
 				world.push_back(o);
@@ -448,7 +448,7 @@ void Scene::init() {
 				o->material->uniforms["spherePos"] = glm::vec4(pos + glm::vec3(0.0f, 1.0f, 2.0f), 0.4f);
 				o->material->uniforms["sphereCol"] = glm::vec3(1.0f, 0.0f, 0.0f);
 				o->material->uniforms["sphereBgCol"] = glm::vec3(0.0f, 0.0f, 0.0f);
-				o->material->uniforms["sphereNoBg"] = 1;
+				o->material->uniforms["sphereNoBg"] = true;
 				o->translate(pos + glm::vec3(-1.0f, 0.0f, 1.0f));
 				o->scale(glm::vec3(2.0f, 2.0f, 2.0f));
 				world.push_back(o);

@@ -16,7 +16,7 @@ public:
 
 	float u[32] = {};
 	unsigned int textures[32] = {};
-	std::map<std::string, std::variant<int, float, glm::vec2, glm::vec3, glm::vec4, glm::mat3, glm::mat4>> uniforms;
+	std::map<std::string, std::variant<bool, int, float, glm::vec2, glm::vec3, glm::vec4, glm::mat3, glm::mat4>> uniforms;
 
 	void updateUniforms();
 	unsigned int compileShader(std::string path);

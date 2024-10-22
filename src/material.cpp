@@ -1,6 +1,7 @@
 #include "material.hpp"
 
 #include "app.hpp"
+#include "fmt/base.h"
 
 #include <cstdlib>
 #include <glm/glm.hpp>
@@ -44,8 +45,11 @@ void Material::updateUniforms() {
 		}
 	}
 
+	// parsed uniforms
 	for (auto [key, value] : uniforms) {
-		if (std::holds_alternative<int>(value)) {
+		if (std::holds_alternative<bool>(value)) {
+			glUniform1i(glGetUniformLocation(shader, key.c_str()), std::get<bool>(value));
+		} else if (std::holds_alternative<int>(value)) {
 			glUniform1i(glGetUniformLocation(shader, key.c_str()), std::get<int>(value));
 		} else if (std::holds_alternative<float>(value)) {
 			glUniform1f(glGetUniformLocation(shader, key.c_str()), std::get<float>(value));
@@ -266,12 +270,20 @@ void Material::getUniforms(std::string source) {
 
 				std::istringstream initStream(init);
 				std::vector<float> values;
-				float value;
+				std::string value;
 				while (initStream >> value) {
-					values.push_back(value);
+					try {
+						float v = (value == "false") ? 0.0f : (value == "true") ? 1.0f : std::stof(value);
+						values.push_back(v);
+					} catch (...) {
+						fmt::println("failed to parse uniform {}", name);
+						values.push_back(0.0f);
+					}
 				}
 
-				if (type == "int") {
+				if (type == "bool") {
+					uniforms[name] = values.size() == 1 ? (bool)values[0] : false;
+				} else if (type == "int") {
 					uniforms[name] = values.size() == 1 ? (int)values[0] : 0;
 				} else if (type == "float") {
 					uniforms[name] = values.size() == 1 ? values[0] : 0.0f;
