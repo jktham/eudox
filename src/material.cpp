@@ -2,6 +2,8 @@
 
 #include "app.hpp"
 #include "fmt/base.h"
+#include "fmt/ranges.h"
+#include "glm/ext/vector_float3.hpp"
 
 #include <cstdlib>
 #include <glm/glm.hpp>
@@ -63,6 +65,12 @@ void Material::updateUniforms() {
 			glUniformMatrix3fv(glGetUniformLocation(shader, key.c_str()), 1, GL_FALSE, glm::value_ptr(std::get<glm::mat3>(value)));
 		} else if (std::holds_alternative<glm::mat4>(value)) {
 			glUniformMatrix4fv(glGetUniformLocation(shader, key.c_str()), 1, GL_FALSE, glm::value_ptr(std::get<glm::mat4>(value)));
+		} else if (std::holds_alternative<std::vector<float>>(value)) {
+			glUniform1fv(glGetUniformLocation(shader, key.c_str()), std::get<std::vector<float>>(value).size(), std::get<std::vector<float>>(value).data());
+		} else if (std::holds_alternative<std::vector<glm::vec3>>(value)) {
+			glUniform3fv(glGetUniformLocation(shader, key.c_str()), std::get<std::vector<glm::vec3>>(value).size(), glm::value_ptr(std::get<std::vector<glm::vec3>>(value)[0]));
+		} else if (std::holds_alternative<std::vector<glm::vec4>>(value)) {
+			glUniform4fv(glGetUniformLocation(shader, key.c_str()), std::get<std::vector<glm::vec4>>(value).size(), glm::value_ptr(std::get<std::vector<glm::vec4>>(value)[0]));
 		}
 	}
 
@@ -253,6 +261,13 @@ void Material::getUniforms(std::string source) {
 
 			std::string name;
 			lineStream >> name;
+
+			int arraySize = 0;
+			if (name.find("[") != -1) {
+				type += "[]";
+				arraySize = std::stoi(name.substr(name.find("[")+1, name.find("]")-name.find("[")-1));
+			}
+
 			name = name.substr(0, name.find(";"));
 			name = name.substr(0, name.find("["));
 			if (reservedNames.find(name) != reservedNames.end()) {
@@ -264,9 +279,11 @@ void Material::getUniforms(std::string source) {
 				std::getline(lineStream, init);
 				
 				init = init.substr(0, init.find(";"));
-				init = init.substr(init.find("(")+1, init.find(")") - init.find("(") - 1);
+				// init = init.substr(init.find("(")+1, init.find(")") - init.find("(") - 1);
 				std::replace(init.begin(), init.end(), ',', ' ');
-				// fmt::println("{}, {}, {}, {}", qualifier, type, name, init);
+				std::replace(init.begin(), init.end(), '(', ' ');
+				std::replace(init.begin(), init.end(), ')', ' ');
+				fmt::println("{}, {}, {}, {}, {}", qualifier, type, arraySize, name, init);
 
 				std::istringstream initStream(init);
 				std::vector<float> values;
@@ -276,9 +293,13 @@ void Material::getUniforms(std::string source) {
 						float v = (value == "false") ? 0.0f : (value == "true") ? 1.0f : std::stof(value);
 						values.push_back(v);
 					} catch (...) {
-						fmt::println("failed to parse uniform {}", name);
-						values.push_back(0.0f);
+						// fmt::println("failed to parse uniform '{}' at '{}'", name, value);
 					}
+				}
+				fmt::println("{} = ({})", name, fmt::join(values, ", "));
+
+				if (values.size() == 0) {
+					values.push_back(0.0f);
 				}
 
 				if (type == "bool") {
@@ -288,23 +309,46 @@ void Material::getUniforms(std::string source) {
 				} else if (type == "float") {
 					uniforms[name] = values.size() == 1 ? values[0] : 0.0f;
 				} else if (type == "vec2") {
-					uniforms[name] = values.size() == 2 ? glm::vec2(values[0], values[1]) : glm::vec2(values[0]);
+					uniforms[name] = values.size() == 2 ? glm::make_vec2(values.data()) : glm::vec2(values[0]);
 				} else if (type == "vec3") {
-					uniforms[name] = values.size() == 3 ? glm::vec3(values[0], values[1], values[2]) : glm::vec3(values[0]);
+					uniforms[name] = values.size() == 3 ? glm::make_vec3(values.data()) : glm::vec3(values[0]);
 				} else if (type == "vec4") {
-					uniforms[name] = values.size() == 4 ? glm::vec4(values[0], values[1], values[2], values[3]) : glm::vec4(values[0]);
+					uniforms[name] = values.size() == 4 ? glm::make_vec4(values.data()) : glm::vec4(values[0]);
 				} else if (type == "mat3") {
-					uniforms[name] = values.size() == 9 ? glm::mat3(values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7], values[8]) : glm::mat3(values[0]);
+					uniforms[name] = values.size() == 9 ? glm::make_mat3(values.data()) : glm::mat3(values[0]);
 				} else if (type == "mat4") {
-					uniforms[name] = values.size() == 16 ? glm::mat4(values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7], values[8], values[9], values[10], values[11], values[12], values[13], values[14], values[15]) : glm::mat4(values[0]);
+					uniforms[name] = values.size() == 16 ? glm::make_mat4(values.data()) : glm::mat4(values[0]);
+				} else if (type == "float[]") {
+					uniforms[name] = values.size() == arraySize ? std::vector<float>(values) : std::vector<float>(arraySize, 0.0f);
+				} else if (type == "vec3[]") {
+					if (values.size() == arraySize*3) {
+						std::vector<glm::vec3> vec = {};
+						for (int i=0; i<arraySize; i++) {
+							vec.push_back(glm::vec3(values[3*i], values[3*i+1], values[3*i+2]));
+						}
+						uniforms[name] = vec;
+					} else {
+						uniforms[name] = std::vector<glm::vec3>(arraySize, glm::vec3(0.0f));
+					}
+				} else if (type == "vec4[]") {
+					if (values.size() == arraySize*4) {
+						std::vector<glm::vec4> vec = {};
+						for (int i=0; i<arraySize; i++) {
+							vec.push_back(glm::vec4(values[4*i], values[4*i+1], values[4*i+2], values[4*i+3]));
+						}
+						uniforms[name] = vec;
+					} else {
+						uniforms[name] = std::vector<glm::vec4>(arraySize, glm::vec4(0.0f));
+					}
 				}
 
 			} else {
 				if (uniforms.find(name) != uniforms.end()) {
 					continue;
 				}
-
-				if (type == "int") {
+				if (type == "bool") {
+					uniforms[name] = false;
+				} else if (type == "int") {
 					uniforms[name] = 0;
 				} else if (type == "float") {
 					uniforms[name] = 0.0f;
@@ -318,6 +362,12 @@ void Material::getUniforms(std::string source) {
 					uniforms[name] = glm::mat3(0.0f);
 				} else if (type == "mat4") {
 					uniforms[name] = glm::mat4(0.0f);
+				} else if (type == "float[]") {
+					uniforms[name] = std::vector<float>(arraySize, 0.0f);
+				} else if (type == "vec3[]") {
+					uniforms[name] = std::vector<glm::vec3>(arraySize, glm::vec3(0.0f));
+				} else if (type == "vec4[]") {
+					uniforms[name] = std::vector<glm::vec4>(arraySize, glm::vec4(0.0f));
 				}
 			}
 			

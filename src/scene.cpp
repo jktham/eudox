@@ -433,10 +433,17 @@ void Scene::init() {
 			} else if (i == 6) {
 				label = "ray sphere";
 
-				o = new Object(new Mesh(quad), new Material("raysphere"));
+				std::vector<glm::vec4> posVec = {};
+				std::vector<glm::vec3> colVec = {};
+				for (int j=0; j<16; j++) {
+					posVec.push_back(glm::vec4(pos + glm::vec3(0.0f + rnd(-6.0f, 6.0f), 8.0f + rnd(-8.0f, 12.0f), -4.0f + rnd(-4.0f, 4.0f)), rnd(0.5f, 1.0f)));
+					colVec.push_back(glm::vec3(glm::vec3(rnd(0.0f, 1.0f), rnd(0.0f, 1.0f), rnd(0.0f, 1.0f))));
+				}
+
+				o = new Object(new Mesh(quad), new Material("rayspheres"));
 				o->material->uniforms["light"] = light;
-				o->material->uniforms["spherePos"] = glm::vec4(pos + glm::vec3(0.0f, 8.0f, -4.0f), 1.0f);
-				o->material->uniforms["sphereCol"] = glm::vec3(1.0f, 0.0f, 0.0f);
+				o->material->uniforms["spherePos"] = posVec;
+				o->material->uniforms["sphereCol"] = colVec;
 				o->material->uniforms["sphereBgCol"] = glm::vec3(0.0f, 0.0f, 0.0f);
 				o->material->uniforms["sphereNoBg"] = false;
 				o->translate(pos + glm::vec3(-3.0f, 6.0f, 0.2f));
@@ -445,7 +452,7 @@ void Scene::init() {
 
 				o = new Object(new Mesh(cube), new Material("raysphere"));
 				o->material->uniforms["light"] = light;
-				o->material->uniforms["spherePos"] = glm::vec4(pos + glm::vec3(0.0f, 1.0f, 2.0f), 0.4f);
+				o->material->uniforms["spherePos"] = glm::vec4(pos + glm::vec3(0.0f, 1.0f, 2.0f), 0.5f);
 				o->material->uniforms["sphereCol"] = glm::vec3(1.0f, 0.0f, 0.0f);
 				o->material->uniforms["sphereBgCol"] = glm::vec3(0.0f, 0.0f, 0.0f);
 				o->material->uniforms["sphereNoBg"] = true;
@@ -692,6 +699,14 @@ void Scene::update() {
 		world[0]->material->uniforms["light"] = light;
 		world[1]->material->uniforms["light"] = light;
 
+	} else if (sceneId == 4) {
+		for (int i=0; i<16; i++) {
+			std::vector<glm::vec4>* posVec = &std::get<std::vector<glm::vec4>>(world[31]->material->uniforms["spherePos"]);
+			(*posVec)[i].y += (1.0f + 0.8f * (i % 8)) * deltaTime;
+			if ((*posVec)[i].y > 20.0f) {
+				(*posVec)[i].y -= 20.0f;
+			}
+		}
 	}
 }
 
