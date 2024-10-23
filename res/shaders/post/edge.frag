@@ -15,11 +15,15 @@ uniform vec2 resolution;
 uniform vec3 viewPos;
 uniform mat4 uiProjection;
 uniform float u[32];
+uniform mat4 inverseView;
+uniform float fov;
+uniform uvec3 mask;
 
 layout (binding = 0) uniform sampler2D fbColor;
 layout (binding = 1) uniform sampler2D fbDepth;
 layout (binding = 2) uniform sampler2D fbPosition;
 layout (binding = 3) uniform sampler2D fbNormal;
+layout (binding = 4) uniform usampler2D fbMask;
 
 uniform vec3 edgeColor = vec3(0.0, 0.0, 0.0);
 uniform float edgeWidth = 1.0;
@@ -58,24 +62,29 @@ void main() {
     for(int i = 0; i < 9; i++) {
         samplePosition[i] = vec3(texture(fbPosition, vTexcoord.st + offsets[i]));
     }
+    uvec3 sampleMask[9];
+    for(int i = 0; i < 9; i++) {
+        sampleMask[i] = uvec3(texture(fbMask, vTexcoord.st + offsets[i]));
+    }
 
     vec3 edgeNormal = vec3(0.0);
     vec3 edgeDepth = vec3(0.0);
     vec3 edgePosition = vec3(0.0);
+    bool disableEdge = false;
     for(int i = 0; i < 9; i++) {
         edgeNormal += sampleNormal[i] * kernel[i];
         edgeDepth += sampleDepth[i] * kernel[i];
         edgePosition += samplePosition[i] * kernel[i];
+        if (sampleMask[i].x == 255) disableEdge = true;
     }
 
     vec3 viewDir = normalize(viewPos - vec3(texture(fbPosition, vTexcoord.st)));
     float angle = abs(dot(vec3(texture(fbNormal, vTexcoord.st)), viewDir));
 
     vec3 col = vec3(texture(fbColor, vTexcoord.st));
-    if (length(edgeNormal) > 0.1 || length(edgeDepth) > 0.8 || length(edgePosition) > 0.4) {
+    if (!disableEdge && (length(edgeNormal) > 0.1 || length(edgeDepth) > 0.8 || length(edgePosition) > 0.4)) {
         fColor = vec4(col * edgeColor, 1.0);
     } else {
         fColor = vec4(col, 1.0);
     }
-    
 }

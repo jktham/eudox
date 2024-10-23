@@ -9,6 +9,7 @@ layout (location = 0) out vec4 fColor;
 layout (location = 1) out vec3 fDepth;
 layout (location = 2) out vec3 fPosition;
 layout (location = 3) out vec3 fNormal;
+layout (location = 4) out uvec3 fMask;
 
 uniform mat4 model;
 uniform mat4 view;
@@ -20,6 +21,7 @@ uniform mat4 uiProjection;
 uniform float u[32];
 uniform mat4 inverseView;
 uniform float fov;
+uniform uvec3 mask;
 
 layout (binding = 0) uniform sampler2D texture0;
 layout (binding = 1) uniform sampler2D texture1;
@@ -39,8 +41,8 @@ struct Ray {
 	vec3 direction;
 };
 
-float far = 10000.0;
-float near = 0.001;
+float far = 100.0;
+float near = 0.01;
 const float PI = 3.1415926;
 
 float intersectSphere(Ray ray, vec4 position) {
@@ -96,11 +98,14 @@ void main() {
 		color = vec4(result, 1.0);
 	} else if (sphereNoBg) {
 		discard;
+	} else {
+		t = far;
 	}
 
 	fColor = color;
 	fDepth = rayDir * t;
 	fPosition = cameraPos + rayDir * t;
 	fNormal = normal;
+	fMask = mask;
 }
 

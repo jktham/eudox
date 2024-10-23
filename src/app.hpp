@@ -21,6 +21,7 @@ public:
 	unsigned int fbDepth;
 	unsigned int fbPosition;
 	unsigned int fbNormal;
+	unsigned int fbMask;
 
 	float time;
 	float deltaTime;

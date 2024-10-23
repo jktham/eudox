@@ -9,6 +9,7 @@ layout (location = 0) out vec4 fColor;
 layout (location = 1) out vec3 fDepth;
 layout (location = 2) out vec3 fPosition;
 layout (location = 3) out vec3 fNormal;
+layout (location = 4) out uvec3 fMask;
 
 uniform mat4 model;
 uniform mat4 view;
@@ -18,6 +19,9 @@ uniform vec2 resolution;
 uniform vec3 viewPos;
 uniform mat4 uiProjection;
 uniform float u[32];
+uniform mat4 inverseView;
+uniform float fov;
+uniform uvec3 mask;
 
 layout (binding = 0) uniform sampler2D texture0;
 layout (binding = 1) uniform sampler2D texture1;
@@ -38,4 +42,5 @@ void main() {
 	fDepth = vec3(gl_FragCoord.z / gl_FragCoord.w);
 	fPosition = vPosition;
 	fNormal = normalize(vNormal);
+	fMask = mask;
 }

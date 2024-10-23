@@ -15,6 +15,9 @@ uniform vec2 resolution;
 uniform vec3 viewPos;
 uniform mat4 uiProjection;
 uniform float u[32]; // kernel[9]
+uniform mat4 inverseView;
+uniform float fov;
+uniform uvec3 mask;
 
 layout (binding = 0) uniform sampler2D texture0;
 layout (binding = 1) uniform sampler2D texture1;

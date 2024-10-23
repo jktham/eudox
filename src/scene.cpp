@@ -426,6 +426,7 @@ void Scene::init() {
 				o = new Object(new Mesh("monke.obj"), new Material("glitch wireframe noise"));
 				o->material->uniforms["noiseScale"] = 4.0f;
 				o->material->uniforms["glitchSpeed"] = 20.0f;
+				o->material->mask.x = 255;
 				o->translate(pos + glm::vec3(-0.045f, 1.0f, 2.0f));
 				o->scale(glm::vec3(0.8f, 0.8f, 0.8f));
 				world.push_back(o);
@@ -607,6 +608,7 @@ void Scene::initPost() {
 			post->material->textures[1] = app.fbDepth;
 			post->material->textures[2] = app.fbPosition;
 			post->material->textures[3] = app.fbNormal;
+			post->material->textures[4] = app.fbMask;
 			post->material->uniforms["edgeColor"] = glm::vec3(0.0f);
 			post->material->uniforms["edgeWidth"] = 1.0f;
 			
@@ -661,6 +663,7 @@ void Scene::initPost() {
 		post->material->textures[1] = app.fbDepth;
 		post->material->textures[2] = app.fbPosition;
 		post->material->textures[3] = app.fbNormal;
+		post->material->textures[4] = app.fbMask;
 		post->material->uniforms["edgeColor"] = glm::vec3(0.0f);
 		post->material->uniforms["edgeWidth"] = 1.0f;
 		

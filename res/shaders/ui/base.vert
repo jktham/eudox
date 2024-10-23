@@ -18,6 +18,9 @@ uniform vec2 resolution;
 uniform vec3 viewPos;
 uniform mat4 uiProjection;
 uniform float u[32];
+uniform mat4 inverseView;
+uniform float fov;
+uniform uvec3 mask;
 
 uniform vec3 color = vec3(1.0, 1.0, 1.0);
 

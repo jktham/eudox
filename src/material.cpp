@@ -32,6 +32,7 @@ void Material::updateUniforms() {
 	glUniformMatrix4fv(glGetUniformLocation(shader, "uiProjection"), 1, GL_FALSE, glm::value_ptr(app.camera.uiProjection));
 	glUniformMatrix4fv(glGetUniformLocation(shader, "inverseView"), 1, GL_FALSE, glm::value_ptr(glm::inverse(app.camera.view)));
 	glUniform1f(glGetUniformLocation(shader, "fov"), app.camera.fov);
+	glUniform3ui(glGetUniformLocation(shader, "mask"), mask.x, mask.y, mask.z);
 
 	// custom uniforms
 	// 0-15: frag
@@ -247,7 +248,7 @@ unsigned int Material::loadTexture(std::string path, bool noInterp) {
 }
 
 void Material::getUniforms(std::string source) {
-	std::unordered_set<std::string> reservedNames = {"model", "view", "projection", "time", "resolution", "viewPos", "uiProjection", "u", "instanceModels", "inverseView", "fov"};
+	std::unordered_set<std::string> reservedNames = {"model", "view", "projection", "time", "resolution", "viewPos", "uiProjection", "u", "instanceModels", "inverseView", "fov", "mask"};
 
 	std::istringstream sourceStream(source);
 	std::string line;
